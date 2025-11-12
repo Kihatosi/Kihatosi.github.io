@@ -102,7 +102,7 @@
                 modal_library_profile_title: 'Profile Perpustakaan',
                 modal_peminjaman_title: 'Formulir Peminjaman Buku',
                 modal_bebas_pinjam_title: 'Pengajuan Surat Bebas Pinjam',
-                modal_penerbitan_title: 'Layanan Penerbitan UIN Press',
+                modal_penerbitan_title: 'Layanan Penerbitan UIN Book',
                 modal_survey_title: 'Survey Kepuasan Layanan',
                 modal_eresources_title: 'E-Resources Perpustakaan',
 
@@ -206,7 +206,7 @@
                 service_peminjaman_title: 'Book Borrowing',
                 service_peminjaman_desc: 'Borrow books from the library collection',
                 service_penerbitan_title: 'Book Publishing',
-                service_penerbitan_desc: 'Publishing services through UIN Press',
+                service_penerbitan_desc: 'Publishing services through UIN Book',
                 service_survey_title: 'Satisfaction Survey',
                 service_survey_desc: 'Provide feedback for our services',
                 
@@ -228,7 +228,7 @@
                 footer_schedule_weekend: 'Saturday-Sunday: Closed',
                 footer_quick_links: 'Quick Links',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_press: 'UIN Press',
+                footer_quick_uin_book: 'UIN Book',
                 footer_social_media: 'Social Media',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
@@ -239,7 +239,7 @@
                 modal_library_profile_title: 'Library Profile',
                 modal_peminjaman_title: 'Book Borrowing Form',
                 modal_bebas_pinjam_title: 'Loan Clearance Letter Request',
-                modal_penerbitan_title: 'UIN Press Publishing Service',
+                modal_penerbitan_title: 'UIN Book Publishing Service',
                 modal_survey_title: 'Service Satisfaction Survey',
                 modal_eresources_title: 'Library E-Resources',
 
