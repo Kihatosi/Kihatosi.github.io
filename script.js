@@ -91,7 +91,7 @@
                 footer_schedule_weekend: 'Sabtu-Minggu: Tutup',
                 footer_quick_links: 'Link Cepat',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_press: 'UIN Press',
+                footer_quick_uin_book: 'UIN Book',
                 footer_social_media: 'Media Sosial',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
