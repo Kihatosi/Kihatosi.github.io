@@ -69,7 +69,7 @@
                 service_peminjaman_title: 'Peminjaman Buku',
                 service_peminjaman_desc: 'Pinjam buku koleksi perpustakaan',
                 service_penerbitan_title: 'Penerbitan Buku',
-                service_penerbitan_desc: 'Layanan penerbitan melalui UIN Book',
+                service_penerbitan_desc: 'Layanan penerbitan melalui UIN Press',
                 service_survey_title: 'Survey Kepuasan',
                 service_survey_desc: 'Berikan feedback untuk layanan kami',
 
@@ -91,7 +91,7 @@
                 footer_schedule_weekend: 'Sabtu-Minggu: Tutup',
                 footer_quick_links: 'Link Cepat',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_press: 'UIN Book',
+                footer_quick_press: 'UIN Press',
                 footer_social_media: 'Media Sosial',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
@@ -102,7 +102,7 @@
                 modal_library_profile_title: 'Profile Perpustakaan',
                 modal_peminjaman_title: 'Formulir Peminjaman Buku',
                 modal_bebas_pinjam_title: 'Pengajuan Surat Bebas Pinjam',
-                modal_penerbitan_title: 'Layanan Penerbitan UIN Book',
+                modal_penerbitan_title: 'Layanan Penerbitan UIN Press',
                 modal_survey_title: 'Survey Kepuasan Layanan',
                 modal_eresources_title: 'E-Resources Perpustakaan',
 
@@ -206,7 +206,7 @@
                 service_peminjaman_title: 'Book Borrowing',
                 service_peminjaman_desc: 'Borrow books from the library collection',
                 service_penerbitan_title: 'Book Publishing',
-                service_penerbitan_desc: 'Publishing services through UIN Book',
+                service_penerbitan_desc: 'Publishing services through UIN Press',
                 service_survey_title: 'Satisfaction Survey',
                 service_survey_desc: 'Provide feedback for our services',
                 
@@ -228,7 +228,7 @@
                 footer_schedule_weekend: 'Saturday-Sunday: Closed',
                 footer_quick_links: 'Quick Links',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_press: 'UIN Book',
+                footer_quick_press: 'UIN Press',
                 footer_social_media: 'Social Media',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
@@ -239,7 +239,7 @@
                 modal_library_profile_title: 'Library Profile',
                 modal_peminjaman_title: 'Book Borrowing Form',
                 modal_bebas_pinjam_title: 'Loan Clearance Letter Request',
-                modal_penerbitan_title: 'UIN Book Publishing Service',
+                modal_penerbitan_title: 'UIN Press Publishing Service',
                 modal_survey_title: 'Service Satisfaction Survey',
                 modal_eresources_title: 'Library E-Resources',
 
@@ -1034,7 +1034,7 @@
                 }
                 title.textContent = langDict.modal_penerbitan_title;
                 body.innerHTML = `
-                    <p style="margin-bottom: 20px;">${currentLang === 'id' ? 'UIN melayani penerbitan karya ilmiah dan menerima donasi buku.' : 'UUIN provides services for the publication of scientific works and accepts book donations.'}</p>
+                    <p style="margin-bottom: 20px;">${currentLang === 'id' ? 'UIN melayani penerbitan karya ilmiah dan menerima donasi buku.' : 'UIN provides services for the publication of scientific works and accepts book donations.'}</p>
                     <form onsubmit="handlePenerbitan(event)">
                         <div class="form-group">
                             <label data-lang-key="form_author_name">${currentLang === 'id' ? 'Nama Penulis *' : 'Author Name *'}</label>
