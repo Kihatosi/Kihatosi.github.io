@@ -1829,7 +1829,7 @@
             link.addEventListener('click', (e) => {
                 e.preventDefault();
                 const platform = link.dataset.social;
-                alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}... (Demo)`);
+                alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}`);
             });
         });
 
