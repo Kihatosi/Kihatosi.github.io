@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+    <title>Perpustakaan UIN Syarif Hidayatullah Jakarta</title>
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-info">
+                <span data-lang-key="top_email">📧 Perpustakaan@apps.uinjkt.ac.id</span> • <span data-lang-key="top_phone">📱 021 7494136</span>
+            </div>
+            <div class="top-schedule-lang">
+                <span class="top-schedule" data-lang-key="top_schedule">Senin-Kamis: 09.00-19.30 | Jumat: 09.00-16.00</span>
+                <div class="language-switcher">
+                    <button class="lang-button" onclick="toggleLangDropdown()">
+                        <span id="currentLangIcon">🇮🇩</span>
+                        <span id="currentLangText">ID</span>
+                        <span style="font-size: 10px;">▼</span>
+                    </button>
+                    <div class="lang-dropdown" id="langDropdown">
+                        <div class="lang-item active" data-lang="id" onclick="setLanguage('id', this)">🇮🇩 Indonesia</div>
+                        <div class="lang-item" data-lang="en" onclick="setLanguage('en', this)">🇬🇧 English</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <header>
+        <nav>
+            <div class="logo-section" onclick="scrollToTop()">
+                <div class="logo-mark">UIN</div>
+                <div>
+                    <div style="color: var(--primary-blue); font-weight: 800; font-size: 18px;">UIN Syarif Hidayatullah Jakarta</div>
+                    <div class="muted" style="font-size: 13px;" data-lang-key="header_subtitle">Perpustakaan</div>
+                </div>
+            </div>
+            <ul class="nav-links">
+                <li><a onclick="scrollToSection('layanan')" data-lang-key="nav_services">Layanan</a></li>
+                <li><a onclick="openModal('profile')" data-lang-key="nav_profile">Profile</a></li>
+                <li><a onclick="openModal('e-resources')" data-lang-key="nav_eresources">E-Resources</a></li>
+                <li><a onclick="scrollToSection('event')" data-lang-key="nav_event">Event</a></li>
+                <li><a onclick="scrollToSection('kontak')" data-lang-key="nav_contact">Kontak</a></li>
+                <li id="authButton"><button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">Login</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <!-- ngambil dari js -->
+            <h1 data-lang-key="hero_title"></h1> 
+            <p data-lang-key="hero_subtitle"></p>
+        </div>
+    </section>
+
+    <section class="search-section">
+        <div class="search-tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" data-tab="0" data-lang-key="tab_journal">📚 e-Journal</button>
+                <button class="tab-btn" data-tab="1" data-lang-key="tab_book">📖 BOOK</button>
+                <button class="tab-btn" data-tab="2" data-lang-key="tab_opac">🔍 OPAC</button>
+                <button class="tab-btn" data-tab="3" data-lang-key="tab_manage">⚙️ Kelola Data</button>
+            </div>
+            
+            <div class="tab-content active" data-content="0">
+                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_journal_title">Pencarian Koleksi Jurnal</h3>
+                <form class="search-form" data-type="journal">
+                    <input type="text" data-lang-key-placeholder="search_journal_placeholder" placeholder="Cari jurnal berdasarkan judul atau penulis...">
+                    <button type="submit" data-lang-key="search_button">Cari</button>
+                </form>
+                <div class="search-results" id="journalResults"></div>
+            </div>
+
+            <div class="tab-content" data-content="1">
+                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_book_title">Pencarian Buku</h3>
+                <form class="search-form" data-type="book">
+                    <input type="text" data-lang-key-placeholder="search_book_placeholder" placeholder="Cari buku berdasarkan judul atau penulis...">
+                    <button type="submit" data-lang-key="search_button">Cari</button>
+                </form>
+                <div class="search-results" id="bookResults"></div>
+            </div>
+
+            <div class="tab-content" data-content="2">
+                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_opac_title">Pencarian Koleksi OPAC</h3>
+                <form class="search-form" data-type="opac">
+                    <input type="text" data-lang-key-placeholder="search_opac_placeholder" placeholder="Cari koleksi berdasarkan judul, penulis, atau nomor panggil...">
+                    <button type="submit" data-lang-key="search_button">Cari</button>
+                </form>
+                <div class="search-results" id="opacResults"></div>
+            </div>
+
+            <div class="tab-content" data-content="3">
+                <h3 style="margin-bottom: 15px; color: var(--primary-blue); font-weight: 700;" data-lang-key="manage_title">Kelola Data Perpustakaan</h3>
+                <p class="muted" style="margin-bottom: 20px;" data-lang-key="manage_subtitle">Tambah, edit, atau hapus data jurnal, buku, dan OPAC. </p>
+                
+                <div class="manage-grid">
+                    <div class="manage-card">
+                        <h4 data-lang-key="manage_add_journal">➕ Tambah Jurnal</h4>
+                        <form id="formAddJournal">
+                            <div class="form-group">
+                                <label data-lang-key="form_title">Judul *</label>
+                                <input type="text" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_author">Penulis *</label>
+                                <input type="text" name="author" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-lang-key="form_year">Tahun</label>
+                                    <input type="number" name="year">
+                                </div>
+                                <div class="form-group">
+                                    <label>ISSN</label>
+                                    <input type="text" name="issn">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_description">Deskripsi</label>
+                                <textarea name="description"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" data-lang-key="button_save_journal">Simpan Jurnal</button>
+                        </form>
+                    </div>
+
+                    <div class="manage-card">
+                        <h4 data-lang-key="manage_add_book">➕ Tambah Buku</h4>
+                        <form id="formAddBook">
+                            <div class="form-group">
+                                <label data-lang-key="form_title">Judul *</label>
+                                <input type="text" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_author">Penulis *</label>
+                                <input type="text" name="author" required>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-lang-key="form_year">Tahun</label>
+                                    <input type="number" name="year">
+                                </div>
+                                <div class="form-group">
+                                    <label>ISBN</label>
+                                    <input type="text" name="isbn">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-lang-key="form_pages">Halaman</label>
+                                    <input type="number" name="pages">
+                                </div>
+                                <div class="form-group">
+                                    <label data-lang-key="form_available">Ketersediaan</label>
+                                    <input type="number" name="available" min="0" value="1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_description">Deskripsi</label>
+                                <textarea name="description"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" data-lang-key="button_save_book">Simpan Buku</button>
+                        </form>
+                    </div>
+
+                    <div class="manage-card">
+                        <h4 data-lang-key="manage_add_opac">➕ Tambah OPAC</h4>
+                        <form id="formAddOpac">
+                            <div class="form-group">
+                                <label data-lang-key="form_title">Judul *</label>
+                                <input type="text" name="title" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_author">Penulis *</label>
+                                <input type="text" name="author" required>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_call_number">Nomor Panggil</label>
+                                <input type="text" name="call_number">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label data-lang-key="form_year">Tahun</label>
+                                    <input type="number" name="year">
+                                </div>
+                                <div class="form-group">
+                                    <label data-lang-key="form_copies">Eksemplar</label>
+                                    <input type="number" name="copies" min="0" value="1">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_status">Status</label>
+                                <select name="status">
+                                    <option value="Tersedia" data-lang-key="status_available">Tersedia</option>
+                                    <option value="Dipinjam" data-lang-key="status_borrowed">Dipinjam</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label data-lang-key="form_description">Deskripsi</label>
+                                <textarea name="description"></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary" data-lang-key="button_save_opac">Simpan OPAC</button>
+                        </form>
+                    </div>
+
+                    <div class="manage-card">
+                        <h4 data-lang-key="manage_current_data">📊 Data Saat Ini</h4>
+                        <div id="dataLists" class="data-list"></div>
+                        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
+                            <button class="btn-secondary" onclick="exportData()" style="margin: 0;" data-lang-key="button_export">💾 Ekspor JSON</button>
+                            <button class="btn-secondary" onclick="loadDemoData()" style="margin: 0;" data-lang-key="button_load_demo">🔄 Muat Demo</button>
+                            <button class="btn-danger" onclick="clearAllData()" data-lang-key="button_clear_all">🗑️ Hapus Semua</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-access" id="layanan">
+        <h2 data-lang-key="services_title">Layanan Kami</h2>
+        <div class="service-grid">
+            <div class="service-card" data-service="bebas-pinjam">
+                <div class="service-icon">📄</div>
+                <h3 data-lang-key="service_bebas_pinjam_title">Surat Bebas Pinjam</h3>
+                <p class="muted" data-lang-key="service_bebas_pinjam_desc">Layanan pembuatan surat bebas pinjam untuk mahasiswa</p>
+            </div>
+            
+            <div class="service-card" data-service="peminjaman">
+                <div class="service-icon">📚</div>
+                <h3 data-lang-key="service_peminjaman_title">Peminjaman Buku</h3>
+                <p class="muted" data-lang-key="service_peminjaman_desc">Pinjam buku koleksi perpustakaan</p>
+            </div>
+           
+            <div class="service-card" data-service="penerbitan">
+                <div class="service-icon">📖</div>
+                <h3 data-lang-key="service_penerbitan_title">Penerbitan Buku</h3>
+                <p class="muted" data-lang-key="service_penerbitan_desc">Layanan penerbitan Buku</p>
+            </div>
+            
+            <div class="service-card" data-service="survey">
+                <div class="service-icon">📊</div>
+                <h3 data-lang-key="service_survey_title">Survey Kepuasan</h3>
+                <p class="muted" data-lang-key="service_survey_desc">Berikan feedback untuk layanan kami</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="news-section" id="event">
+        <div class="news-container">
+            <h2 data-lang-key="news_title">Berita & Event Terkini</h2>
+            <div class="news-grid">
+                <div class="news-card" data-news="news-1">
+                    <div class="news-icon">📰</div>
+                    <div class="news-content">
+                        <div class="news-date">20 Agustus 2025</div>
+                        <h3 data-lang-key="news_1_title">Perpustakaan Bekali Mahasiswa Pascasarjana 2025</h3>
+                        <p class="muted" data-lang-key="news_1_desc">Program pelatihan SLR untuk mahasiswa baru pascasarjana...</p>
+                    </div>
+                </div>
+                <div class="news-card" data-news="news-2">
+                    <div class="news-icon">🎉</div>
+                    <div class="news-content">
+                        <div class="news-date">19 Agustus 2025</div>
+                        <h3 data-lang-key="news_2_title">Meriahkan PKKMB UIN 2025</h3>
+                        <p class="muted" data-lang-key="news_2_desc">Perpustakaan turut memeriahkan acara penerimaan mahasiswa baru...</p>
+                    </div>
+                </div>
+                <div class="news-card" data-news="news-3">
+                    <div class="news-icon">📚</div>
+                    <div class="news-content">
+                        <div class="news-date">19 Agustus 2025</div>
+                        <h3 data-lang-key="news_3_title">Workshop Literasi Digital</h3>
+                        <p class="muted" data-lang-key="news_3_desc">Pelatihan literasi digital untuk meningkatkan kemampuan riset mahasiswa...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="kontak">
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3 data-lang-key="footer_library">Perpustakaan</h3>
+                <p class="muted" data-lang-key="footer_address">Jl. Ir Haji Juanda Ciputat<br>
+                No. 95, Cempaka Putih<br>
+                Kec. Ciputat Timur, Banten 15412</p>
+                <p style="margin-top: 15px;">
+                    📧 Perpustakaan@apps.uinjkt.ac.id<br>
+                    📱 021 7494136
+                </p>
+            </div>
+            
+            <div class="footer-section">
+                <h3 data-lang-key="footer_service_hours">Jam Layanan</h3>
+                <ul>
+                    <li data-lang-key="footer_schedule_mon_thu">Senin-Kamis: 09.00 - 19.30</li>
+                    <li data-lang-key="footer_schedule_fri">Jumat: 09.00 - 16.00</li>
+                    <li data-lang-key="footer_schedule_weekend">Sabtu-Minggu: Tutup</li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 data-lang-key="footer_quick_links">Link Cepat</h3>
+                <ul>
+                    <li><a href="#" onclick="switchTab(2); return false;">OPAC</a></li>
+                    <li><a href="#" onclick="openModal('e-resources'); return false;" data-lang-key="footer_quick_eresources">E-Resources</a></li>
+                    <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_press">UIN Press</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h3 data-lang-key="footer_social_media">Media Sosial</h3>
+                <ul>
+                    <li><a href="#" data-social="YouTube">YouTube</a></li>
+                    <li><a href="#" data-social="Instagram">Instagram</a></li>
+                    <li><a href="#" data-social="Twitter">Twitter (X)</a></li>
+                    <li><a href="#" data-social="TikTok">TikTok</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p data-lang-key="footer_copyright">© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Judul Modal</h2>
+                <button class="close-btn" id="closeModalBtn">×</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+</body>
+</html>
