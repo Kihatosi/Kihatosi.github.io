@@ -1826,12 +1826,19 @@
         });
 
         document.querySelectorAll('a[data-social]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const platform = link.dataset.social;
-                alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}`);
-            });
-        });
+        link.addEventListener('click', (e) => {
+        // Hapus: e.preventDefault();
+        
+        const platform = link.dataset.social;
+        const currentLang = 'id';
+        
+        // Pilihan: Anda bisa mempertahankan alert sebagai notifikasi
+        alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}...`); 
+        
+        // Karena e.preventDefault() dihapus, tautan sekarang akan berfungsi
+        // dan mengarahkan pengguna ke URL di atribut href.
+    });
+});
 
         // Initial calls
         applyTranslations(); // Panggil applyTranslations pertama kali
