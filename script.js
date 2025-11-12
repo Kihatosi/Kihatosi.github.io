@@ -69,7 +69,7 @@
                 service_peminjaman_title: 'Peminjaman Buku',
                 service_peminjaman_desc: 'Pinjam buku koleksi perpustakaan',
                 service_penerbitan_title: 'Penerbitan Buku',
-                service_penerbitan_desc: 'Layanan penerbitan melalui UIN Press',
+                service_penerbitan_desc: 'Layanan penerbitan melalui UIN Book',
                 service_survey_title: 'Survey Kepuasan',
                 service_survey_desc: 'Berikan feedback untuk layanan kami',
 
