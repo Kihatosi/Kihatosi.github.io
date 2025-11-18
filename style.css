@@ -131,18 +131,17 @@
             cursor: pointer;
         }
 
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-blue);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 20px;
-        }
+    .logo-mark {
+    /* Ukuran logo di header biasanya kecil, misalnya 45px */
+    width: 50px; 
+    height: auto;
+    aspect-ratio: 1/1; 
+    background-image: url('logo\ uin\ transparant.png');
+    background-size: contain; 
+    background-position: center; 
+    background-repeat: no-repeat; 
+    
+    }
 
         .nav-links {
             display: flex;
