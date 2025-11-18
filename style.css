@@ -131,33 +131,18 @@
             cursor: pointer;
         }
 
-    .logo-mark {
-    /* Ukuran logo di header biasanya kecil, misalnya 45px */
-    width: 50px; 
-    height: auto;
-    
-    /* Memastikan elemen menjadi kotak sempurna untuk logo ini */
-    aspect-ratio: 1/1; 
-    
-    /* Menggunakan background-image dan background-size untuk menampilkan seluruh gambar */
-    background-image: url('logo\ uin\ transparant.png');
-    
-    /* background-size: contain memastikan seluruh logo terlihat 
-       di dalam kotak 45x45px tanpa terpotong.
-    */
-    background-size: contain; 
-    
-    /* Memastikan gambar berada di tengah kotak */
-    background-position: center; 
-    
-    /* Mencegah gambar berulang */
-    background-repeat: no-repeat; 
-    
-    /* Menghilangkan border-radius jika logo diletakkan di header 
-       (Saya menonaktifkannya, tapi Anda bisa mengaktifkannya jika mau)
-    */
-    /* border-radius: 12px; */ 
-}
+        .logo-mark {
+            width: 50px;
+            height: 50px;
+            background: var(--primary-blue);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 20px;
+        }
 
         .nav-links {
             display: flex;
