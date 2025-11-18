@@ -783,7 +783,7 @@
                                     <option>${currentLang === 'id' ? 'Pendidikan Agama Islam' : 'Islamic Religious Education'}</option>
                                     <option>${currentLang === 'id' ? 'Ilmu Komunikasi' : 'Communication Science'}</option>
                                     <option>${currentLang === 'id' ? 'Psikologi' : 'Psychology'}</option>
-                                    <option>${currentLang === 'id' ? 'Teknik Informasi' : 'Information Technology'}</option>
+                                    <option>${currentLang === 'id' ? 'Teknik Informasi' : 'Computer Science'}</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -1001,8 +1001,8 @@
                                 <option ${currentUser && currentUser.prodi === 'Ekonomi Syariah' ? 'selected' : ''}>${currentLang === 'id' ? 'Ekonomi Syariah' : 'Sharia Economics'}</option>
                                 <option ${currentUser && currentUser.prodi === 'Pendidikan Agama Islam' ? 'selected' : ''}>${currentLang === 'id' ? 'Pendidikan Agama Islam' : 'Islamic Religious Education'}</option>
                                 <option ${currentUser && currentUser.prodi === 'Ilmu Komunikasi' ? 'selected' : ''}>${currentLang === 'id' ? 'Ilmu Komunikasi' : 'Communication Science'}</option>
-                                <option ${currentUser && currentUser.prodi === 'Teknik Informatika' ? 'selected' : ''}>${currentLang === 'id' ? 'Teknik Informatika' : 'Information Technology'}</option>
                                 <option ${currentUser && currentUser.prodi=== 'Psikologi' ? 'selected' : ''}>${currentLang === 'id' ? 'Psikologi' : 'Psychology'}</option>
+                                <option ${currentUser && currentUser.prodi === 'Teknik Informatika' ? 'selected' : ''}>${currentLang === 'id' ? 'Teknik Informatika' : 'Computer Science'}</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1034,7 +1034,7 @@
                 }
                 title.textContent = langDict.modal_penerbitan_title;
                 body.innerHTML = `
-                    <p style="margin-bottom: 20px;">${currentLang === 'id' ? 'UIN melayani penerbitan karya ilmiah berkualitas dengan proses editorial profesional.' : 'UIN Press provides publishing services for quality scholarly works with a professional editorial process.'}</p>
+                    <p style="margin-bottom: 20px;">${currentLang === 'id' ? 'UIN melayani penerbitan karya ilmiah dan menerima donasi buku.' : 'UIN provides services for the publication of scientific works and accepts book donations.'}</p>
                     <form onsubmit="handlePenerbitan(event)">
                         <div class="form-group">
                             <label data-lang-key="form_author_name">${currentLang === 'id' ? 'Nama Penulis *' : 'Author Name *'}</label>
@@ -1121,14 +1121,6 @@
                         <div class="result-item" style="cursor: default;">
                             <h4>📖 ${currentLang === 'id' ? 'E-Books Collection' : 'E-Books Collection'}</h4>
                             <p>${currentLang === 'id' ? 'Ribuan buku elektronik dalam berbagai bidang ilmu pengetahuan' : 'Thousands of electronic books across various fields of knowledge'}</p>
-                        </div>
-                        <div class="result-item" style="cursor: default;">
-                            <h4>🔬 ${currentLang === 'id' ? 'Research Database' : 'Research Database'}</h4>
-                            <p>${currentLang === 'id' ? 'Database penelitian: Scopus, ProQuest, JSTOR' : 'Research databases: Scopus, ProQuest, JSTOR'}</p>
-                        </div>
-                        <div class="result-item" style="cursor: default;">
-                            <h4>📝 ${currentLang === 'id' ? 'Institutional Repository' : 'Institutional Repository'}</h4>
-                            <p>${currentLang === 'id' ? 'Karya ilmiah civitas akademika UIN Jakarta' : 'Scholarly works of UIN Jakarta academic community'}</p>
                         </div>
                     </div>
                 `;
@@ -1826,13 +1818,19 @@
         });
 
         document.querySelectorAll('a[data-social]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const platform = link.dataset.social;
-                alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}... (Demo)`);
-            });
-        });
-
+        link.addEventListener('click', (e) => {
+        // Hapus: e.preventDefault();
+        
+        const platform = link.dataset.social;
+        const currentLang = 'id';
+        
+        // Pilihan: Anda bisa mempertahankan alert sebagai notifikasi
+        alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}...`); 
+        
+        // Karena e.preventDefault() dihapus, tautan sekarang akan berfungsi
+        // dan mengarahkan pengguna ke URL di atribut href.
+    });
+});
         // Initial calls
         applyTranslations(); // Panggil applyTranslations pertama kali
         renderDataLists();

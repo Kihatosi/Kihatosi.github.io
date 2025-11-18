@@ -131,18 +131,33 @@
             cursor: pointer;
         }
 
-        .logo-mark {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-blue);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-weight: 800;
-            font-size: 20px;
-        }
+    .logo-mark {
+    /* Ukuran logo di header biasanya kecil, misalnya 45px */
+    width: 50px; 
+    height: auto;
+    
+    /* Memastikan elemen menjadi kotak sempurna untuk logo ini */
+    aspect-ratio: 1/1; 
+    
+    /* Menggunakan background-image dan background-size untuk menampilkan seluruh gambar */
+    background-image: url('logo\ uin\ transparant.png');
+    
+    /* background-size: contain memastikan seluruh logo terlihat 
+       di dalam kotak 45x45px tanpa terpotong.
+    */
+    background-size: contain; 
+    
+    /* Memastikan gambar berada di tengah kotak */
+    background-position: center; 
+    
+    /* Mencegah gambar berulang */
+    background-repeat: no-repeat; 
+    
+    /* Menghilangkan border-radius jika logo diletakkan di header 
+       (Saya menonaktifkannya, tapi Anda bisa mengaktifkannya jika mau)
+    */
+    /* border-radius: 12px; */ 
+}
 
         .nav-links {
             display: flex;
@@ -235,7 +250,7 @@
         }
 
         .hero {
-            background: url(./OIP.webp) no-repeat center center;
+            background: url(./Perpus\ Wallpaper.png) no-repeat center center;
             background-size: cover;
             color: #fff;
             padding: 80px 20px;
@@ -856,20 +871,18 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
-        .staff-avatar {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
-            border-radius: 50%;
-            margin: 0 auto 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 28px;
-            font-weight: 800;
-        }
-
+        .staff-avatar-img {
+            width: 90px; 
+            height: 90px;
+            border-radius: 50%; /* Ini yang membuat lingkaran */
+            object-fit: cover; 
+            display: block; 
+            margin-left: auto;
+            margin-right: auto;
+            margin-bottom: 15px;
+            border: 3px solid #f0f0f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
         .staff-card h4 {
             color: var(--primary-blue);
             font-weight: 700;

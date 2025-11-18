@@ -33,7 +33,7 @@
     <header>
         <nav>
             <div class="logo-section" onclick="scrollToTop()">
-                <div class="logo-mark">UIN</div>
+                <div class="logo-mark"></div>
                 <div>
                     <div style="color: var(--primary-blue); font-weight: 800; font-size: 18px;">UIN Syarif Hidayatullah Jakarta</div>
                     <div class="muted" style="font-size: 13px;" data-lang-key="header_subtitle">Perpustakaan</div>
@@ -306,20 +306,22 @@
             
             <div class="footer-section">
                 <h3 data-lang-key="footer_quick_links">Link Cepat</h3>
+          
                 <ul>
-                    <li><a href="#" onclick="switchTab(2); return false;">OPAC</a></li>
+                    <li><a href="#" onclick="scrollToSection('opac');"data-lang-key="nav_opac">OPAC</=></li>
                     <li><a href="#" onclick="openModal('e-resources'); return false;" data-lang-key="footer_quick_eresources">E-Resources</a></li>
-                    <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_press">UIN Press</a></li>
+                    <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_book">UIN Book</a></li>
                 </ul>
+            
             </div>
             
             <div class="footer-section">
                 <h3 data-lang-key="footer_social_media">Media Sosial</h3>
                 <ul>
-                    <li><a href="#" data-social="YouTube">YouTube</a></li>
-                    <li><a href="#" data-social="Instagram">Instagram</a></li>
-                    <li><a href="#" data-social="Twitter">Twitter (X)</a></li>
-                    <li><a href="#" data-social="TikTok">TikTok</a></li>
+                    <li><a href="https://www.youtube.com/@uinjktofficial/featured" data-social="YouTube" target="_blank">YouTube</a> </li>
+                    <li><a href="https://www.instagram.com/uinjktofficial/" data-social="Instagram" target="_blank">Instagram</a></li>
+                    <li><a href="https://x.com/uinjktofficial" data-social="Twitter"target="_blank">Twitter</a></li>
+                    <li><a href="https://www.tiktok.com/@uinjktofficial" data-social="TikTok"target="_blank">Tiktok</a></li>
                 </ul>
             </div>
         </div>
