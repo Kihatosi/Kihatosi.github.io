@@ -31,7 +31,7 @@
     </div>
 
     <header>
-        <nav>`
+        <nav>
             <div class="logo-section" onclick="scrollToTop()">
                 <div class="logo-mark"></div>
                 <div>
@@ -52,7 +52,6 @@
 
     <section class="hero">
         <div class="container">
-            <!-- ngambil dari js -->
             <h1 data-lang-key="hero_title"></h1> 
             <p data-lang-key="hero_subtitle"></p>
         </div>
@@ -64,7 +63,7 @@
                 <button class="tab-btn active" data-tab="0" data-lang-key="tab_journal">📚 e-Journal</button>
                 <button class="tab-btn" data-tab="1" data-lang-key="tab_book">📖 BOOK</button>
                 <button class="tab-btn" data-tab="2" data-lang-key="tab_opac">🔍 OPAC</button>
-                <button class="tab-btn" data-tab="3" data-lang-key="tab_manage">⚙️ Kelola Data</button>
+                <button class="tab-btn" id="adminTab" data-tab="3" data-lang-key="tab_manage" style="display: none;">⚙️ Kelola Data</button>
             </div>
             
             <div class="tab-content active" data-content="0">
@@ -306,13 +305,11 @@
             
             <div class="footer-section">
                 <h3 data-lang-key="footer_quick_links">Link Cepat</h3>
-          
                 <ul>
-                    <li><a href="#" onclick="scrollToSection('opac');"data-lang-key="nav_opac">OPAC</=></li>
+                    <li><a href="#" onclick="scrollToSection('opac');" data-lang-key="nav_opac">OPAC</a></li>
                     <li><a href="#" onclick="openModal('e-resources'); return false;" data-lang-key="footer_quick_eresources">E-Resources</a></li>
                     <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_book">UIN Book</a></li>
                 </ul>
-            
             </div>
             
             <div class="footer-section">
@@ -320,8 +317,8 @@
                 <ul>
                     <li><a href="https://www.youtube.com/@uinjktofficial/featured" data-social="YouTube" target="_blank">YouTube</a> </li>
                     <li><a href="https://www.instagram.com/uinjktofficial/" data-social="Instagram" target="_blank">Instagram</a></li>
-                    <li><a href="https://x.com/uinjktofficial" data-social="Twitter"target="_blank">Twitter</a></li>
-                    <li><a href="https://www.tiktok.com/@uinjktofficial" data-social="TikTok"target="_blank">Tiktok</a></li>
+                    <li><a href="https://x.com/uinjktofficial" data-social="Twitter" target="_blank">Twitter</a></li>
+                    <li><a href="https://www.tiktok.com/@uinjktofficial" data-social="TikTok" target="_blank">Tiktok</a></li>
                 </ul>
             </div>
         </div>
