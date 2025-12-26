@@ -1,10 +1,10 @@
 /* ============================================================
    SECTION 1: STORAGE KEYS & CONFIGURATION
    ============================================================ */
- const STORAGE_KEY = 'uin_library_data';
-        const USERS_KEY = 'uin_users';
-        const CURRENT_USER_KEY = 'uin_current_user';
-        const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
+const STORAGE_KEY = 'uin_library_data';
+const USERS_KEY = 'uin_users';
+const CURRENT_USER_KEY = 'uin_current_user';
+const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
 /* ============================================================
    SECTION 2: TRANSLATIONS DICTIONARY (ID & EN)
@@ -50,6 +50,8 @@
                 manage_add_book: '➕ Tambah Buku',
                 manage_add_opac: '➕ Tambah OPAC',
                 manage_current_data: '📊 Data Saat Ini',
+                manage_users_title: '👥 Manajemen Pengguna',
+                manage_users_subtitle: 'Kelola akses Admin untuk pengguna lain.',
                 form_title: 'Judul *',
                 form_author: 'Penulis *',
                 form_year: 'Tahun',
@@ -124,7 +126,7 @@
                     'Mengembangkan layanan perpustakaan berbasis teknologi informasi untuk meningkatkan aksesibilitas dan kualitas layanan',
                     'Mangun budaya literasi dan pembelajaran berkelanjutan bagi civitas akademika',
                     'Menyelenggarakan program pengembangan kompetensi informasi dan literasi digital',
-                    'Membangun kerjasama dengan berbagai pihak untuk pengembangan perpustakaan',
+                    'Mangun kerjasama dengan berbagai pihak untuk pengembangan perpustakaan',
                     'Menciptakan lingkungan perpustakaan yang kondusif untuk belajar dan penelitian'
                 ],
                 
@@ -141,12 +143,15 @@
 
                 // ALERTS (JS)
                 alert_login_success: (name) => `✓ Login berhasil! Selamat datang, ${name}`,
-                alert_login_fail: '❌ Email atau password salah! Coba demo@uinjkt.ac.id / password',
+                // --- PERBAIKAN: PERINGATAN LOGIN UNTUK DEMO ---
+                alert_login_fail: '❌ Email atau password salah!User: demo@uinjkt.ac.id / password',
                 alert_logout_confirm: 'Apakah Anda yakin ingin logout?',
                 alert_logout_success: '✓ Anda telah logout',
                 alert_no_query: 'Silakan masukkan kata kunci pencarian',
                 alert_not_found: (query) => `Tidak ada hasil untuk "<strong>${escapeHtml(query)}</strong>"`,
                 alert_not_logged_in: 'Anda harus login terlebih dahulu untuk mengakses layanan ini.',
+                alert_admin_only: '❌ Akses Ditolak! Fitur ini hanya untuk Admin.',
+                alert_role_updated: '✓ Peran pengguna berhasil diperbarui!'
             },
             en: {
                 // Top Bar
@@ -187,6 +192,8 @@
                 manage_add_book: '➕ Add Book',
                 manage_add_opac: '➕ Add OPAC',
                 manage_current_data: '📊 Current Data',
+                manage_users_title: '👥 User Management',
+                manage_users_subtitle: 'Manage Admin access for other users.',
                 form_title: 'Title *',
                 form_author: 'Author *',
                 form_year: 'Year',
@@ -278,12 +285,14 @@
 
                 // ALERTS (JS)
                 alert_login_success: (name) => `✓ Login successful! Welcome, ${name}`,
-                alert_login_fail: '❌ Wrong email or password! Try demo@uinjkt.ac.id / password',
+                alert_login_fail: '❌ Wrong email or password! User: demo@uinjkt.ac.id / password',
                 alert_logout_confirm: 'Are you sure you want to log out?',
                 alert_logout_success: '✓ You have logged out',
                 alert_no_query: 'Please enter a search keyword',
                 alert_not_found: (query) => `No results found for "<strong>${escapeHtml(query)}</strong>"`,
                 alert_not_logged_in: 'You must log in first to access this service.',
+                alert_admin_only: '❌ Access Denied! This feature is for Admin only.',
+                alert_role_updated: '✓ User role updated successfully!'
             }
         };
 
@@ -352,11 +361,12 @@
 
         function toggleLangDropdown() {
             const dropdown = document.getElementById('langDropdown');
-            dropdown.classList.toggle('show');
+            if (dropdown) dropdown.classList.toggle('show');
         }
 
         function closeLangDropdown() {
-            document.getElementById('langDropdown').classList.remove('show');
+            const dropdown = document.getElementById('langDropdown');
+            if (dropdown) dropdown.classList.remove('show');
         }
 
         document.addEventListener('click', (e) => {
@@ -444,53 +454,90 @@
 
         function loadUsers() {
             const saved = localStorage.getItem(USERS_KEY);
+            let users = [];
+            
             if (saved) {
                 try {
-                    return JSON.parse(saved);
+                    users = JSON.parse(saved);
                 } catch (e) {
-                    return [];
+                    users = [];
                 }
             }
-            // Add a demo user for easier testing
-            return [{
-                id: 'u-demo-1',
-                nama: 'Pengguna Demo',
-                email: 'demo@uinjkt.ac.id',
-                nim: '1234567890',
-                prodi: 'Ilmu Komunikasi',
-                telp: '081234567890',
-                password: 'password', // Demo password
-                tanggal_daftar: new Date().toISOString()
-            }]; 
+
+            // --- PERBAIKAN: MEMASTIKAN ADMIN & USER DEMO SELALU TERSEDIA ---
+            const adminEmail = 'admin@uinjkt.ac.id';
+            const demoUserEmail = 'demo@uinjkt.ac.id';
+
+            // Inject Admin jika belum ada
+            if (!users.some(u => u.email === adminEmail)) {
+                users.push({
+                    id: 'u-admin-1',
+                    nama: 'Admin Perpustakaan',
+                    email: adminEmail,
+                    nim: '1234567890',
+                    prodi: 'Staff IT',
+                    telp: '081234567890',
+                    password: 'admin123', 
+                    role: 'admin', // Penanda akun admin
+                    tanggal_daftar: new Date().toISOString()
+                });
+            }
+
+            // Inject Demo User jika belum ada
+            if (!users.some(u => u.email === demoUserEmail)) {
+                users.push({
+                    id: 'u-demo-1',
+                    nama: 'Pengguna Demo',
+                    email: demoUserEmail,
+                    nim: '12409011050128',
+                    prodi: 'Mahasiswa',
+                    telp: '081122334455',
+                    password: 'password', 
+                    role: 'user', // Akun user biasa
+                    tanggal_daftar: new Date().toISOString()
+                });
+            }
+
+            // Simpan agar admin & demo user permanen di storage
+            localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            return users; 
         }
 
         function saveUsers(users) {
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
+            if (typeof renderUserList === 'function') renderUserList();
         }
 
         function updateAuthButton() {
             const authButton = document.getElementById('authButton');
+            const adminTab = document.getElementById('adminTab'); 
             if (!authButton) return;
             const langDict = translations[currentLang];
 
             if (currentUser) {
+                // --- MODIFIKASI: PROTEKSI MENU KELOLA DATA ---
+                if (adminTab) {
+                    adminTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
+                }
+
                 authButton.innerHTML = `
                     <div class="user-menu">
-                        <div class="user-avatar" onclick="toggleUserDropdown()">
+                        <div class="user-avatar" onclick="toggleUserDropdown()" style="background: var(--accent-orange); color: white; cursor: pointer;">
                             ${currentUser.nama.charAt(0).toUpperCase()}
                         </div>
                         <div class="user-dropdown" id="userDropdown">
                             <div class="user-dropdown-item" onclick="openModal('user-profile')">
-                                <strong>${currentUser.nama}</strong><br>
+                                <strong>${currentUser.nama} ${currentUser.role === 'admin' ? '(Admin)' : ''}</strong><br>
                                 <small class="muted">${currentUser.email}</small>
                             </div>
-                            <div class="user-dropdown-item" onclick="logout()">
+                            <div class="user-dropdown-item" onclick="logout()" style="color: var(--danger); font-weight: bold;">
                                 🚪 ${currentLang === 'id' ? 'Logout' : 'Logout'}
                             </div>
                         </div>
                     </div>
                 `;
             } else {
+                if (adminTab) adminTab.style.display = 'none';
                 authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
             }
         }
@@ -514,10 +561,8 @@
                 saveCurrentUser(null);
                 alert(langDict.alert_logout_success);
                 
-                // --- PROTEKSI LOGOUT ---
-                // Jika sedang di tab Kelola Data (index 3), pindahkan ke tab pertama (e-Journal)
                 const activeTab = document.querySelector('.tab-btn.active');
-                if (activeTab && activeTab.textContent.includes(langDict.tab_manage.replace('⚙️ ', ''))) {
+                if (activeTab && activeTab.getAttribute('data-tab') === "3") {
                     switchTab(0);
                 }
 
@@ -568,18 +613,25 @@
             if (tabs[0]) tabs[0].textContent = `${langDict.tab_journal} (${libraryData.journal.length})`;
             if (tabs[1]) tabs[1].textContent = `${langDict.tab_book} (${libraryData.book.length})`;
             if (tabs[2]) tabs[2].textContent = `${langDict.tab_opac} (${libraryData.opac.length})`;
-            if (tabs[3]) tabs[3].textContent = `${langDict.tab_manage}`; // Kelola data tidak perlu count
+            if (tabs[3]) tabs[3].textContent = `${langDict.tab_manage}`; 
         }
 
-        // --- UPDATE LISTENER TAB DENGAN PROTEKSI ---
+        // --- UPDATE LISTENER TAB DENGAN PROTEKSI ADMIN ---
         document.querySelectorAll('.tab-btn').forEach((btn, index) => {
             btn.addEventListener('click', () => {
                 const langDict = translations[currentLang];
-                // Proteksi: Jika tab index 3 (Kelola Data) diklik tapi belum login
-                if (index === 3 && !currentUser) {
-                    alert(langDict.alert_not_logged_in);
-                    openModal('login');
-                    return; 
+                // Proteksi: Jika tab index 3 (Kelola Data) diklik
+                if (index === 3) {
+                    if (!currentUser) {
+                        alert(langDict.alert_not_logged_in);
+                        openModal('login');
+                        return; 
+                    }
+                    if (currentUser.role !== 'admin') {
+                        alert(langDict.alert_admin_only);
+                        return;
+                    }
+                    if (typeof renderUserList === 'function') renderUserList();
                 }
                 switchTab(index);
             });
@@ -608,7 +660,6 @@
                 if (results.length === 0) {
                     resultsDiv.innerHTML = `<p class="muted">${langDict.alert_not_found(query)}</p>`;
                 } else {
-                    const titleKey = type === 'journal' ? 'Jurnal' : type === 'book' ? 'Buku' : 'OPAC';
                     const resultTitle = currentLang === 'id' ? `Hasil Pencarian (${results.length})` : `Search Results (${results.length})`;
 
                     let html = `<h4 style="color: var(--primary-blue); margin-bottom: 12px; font-weight: 700;">${resultTitle}</h4>`;
@@ -659,11 +710,9 @@
                 not_available: currentLang === 'id' ? 'Tidak tersedia' : 'Not available',
                 available_copies: currentLang === 'id' ? 'eksemplar tersedia' : 'copies available',
                 borrow_this: currentLang === 'id' ? 'Pinjam Buku Ini' : 'Borrow This Book',
-                edit_data: currentLang === 'id' ? 'Edit Data (Demo)' : 'Edit Data (Demo)',
-                delete_data: currentLang === 'id' ? 'Hapus (Demo)' : 'Delete (Demo)',
+                edit_data: currentLang === 'id' ? 'Edit Data' : 'Edit Data',
+                delete_data: currentLang === 'id' ? 'Hapus' : 'Delete',
                 not_available_desc: currentLang === 'id' ? 'Tidak ada deskripsi' : 'No description',
-                available_status: currentLang === 'id' ? 'Tersedia' : 'Available',
-                borrowed_status: currentLang === 'id' ? 'Dipinjam' : 'Borrowed',
             };
 
             let html = `
@@ -737,15 +786,19 @@
                 html += `<button class="btn-primary" onclick="checkAuthAndOpenPeminjaman('${escapeHtml(item.title)}')" style="margin-right: 10px;">${labels.borrow_this}</button>`;
             }
 
-            html += `
+            // --- MODIFIKASI: PROTEKSI ADMIN (DETAIL TOMBOL) ---
+            if (currentUser && currentUser.role === 'admin') {
+                html += `
                     <button class="btn-secondary" onclick="editItem('${type}', '${item.id}')" style="margin: 0;">${labels.edit_data}</button>
                     <button class="btn-danger" onclick="deleteItem('${type}', '${item.id}')">${labels.delete_data}</button>
-                </div>
-            `;
+                `;
+            }
+
+            html += `</div>`;
 
             body.innerHTML = html;
             modal.classList.add('show');
-            lastOpenedModalType = 'showDetail'; // Update last opened modal type
+            lastOpenedModalType = 'showDetail'; 
         }
 
         function checkAuthAndOpenPeminjaman(bookTitle) {
@@ -1280,6 +1333,7 @@
                 prodi: data.prodi || '',
                 telp: data.telp,
                 password: data.password,
+                role: 'user', // Default role untuk pendaftar baru
                 tanggal_daftar: new Date().toISOString()
             };
             
@@ -1580,6 +1634,47 @@
             });
         }
 
+        // --- FUNGSI BARU: RENDER DAFTAR USER UNTUK ADMIN ---
+        function renderUserList() {
+            const container = document.getElementById('userListContainer');
+            if (!container || !currentUser || currentUser.role !== 'admin') return;
+
+            const users = loadUsers();
+            container.innerHTML = '';
+
+            users.forEach(user => {
+                const isSelf = user.email === currentUser.email;
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'data-item';
+                itemDiv.innerHTML = `
+                    <div class="data-item-header">
+                        <div style="flex: 1;">
+                            <div class="data-item-title">${escapeHtml(user.nama)} ${isSelf ? '(Anda)' : ''}</div>
+                            <div class="muted" style="font-size: 12px;">${user.email} • Peran: <strong>${user.role.toUpperCase()}</strong></div>
+                        </div>
+                        ${!isSelf ? `
+                        <div class="data-item-actions">
+                            <button class="btn-small" onclick="toggleUserRole('${user.id}')">
+                                ${user.role === 'admin' ? 'Hapus Akses Admin' : 'Jadikan Admin'}
+                            </button>
+                        </div>` : ''}
+                    </div>
+                `;
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function toggleUserRole(userId) {
+            let users = loadUsers();
+            const index = users.findIndex(u => u.id === userId);
+            if (index !== -1) {
+                const newRole = users[index].role === 'admin' ? 'user' : 'admin';
+                users[index].role = newRole;
+                saveUsers(users);
+                alert(translations[currentLang].alert_role_updated);
+            }
+        }
+
         function editItem(type, id) {
             const item = libraryData[type].find(i => i.id === id);
             if (!item) return;
@@ -1591,7 +1686,6 @@
             const itemTypeLabel = currentLang === 'id' ? (type === 'journal' ? 'Jurnal' : type === 'book' ? 'Buku' : 'OPAC') : (type === 'journal' ? 'Journal' : type === 'book' ? 'Book' : 'OPAC');
             title.textContent = `${currentLang === 'id' ? 'Edit' : 'Edit'} ${itemTypeLabel}`;
 
-            // Re-generate modal content with translated fields
             const labels = {
                 title: currentLang === 'id' ? 'Judul *' : 'Title *',
                 author: currentLang === 'id' ? 'Penulis *' : 'Author *',
@@ -1614,87 +1708,34 @@
 
             if (type === 'journal') {
                 formHtml += `
-                    <div class="form-group">
-                        <label>${labels.title}</label>
-                        <input type="text" name="title" value="${escapeHtml(item.title)}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.author}</label>
-                        <input type="text" name="author" value="${escapeHtml(item.author)}" required>
-                    </div>
+                    <div class="form-group"><label>${labels.title}</label><input type="text" name="title" value="${escapeHtml(item.title)}" required></div>
+                    <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>${labels.year}</label>
-                            <input type="number" name="year" value="${item.year || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>${labels.issn}</label>
-                            <input type="text" name="issn" value="${escapeHtml(item.issn || '')}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.description}</label>
-                        <textarea name="description">${escapeHtml(item.description || '')}</textarea>
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
+                        <div class="form-group"><label>${labels.issn}</label><input type="text" name="issn" value="${escapeHtml(item.issn || '')}"></div>
                     </div>
                 `;
             } else if (type === 'book') {
                 formHtml += `
-                    <div class="form-group">
-                        <label>${labels.title}</label>
-                        <input type="text" name="title" value="${escapeHtml(item.title)}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.author}</label>
-                        <input type="text" name="author" value="${escapeHtml(item.author)}" required>
+                    <div class="form-group"><label>${labels.title}</label><input type="text" name="title" value="${escapeHtml(item.title)}" required></div>
+                    <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
+                    <div class="form-row">
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
+                        <div class="form-group"><label>${labels.isbn}</label><input type="text" name="isbn" value="${escapeHtml(item.isbn || '')}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>${labels.year}</label>
-                            <input type="number" name="year" value="${item.year || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>${labels.isbn}</label>
-                            <input type="text" name="isbn" value="${escapeHtml(item.isbn || '')}">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>${currentLang === 'id' ? 'Halaman' : 'Pages'}</label>
-                            <input type="number" name="pages" value="${item.pages || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>${labels.available}</label>
-                            <input type="number" name="available" min="0" value="${item.available || 0}">
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.description}</label>
-                        <textarea name="description">${escapeHtml(item.description || '')}</textarea>
+                        <div class="form-group"><label>${labels.pages}</label><input type="number" name="pages" value="${item.pages || ''}"></div>
+                        <div class="form-group"><label>${labels.available}</label><input type="number" name="available" value="${item.available || 0}"></div>
                     </div>
                 `;
             } else if (type === 'opac') {
                 formHtml += `
-                    <div class="form-group">
-                        <label>${labels.title}</label>
-                        <input type="text" name="title" value="${escapeHtml(item.title)}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.author}</label>
-                        <input type="text" name="author" value="${escapeHtml(item.author)}" required>
-                    </div>
-                    <div class="form-group">
-                        <label>${labels.call_number}</label>
-                        <input type="text" name="call_number" value="${escapeHtml(item.call_number || '')}">
-                    </div>
+                    <div class="form-group"><label>${labels.title}</label><input type="text" name="title" value="${escapeHtml(item.title)}" required></div>
+                    <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
+                    <div class="form-group"><label>${labels.call_number}</label><input type="text" name="call_number" value="${escapeHtml(item.call_number || '')}"></div>
                     <div class="form-row">
-                        <div class="form-group">
-                            <label>${labels.year}</label>
-                            <input type="number" name="year" value="${item.year || ''}">
-                        </div>
-                        <div class="form-group">
-                            <label>${labels.copies}</label>
-                            <input type="number" name="copies" min="0" value="${item.copies || 0}">
-                        </div>
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
+                        <div class="form-group"><label>${labels.copies}</label><input type="number" name="copies" value="${item.copies || 0}"></div>
                     </div>
                     <div class="form-group">
                         <label>${labels.status}</label>
@@ -1703,19 +1744,16 @@
                             <option value="Dipinjam" ${item.status === 'Dipinjam' ? 'selected' : ''}>${labels.status_borrowed}</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label>${labels.description}</label>
-                        <textarea name="description">${escapeHtml(item.description || '')}</textarea>
-                    </div>
                 `;
             }
 
             formHtml += `
-                <div style="margin-top: 20px;">
-                    <button type="submit" class="btn-primary">${labels.save_changes}</button>
-                    <button type="button" class="btn-secondary" onclick="closeModal()">${labels.cancel}</button>
-                </div>
-            </form>`;
+                    <div class="form-group"><label>${labels.description}</label><textarea name="description">${escapeHtml(item.description || '')}</textarea></div>
+                    <div style="margin-top: 20px;">
+                        <button type="submit" class="btn-primary">${labels.save_changes}</button>
+                        <button type="button" class="btn-secondary" onclick="closeModal()">${labels.cancel}</button>
+                    </div>
+                </form>`;
 
             body.innerHTML = formHtml;
 
@@ -1723,48 +1761,28 @@
                 e.preventDefault();
                 const formData = new FormData(e.target);
                 const data = Object.fromEntries(formData);
-                
                 const index = libraryData[type].findIndex(i => i.id === id);
                 if (index !== -1) {
-                    libraryData[type][index] = {
-                        ...libraryData[type][index],
-                        title: data.title,
-                        author: data.author,
-                        year: data.year ? parseInt(data.year) : null,
-                        description: data.description || '',
-                        ...(type === 'journal' && { issn: data.issn || '' }),
-                        ...(type === 'book' && { 
-                            isbn: data.isbn || '', 
-                            pages: data.pages ? parseInt(data.pages) : null,
-                            available: data.available ? parseInt(data.available) : 0
-                        }),
-                        ...(type === 'opac' && { 
-                            call_number: data.call_number || '',
-                            copies: data.copies ? parseInt(data.copies) : 0,
-                            status: data.status || 'Tersedia'
-                        })
-                    };
-                    
+                    libraryData[type][index] = { ...libraryData[type][index], ...data };
+                    if (data.year) libraryData[type][index].year = parseInt(data.year);
+                    if (data.pages) libraryData[type][index].pages = parseInt(data.pages);
+                    if (data.available) libraryData[type][index].available = parseInt(data.available);
+                    if (data.copies) libraryData[type][index].copies = parseInt(data.copies);
                     saveData();
-                    alert(currentLang === 'id' ? '✓ Data berhasil diperbarui!' : '✓ Data successfully updated!');
+                    alert(currentLang === 'id' ? '✓ Perubahan disimpan!' : '✓ Changes saved!');
                     closeModal();
                 }
             });
-
             modal.classList.add('show');
-            lastOpenedModalType = 'editItem';
         }
 
         function deleteItem(type, id) {
-            const confirmMsg = currentLang === 'id' ? 'Apakah Anda yakin ingin menghapus item ini?' : 'Are you sure you want to delete this item?';
-            const alertMsg = currentLang === 'id' ? '✓ Item berhasil dihapus! (Data disimpan di browser Anda)' : '✓ Item successfully deleted! (Data stored in your browser)';
-
-            if (!confirm(confirmMsg)) return;
-            
-            libraryData[type] = libraryData[type].filter(i => i.id !== id);
-            saveData();
-            alert(alertMsg);
-            closeModal();
+            if (confirm(currentLang === 'id' ? 'Hapus data ini?' : 'Delete this data?')) {
+                libraryData[type] = libraryData[type].filter(i => i.id !== id);
+                saveData();
+                alert(currentLang === 'id' ? '✓ Terhapus!' : '✓ Deleted!');
+                closeModal();
+            }
         }
 
 /* ============================================================
