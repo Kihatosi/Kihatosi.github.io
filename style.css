@@ -855,18 +855,55 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.12);
         }
 
+        /* Staff Avatar with gradient and shimmer effect */
+        .staff-avatar {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, var(--secondary-blue), var(--primary-blue));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 32px;
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(38, 61, 130, 0.3);
+            border: 4px solid #fff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .staff-avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            transform: rotate(45deg);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
         .staff-avatar-img {
             width: 90px; 
             height: 90px;
-            border-radius: 50%; /* Ini yang membuat lingkaran */
+            border-radius: 50%;
             object-fit: cover; 
             display: block; 
             margin-left: auto;
             margin-right: auto;
             margin-bottom: 15px;
-            border: 3px solid #f0f0f0;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
+            border: 4px solid #fff;
+            box-shadow: 0 8px 20px rgba(38, 61, 130, 0.3);
+        }
+
         .staff-card h4 {
             color: var(--primary-blue);
             font-weight: 700;
