@@ -1,8 +1,14 @@
+/* ============================================================
+   SECTION 1: STORAGE KEYS & CONFIGURATION
+   ============================================================ */
  const STORAGE_KEY = 'uin_library_data';
         const USERS_KEY = 'uin_users';
         const CURRENT_USER_KEY = 'uin_current_user';
         const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
+/* ============================================================
+   SECTION 2: TRANSLATIONS DICTIONARY (ID & EN)
+   ============================================================ */
         // --- KAMUS BAHASA (LANGUAGE DICTIONARY) ---
         const translations = {
             id: {
@@ -58,9 +64,9 @@
                 button_save_journal: 'Simpan Jurnal',
                 button_save_book: 'Simpan Buku',
                 button_save_opac: 'Simpan OPAC',
-                button_export: '💾 Ekspor JSON',
-                button_load_demo: '🔄 Muat Demo',
-                button_clear_all: '🗑️ Hapus Semua',
+                button_export: ' Ekspor JSON',
+                button_load_demo: ' Muat Demo',
+                button_clear_all: ' Hapus Semua',
 
                 // Quick Access (Services)
                 services_title: 'Layanan Kami',
@@ -110,13 +116,13 @@
                 profile_tab_vision_mission: 'Visi & Misi',
                 profile_tab_librarian: 'Pustakawan',
                 profile_tab_staff: 'Staff',
-                profile_vision: '🎯 Visi',
-                profile_mission: '🎯 Misi',
+                profile_vision: ' Visi',
+                profile_mission: ' Misi',
                 profile_vision_content: 'Menjadi pusat informasi dan pembelajaran yang unggul dalam mendukung Tri Dharma Perguruan Tinggi, mengintegrasikan nilai-nilai Islam dengan ilmu pengetahuan dan teknologi untuk menghasilkan lulusan yang kompeten, berakhlak mulia, dan berdaya saing global.',
                 profile_mission_content: [
                     'Menyediakan koleksi perpustakaan yang berkualitas, relevan, dan up-to-date dalam berbagai bidang keilmuan dengan perspektif Islam',
                     'Mengembangkan layanan perpustakaan berbasis teknologi informasi untuk meningkatkan aksesibilitas dan kualitas layanan',
-                    'Membangun budaya literasi dan pembelajaran berkelanjutan bagi civitas akademika',
+                    'Mangun budaya literasi dan pembelajaran berkelanjutan bagi civitas akademika',
                     'Menyelenggarakan program pengembangan kompetensi informasi dan literasi digital',
                     'Membangun kerjasama dengan berbagai pihak untuk pengembangan perpustakaan',
                     'Menciptakan lingkungan perpustakaan yang kondusif untuk belajar dan penelitian'
@@ -195,9 +201,9 @@
                 button_save_journal: 'Save Journal',
                 button_save_book: 'Save Book',
                 button_save_opac: 'Save OPAC',
-                button_export: '💾 Export JSON',
-                button_load_demo: '🔄 Load Demo',
-                button_clear_all: '🗑️ Clear All',
+                button_export: ' Export JSON',
+                button_load_demo: ' Load Demo',
+                button_clear_all: ' Clear All',
                 
                 // Quick Access (Services)
                 services_title: 'Our Services',
@@ -247,14 +253,14 @@
                 profile_tab_vision_mission: 'Vision & Mission',
                 profile_tab_librarian: 'Librarians',
                 profile_tab_staff: 'Staff',
-                profile_vision: '🎯 Vision',
-                profile_mission: '🎯 Mission',
+                profile_vision: ' Vision',
+                profile_mission: ' Mission',
                 profile_vision_content: 'To be a center of excellence in information and learning supporting the Tri Dharma of Higher Education, integrating Islamic values with science and technology to produce competent, noble-character, and globally competitive graduates.',
                 profile_mission_content: [
                     'Providing quality, relevant, and up-to-date library collections in various fields of science with an Islamic perspective',
                     'Developing technology-based library services to enhance accessibility and quality of service',
                     'Building a culture of literacy and continuous learning for the academic community',
-                    'Organizing programs for developing information competency and digital literacy',
+                    'Organizing programs for developing information competence and digital literacy',
                     'Building collaborations with various parties for library development',
                     'Creating a conducive library environment for learning and research'
                 ],
@@ -281,6 +287,9 @@
             }
         };
 
+/* ============================================================
+   SECTION 3: LOCALIZATION & LANGUAGE SWITCHER
+   ============================================================ */
         let currentLang = localStorage.getItem(CURRENT_LANG_KEY) || 'id'; // Muat bahasa saat ini
         
         // --- FUNGSI BARU UNTUK ALIH BAHASA ---
@@ -357,7 +366,10 @@
             }
         });
         // --- AKHIR FUNGSI ALIH BAHASA ---
-        
+
+/* ============================================================
+   SECTION 4: DEMO DATA & INITIAL STATE
+   ============================================================ */
         const demoData = {
             journal: [
                 { id: 'j1', title: 'Jurnal Ilmu Sosial dan Humaniora', author: 'Tim Peneliti UIN', year: 2024, issn: '2580-1234', description: 'Jurnal yang membahas tentang ilmu sosial dan humaniora dari perspektif Islam' },
@@ -376,6 +388,9 @@
             ]
         };
 
+/* ============================================================
+   SECTION 5: DATA MANAGEMENT (LOAD & SAVE)
+   ============================================================ */
         let libraryData = loadData();
         let currentUser = loadCurrentUser();
         let lastOpenedModalType = null; // Tambahkan variabel global untuk melacak jenis modal
@@ -402,6 +417,9 @@
             updateTabCounts();
         }
 
+/* ============================================================
+   SECTION 6: AUTHENTICATION & USER SESSION
+   ============================================================ */
         function loadCurrentUser() {
             const saved = localStorage.getItem(CURRENT_USER_KEY);
             if (saved) {
@@ -495,10 +513,21 @@
             if (confirm(langDict.alert_logout_confirm)) {
                 saveCurrentUser(null);
                 alert(langDict.alert_logout_success);
+                
+                // --- PROTEKSI LOGOUT ---
+                // Jika sedang di tab Kelola Data (index 3), pindahkan ke tab pertama (e-Journal)
+                const activeTab = document.querySelector('.tab-btn.active');
+                if (activeTab && activeTab.textContent.includes(langDict.tab_manage.replace('⚙️ ', ''))) {
+                    switchTab(0);
+                }
+
                 closeModal();
             }
         }
 
+/* ============================================================
+   SECTION 7: UI UTILITIES & SCROLLING
+   ============================================================ */
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
@@ -516,6 +545,9 @@
             }
         }
 
+/* ============================================================
+   SECTION 8: SEARCH & TABS LOGIC
+   ============================================================ */
         function switchTab(index) {
             const tabs = document.querySelectorAll('.tab-btn');
             const contents = document.querySelectorAll('.tab-content');
@@ -539,8 +571,18 @@
             if (tabs[3]) tabs[3].textContent = `${langDict.tab_manage}`; // Kelola data tidak perlu count
         }
 
+        // --- UPDATE LISTENER TAB DENGAN PROTEKSI ---
         document.querySelectorAll('.tab-btn').forEach((btn, index) => {
-            btn.addEventListener('click', () => switchTab(index));
+            btn.addEventListener('click', () => {
+                const langDict = translations[currentLang];
+                // Proteksi: Jika tab index 3 (Kelola Data) diklik tapi belum login
+                if (index === 3 && !currentUser) {
+                    alert(langDict.alert_not_logged_in);
+                    openModal('login');
+                    return; 
+                }
+                switchTab(index);
+            });
         });
 
         document.querySelectorAll('.search-form').forEach(form => {
@@ -588,6 +630,9 @@
             });
         });
 
+/* ============================================================
+   SECTION 9: MODAL SYSTEM & ITEM DETAILS
+   ============================================================ */
         function showDetail(type, id) {
             const item = libraryData[type].find(i => i.id === id);
             if (!item) return;
@@ -809,7 +854,7 @@
                 title.textContent = langDict.modal_forgot_password_title;
                 body.innerHTML = `
                     <div class="alert alert-info">
-                        <strong>${currentLang === 'id' ? 'Lupa kata sandi?' : 'Forgot your password?'}</strong> ${currentLang === 'id' ? 'Masukkan email akun Anda untuk memulai proses reset. (Simulasi)' : 'Enter your account email to start the reset process. (Simulation)'}
+                        <strong>${currentLang === 'id' ? 'Lupa kata sandi?' : 'Forgot your password?'}</strong> ${currentLang === 'id' ? 'Masukkan email akun Anda untuk memulai proses reset. ' : 'Enter your account email to start the reset process. (Simulation)'}
                     </div>
                     <form onsubmit="handleForgotPassword(event)">
                         <input type="hidden" name="step" value="request">
@@ -892,10 +937,16 @@
                                 <p class="muted">NIM : 12409011050120</p>
                             </div>
                             <div class="staff-card">
-                                <div class="staff-avatar">AL</div>
-                                <h4>ALya Nur Sedyaningsih.</h4>
-                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Senior Expert Librarian'}</p>
-                                <p class="muted">NIP: 198203152005012002</p>
+                                <div class="staff-avatar">ZB</div>
+                                <h4>M. Zaidan Zuhdi Basuri</h4>
+                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
+                                <p class="muted">NIM: 12409011050128</p>
+                            </div>
+                            <div class="staff-card">
+                                <div class="staff-avatar">ZM</div>
+                                <h4>M. Zain Muttaqin</h4>
+                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
+                                <p class="muted">NIM: 12409011050131</p>
                             </div>
                                                      
                         </div>
@@ -907,13 +958,19 @@
                                 <div class="staff-avatar">RN</div>
                                 <h4>Rusmin Nuryadin</h4>
                                 <p>${currentLang === 'id' ? 'Kepala Tata Usaha' : 'Head of Administration'}</p>
-                                <p class="muted">NIP: 198104122006041001</p>
+                                <p class="muted">NIM : 12409011050120</p>
+                            </div>
+                           <div class="staff-card">
+                                <div class="staff-avatar">ZB</div>
+                                <h4>M. Zaidan Zuhdi Basuri</h4>
+                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
+                                <p class="muted">NIM: 12409011050128</p>
                             </div>
                             <div class="staff-card">
-                                <div class="staff-avatar">AL</div>
-                                <h4>Alya Nur Sedyaningsih.</h4>
-                                <p>${currentLang === 'id' ? 'Staf Layanan Sirkulasi' : 'Circulation Service Staff'}</p>
-                                <p class="muted">NIP: 198607252010012002</p>
+                                <div class="staff-avatar">ZM</div>
+                                <h4>M. Zain Muttaqin</h4>
+                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
+                                <p class="muted">NIM: 12409011050131</p>
                             </div>
                            
                         </div>
@@ -1129,6 +1186,9 @@
             modal.classList.add('show');
         }
 
+/* ============================================================
+   SECTION 10: AUTHENTICATION HANDLERS
+   ============================================================ */
         function switchAuthTab(tab, element) {
             const tabs = document.querySelectorAll('.auth-tabs .auth-tab');
             const contents = document.querySelectorAll('.auth-content');
@@ -1231,9 +1291,9 @@
         }
 
         // ⭐ FUNGSI BARU UNTUK RESET PASSWORD
-        function handleForgotPassword(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
             const data = Object.fromEntries(formData);
             let users = loadUsers();
             const modalBody = document.getElementById('modalBody');
@@ -1318,7 +1378,9 @@
         }
         // ⭐ AKHIR FUNGSI RESET PASSWORD BARU
 
-
+/* ============================================================
+   SECTION 11: SERVICE REQUEST HANDLERS
+   ============================================================ */
         function handlePeminjaman(e) {
             e.preventDefault();
             const formData = new FormData(e.target);
@@ -1402,6 +1464,9 @@
             `;
         }
 
+/* ============================================================
+   SECTION 12: CRUD FORM HANDLERS (ADMIN)
+   ============================================================ */
         document.getElementById('formAddJournal').addEventListener('submit', (e) => {
             e.preventDefault();
             const formData = new FormData(e.target);
@@ -1463,6 +1528,9 @@
             alert(currentLang === 'id' ? '✓ OPAC berhasil ditambahkan! ' : '✓ OPAC successfully added! ');
         });
 
+/* ============================================================
+   SECTION 13: DATA RENDERING & CRUD UTILITIES
+   ============================================================ */
         function renderDataLists() {
             const container = document.getElementById('dataLists');
             if (!container) return;
@@ -1699,6 +1767,9 @@
             closeModal();
         }
 
+/* ============================================================
+   SECTION 14: DATA UTILITIES (EXPORT & DEMO)
+   ============================================================ */
         function exportData() {
             const dataStr = JSON.stringify(libraryData, null, 2);
             const blob = new Blob([dataStr], { type: 'application/json' });
@@ -1738,6 +1809,9 @@
             alert(alertMsg);
         }
 
+/* ============================================================
+   SECTION 15: CARD INTERACTIVITY & NEWS
+   ============================================================ */
         document.querySelectorAll('.service-card').forEach(card => {
             card.addEventListener('click', () => {
                 const service = card.dataset.service;
@@ -1817,6 +1891,9 @@
             });
         });
 
+/* ============================================================
+   SECTION 16: SOCIAL MEDIA & INITIAL CALLS
+   ============================================================ */
         document.querySelectorAll('a[data-social]').forEach(link => {
             link.addEventListener('click', (e) => {
                 e.preventDefault();
