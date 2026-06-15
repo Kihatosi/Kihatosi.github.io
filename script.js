@@ -20,8 +20,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 collection_opac: 'OPAC',
 
                 // Top Bar
-                top_phone: '📱 021 7494136',
-                top_email: '📧 Perpustakaan@apps.uinjkt.ac.id',
+                top_phone: '021 7494136',
+                top_email: 'Perpustakaan@apps.uinjkt.ac.id',
                 top_schedule: 'Senin-Kamis: 09.00-19.30 | Jumat: 09.00-16.00',
 
                 // Header & Nav
@@ -39,10 +39,10 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 hero_subtitle: 'Gerbang Ilmu Pengetahuan dan Inovasi untuk Masa Depan',
 
                 // Search Tabs & Form
-                tab_journal: '📚 e-Journal',
-                tab_book: '📖 BOOK',
-                tab_opac: '🔍 OPAC',
-                tab_manage: '⚙️ Kelola Data',
+                tab_journal: 'e-Journal',
+                tab_book: 'Buku',
+                tab_opac: 'OPAC',
+                tab_manage: 'Kelola Data',
                 search_journal_title: 'Pencarian Koleksi Jurnal',
                 search_journal_placeholder: 'Cari jurnal berdasarkan judul atau penulis...',
                 search_book_title: 'Pencarian Buku',
@@ -54,11 +54,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 // Manage Data (Tab 3)
                 manage_title: 'Kelola Data Perpustakaan',
                 manage_subtitle: 'Tambah, edit, atau hapus data jurnal, buku, dan OPAC. Data disimpan di browser Anda.',
-                manage_add_journal: '➕ Tambah Jurnal',
-                manage_add_book: '➕ Tambah Buku',
-                manage_add_opac: '➕ Tambah OPAC',
-                manage_current_data: '📊 Data Saat Ini',
-                manage_users_title: '👥 Manajemen Pengguna',
+                manage_add_journal: 'Tambah Jurnal',
+                manage_add_book: 'Tambah Buku',
+                manage_add_opac: 'Tambah OPAC',
+                manage_current_data: 'Data Saat Ini',
+                manage_users_title: 'Manajemen Pengguna',
                 manage_users_subtitle: 'Kelola akses Admin untuk pengguna lain.',
                 form_title: 'Judul *',
                 form_author: 'Penulis *',
@@ -74,9 +74,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 button_save_journal: 'Simpan Jurnal',
                 button_save_book: 'Simpan Buku',
                 button_save_opac: 'Simpan OPAC',
-                button_export: ' Ekspor JSON',
-                button_load_demo: ' Muat Demo',
-                button_clear_all: ' Hapus Semua',
+                button_export: 'Ekspor JSON',
+                button_load_demo: 'Muat Demo',
+                button_clear_all: 'Hapus Semua',
 
                 // Quick Access (Services)
                 services_title: 'Layanan Kami',
@@ -126,8 +126,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 profile_tab_vision_mission: 'Visi & Misi',
                 profile_tab_librarian: 'Pustakawan',
                 profile_tab_staff: 'Staff',
-                profile_vision: ' Visi',
-                profile_mission: ' Misi',
+                profile_vision: 'Visi',
+                profile_mission: 'Misi',
                 profile_vision_content: 'Menjadi pusat informasi dan pembelajaran yang unggul dalam mendukung Tri Dharma Perguruan Tinggi, mengintegrasikan nilai-nilai Islam dengan ilmu pengetahuan dan teknologi untuk menghasilkan lulusan yang kompeten, berakhlak mulia, dan berdaya saing global.',
                 profile_mission_content: [
                     'Menyediakan koleksi perpustakaan yang berkualitas, relevan, dan up-to-date dalam berbagai bidang keilmuan dengan perspektif Islam',
@@ -150,16 +150,16 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 auth_cancel_button: 'Batal',
 
                 // ALERTS (JS)
-                alert_login_success: (name) => `✓ Login berhasil! Selamat datang, ${name}`,
+                alert_login_success: (name) => `Login berhasil! Selamat datang, ${name}`,
                 // --- PERBAIKAN: PERINGATAN LOGIN UNTUK DEMO ---
-                alert_login_fail: '❌ Email atau password salah!User: demo@uinjkt.ac.id / password',
+                alert_login_fail: 'Email atau password salah! User: demo@uinjkt.ac.id / password',
                 alert_logout_confirm: 'Apakah Anda yakin ingin logout?',
-                alert_logout_success: '✓ Anda telah logout',
+                alert_logout_success: 'Anda telah logout',
                 alert_no_query: 'Silakan masukkan kata kunci pencarian',
                 alert_not_found: (query) => `Tidak ada hasil untuk "<strong>${escapeHtml(query)}</strong>"`,
                 alert_not_logged_in: 'Anda harus login terlebih dahulu untuk mengakses layanan ini.',
-                alert_admin_only: '❌ Akses Ditolak! Fitur ini hanya untuk Admin.',
-                alert_role_updated: '✓ Peran pengguna berhasil diperbarui!'
+                alert_admin_only: 'Akses Ditolak! Fitur ini hanya untuk Admin.',
+                alert_role_updated: 'Peran pengguna berhasil diperbarui!'
             },
             en: {
                 nav_collections: 'Collections',
@@ -170,8 +170,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 collection_opac: 'OPAC',
 
                 // Top Bar
-                top_phone: '📱 +62 21 7494136',
-                top_email: '📧 Perpustakaan@apps.uinjkt.ac.id',
+                top_phone: '+62 21 7494136',
+                top_email: 'Perpustakaan@apps.uinjkt.ac.id',
                 top_schedule: 'Monday-Thursday: 09.00-19.30 | Friday: 09.00-16.00',
 
                 // Header & Nav
@@ -188,10 +188,10 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 hero_subtitle: 'The Gateway of Knowledge and Innovation for the Future',
 
                 // Search Tabs & Form
-                tab_journal: '📚 e-Journal',
-                tab_book: '📖 BOOK',
-                tab_opac: '🔍 OPAC',
-                tab_manage: '⚙️ Manage Data',
+                tab_journal: 'e-Journal',
+                tab_book: 'Book',
+                tab_opac: 'OPAC',
+                tab_manage: 'Manage Data',
                 search_journal_title: 'Journal Collection Search',
                 search_journal_placeholder: 'Search journal by title or author...',
                 search_book_title: 'Book Search',
@@ -203,11 +203,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 // Manage Data (Tab 3)
                 manage_title: 'Library Data Management',
                 manage_subtitle: 'Add, edit, or delete journal, book, and OPAC data. Data is stored in your browser.',
-                manage_add_journal: '➕ Add Journal',
-                manage_add_book: '➕ Add Book',
-                manage_add_opac: '➕ Add OPAC',
-                manage_current_data: '📊 Current Data',
-                manage_users_title: '👥 User Management',
+                manage_add_journal: 'Add Journal',
+                manage_add_book: 'Add Book',
+                manage_add_opac: 'Add OPAC',
+                manage_current_data: 'Current Data',
+                manage_users_title: 'User Management',
                 manage_users_subtitle: 'Manage Admin access for other users.',
                 form_title: 'Title *',
                 form_author: 'Author *',
@@ -223,9 +223,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 button_save_journal: 'Save Journal',
                 button_save_book: 'Save Book',
                 button_save_opac: 'Save OPAC',
-                button_export: ' Export JSON',
-                button_load_demo: ' Load Demo',
-                button_clear_all: ' Clear All',
+                button_export: 'Export JSON',
+                button_load_demo: 'Load Demo',
+                button_clear_all: 'Clear All',
                 
                 // Quick Access (Services)
                 services_title: 'Our Services',
@@ -275,8 +275,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 profile_tab_vision_mission: 'Vision & Mission',
                 profile_tab_librarian: 'Librarians',
                 profile_tab_staff: 'Staff',
-                profile_vision: ' Vision',
-                profile_mission: ' Mission',
+                profile_vision: 'Vision',
+                profile_mission: 'Mission',
                 profile_vision_content: 'To be a center of excellence in information and learning supporting the Tri Dharma of Higher Education, integrating Islamic values with science and technology to produce competent, noble-character, and globally competitive graduates.',
                 profile_mission_content: [
                     'Providing quality, relevant, and up-to-date library collections in various fields of science with an Islamic perspective',
@@ -299,15 +299,15 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 auth_cancel_button: 'Cancel',
 
                 // ALERTS (JS)
-                alert_login_success: (name) => `✓ Login successful! Welcome, ${name}`,
-                alert_login_fail: '❌ Wrong email or password! User: demo@uinjkt.ac.id / password',
+                alert_login_success: (name) => `Login successful! Welcome, ${name}`,
+                alert_login_fail: 'Wrong email or password! User: demo@uinjkt.ac.id / password',
                 alert_logout_confirm: 'Are you sure you want to log out?',
-                alert_logout_success: '✓ You have logged out',
+                alert_logout_success: 'You have logged out',
                 alert_no_query: 'Please enter a search keyword',
                 alert_not_found: (query) => `No results found for "<strong>${escapeHtml(query)}</strong>"`,
                 alert_not_logged_in: 'You must log in first to access this service.',
-                alert_admin_only: '❌ Access Denied! This feature is for Admin only.',
-                alert_role_updated: '✓ User role updated successfully!'
+                alert_admin_only: 'Access Denied! This feature is for Admin only.',
+                alert_role_updated: 'User role updated successfully!'
                 
             }
             
@@ -340,10 +340,10 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (currentLangText && currentLangIcon) {
                 if (currentLang === 'id') {
                     currentLangText.textContent = 'ID';
-                    currentLangIcon.textContent = '🇮🇩';
+                    currentLangIcon.textContent = 'ID';
                 } else {
                     currentLangText.textContent = 'EN';
-                    currentLangIcon.textContent = '🇬🇧';
+                    currentLangIcon.textContent = 'EN';
                 }
             }
 
@@ -519,10 +519,26 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     nama: 'Pengguna Demo',
                     email: demoUserEmail,
                     nim: '12409011050128',
-                    prodi: 'Mahasiswa',
+                    prodi: 'Teknik Informasi',
                     telp: '081122334455',
                     password: 'password', 
                     role: 'user',
+                    tanggal_daftar: new Date().toISOString()
+                });
+            }
+
+            // Demo Dosen account
+            const demoDosenEmail = 'dosen@uinjkt.ac.id';
+            if (!users.some(u => u.email === demoDosenEmail)) {
+                users.push({
+                    id: 'u-demo-dosen',
+                    nama: 'Dr. Ahmad Hidayat',
+                    email: demoDosenEmail,
+                    nim: '197001012000031001',
+                    prodi: '',
+                    telp: '081299887766',
+                    password: 'password', 
+                    role: 'dosen',
                     tanggal_daftar: new Date().toISOString()
                 });
             }
@@ -551,7 +567,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             adminTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
         }
 
-        // ✅ CEK APAKAH USER PUNYA FOTO
+        // CEK APAKAH USER PUNYA FOTO
         const avatarContent = currentUser.photo 
             ? `<img src="${currentUser.photo}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">` 
             : currentUser.nama.charAt(0).toUpperCase();
@@ -567,16 +583,16 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 </div>
                 <div class="user-dropdown" id="userDropdown">
                     <div class="user-dropdown-item" onclick="openModal('user-profile')">
-                        <strong>${currentUser.nama} ${currentUser.role === 'admin' ? '(Admin)' : ''}</strong><br>
+                        <strong>${currentUser.nama}</strong> <span class="muted" style="font-size:12px;">(${currentUser.role === 'admin' ? 'Admin' : currentUser.role === 'dosen' ? 'Dosen' : 'Mahasiswa'})</span><br>
                         <small class="muted">${currentUser.email}</small>
                     </div>
                     ${currentUser.role === 'admin' ? `
                     <div class="user-dropdown-item" onclick="openAdminDashboard()" style="color: var(--secondary-blue); font-weight: bold;">
-                        ⚙️ ${currentLang === 'id' ? 'Dashboard Admin' : 'Admin Dashboard'}
+                        ${currentLang === 'id' ? 'Dashboard Admin' : 'Admin Dashboard'}
                     </div>
                     ` : ''}
                     <div class="user-dropdown-item" onclick="logout()" style="color: var(--danger); font-weight: bold;">
-                        🚪 ${currentLang === 'id' ? 'Logout' : 'Logout'}
+                        ${currentLang === 'id' ? 'Logout' : 'Logout'}
                     </div>
                 </div>
             </div>
@@ -688,7 +704,7 @@ function showToast(message, type = 'success') {
             if (tabs[3]) {
                 const total = libraryData.journal.length + libraryData.book.length + libraryData.opac.length;
                 const collLabel = currentLang === 'id' ? 'Koleksi' : 'Collections';
-                tabs[3].textContent = `📂 ${collLabel} (${total})`;
+                tabs[3].textContent = `${collLabel} (${total})`;
             }
             
             // GESER: Tab Kelola Data sekarang di Index 4
@@ -962,13 +978,33 @@ function showToast(message, type = 'success') {
                                 <input type="email" name="email" required placeholder="${currentLang === 'id' ? 'Masukkan email' : 'Enter email'}">
                             </div>
                             <div class="form-group">
-                                <label data-lang-key="form_nim">${currentLang === 'id' ? 'NIM/NIP *' : 'Student ID/Staff ID *'}</label>
-                                <input type="text" name="nim" required placeholder="${currentLang === 'id' ? 'Masukkan NIM/NIP' : 'Enter ID'}">
+                                <label>${currentLang === 'id' ? 'Peran *' : 'Role *'}</label>
+                                <select name="role_type" required onchange="
+                                    var nimLabel = this.form.querySelector('.nim-label');
+                                    var nimInput = this.form.querySelector('[name=nim]');
+                                    var prodiGroup = this.form.querySelector('.prodi-group');
+                                    if (this.value === 'dosen') {
+                                        nimLabel.textContent = '${currentLang === 'id' ? 'NIP *' : 'Staff ID *'}';
+                                        nimInput.placeholder = '${currentLang === 'id' ? 'Masukkan NIP' : 'Enter Staff ID'}';
+                                        prodiGroup.style.display = 'none';
+                                    } else {
+                                        nimLabel.textContent = '${currentLang === 'id' ? 'NIM *' : 'Student ID *'}';
+                                        nimInput.placeholder = '${currentLang === 'id' ? 'Masukkan NIM' : 'Enter Student ID'}';
+                                        prodiGroup.style.display = 'block';
+                                    }
+                                ">
+                                    <option value="user">${currentLang === 'id' ? 'Mahasiswa' : 'Student'}</option>
+                                    <option value="dosen">${currentLang === 'id' ? 'Dosen' : 'Lecturer'}</option>
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label data-lang-key="form_study_program">${currentLang === 'id' ? 'Program Studi' : 'Study Program'}</label>
+                                <label class="nim-label">${currentLang === 'id' ? 'NIM *' : 'Student ID *'}</label>
+                                <input type="text" name="nim" required placeholder="${currentLang === 'id' ? 'Masukkan NIM' : 'Enter Student ID'}">
+                            </div>
+                            <div class="form-group prodi-group">
+                                <label>${currentLang === 'id' ? 'Program Studi' : 'Study Program'}</label>
                                 <select name="prodi">
-                                    <option value="" data-lang-key="form_select_program">${currentLang === 'id' ? '-- Pilih Program Studi --' : '-- Select Study Program --'}</option>
+                                    <option value="">${currentLang === 'id' ? '-- Pilih Program Studi --' : '-- Select Study Program --'}</option>
                                     <option>${currentLang === 'id' ? 'Ilmu Al-Quran dan Tafsir' : 'Qur\'an and Tafsir Studies'}</option>
                                     <option>${currentLang === 'id' ? 'Hukum Keluarga Islam' : 'Islamic Family Law'}</option>
                                     <option>${currentLang === 'id' ? 'Ekonomi Syariah' : 'Sharia Economics'}</option>
@@ -1059,7 +1095,7 @@ function showToast(message, type = 'success') {
                                 ${loan.status === 'active' ? `
                                     <div class="loan-card-actions">
                                         <button class="btn-primary" onclick="returnBook('${loan.kode}')" style="font-size:13px;padding:8px 16px;">
-                                            ${currentLang === 'id' ? '↩ Kembalikan Buku' : '↩ Return Book'}
+                                            ${currentLang === 'id' ? 'Kembalikan Buku' : 'Return Book'}
                                         </button>
                                     </div>
                                 ` : ''}
@@ -1076,14 +1112,14 @@ function showToast(message, type = 'success') {
                     // Surat Bebas Pinjam
                     myBebas.forEach(b => {
                         const statusLabel = b.status === 'approved'
-                            ? (currentLang === 'id' ? '✓ Disetujui' : '✓ Approved')
+                            ? (currentLang === 'id' ? 'Disetujui' : 'Approved')
                             : b.status === 'rejected'
-                                ? (currentLang === 'id' ? '✗ Ditolak' : '✗ Rejected')
-                                : (currentLang === 'id' ? '⏳ Menunggu' : '⏳ Pending');
+                                ? (currentLang === 'id' ? 'Ditolak' : 'Rejected')
+                                : (currentLang === 'id' ? 'Menunggu' : 'Pending');
                         requestsHtml += `
                             <div class="loan-card">
                                 <div class="loan-card-header">
-                                    <span class="loan-card-title">${currentLang === 'id' ? '📄 Surat Bebas Pinjam' : '📄 No-Loan Certificate'}</span>
+                                    <span class="loan-card-title">${currentLang === 'id' ? 'Surat Bebas Pinjam' : 'No-Loan Certificate'}</span>
                                     <span class="status-badge ${b.status}">${statusLabel}</span>
                                 </div>
                                 <div class="loan-card-meta">
@@ -1094,7 +1130,7 @@ function showToast(message, type = 'success') {
                                 ${b.status === 'approved' ? `
                                     <div class="loan-card-actions">
                                         <button class="btn-primary" onclick="printSuratBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 16px;">
-                                            ${currentLang === 'id' ? '🖨 Cetak Surat' : '🖨 Print Letter'}
+                                            ${currentLang === 'id' ? 'Cetak Surat' : 'Print Letter'}
                                         </button>
                                     </div>
                                 ` : ''}
@@ -1104,14 +1140,14 @@ function showToast(message, type = 'success') {
                     // Penerbitan
                     myPenerbitan.forEach(p => {
                         const statusLabel = p.status === 'approved'
-                            ? (currentLang === 'id' ? '✓ Diterima' : '✓ Accepted')
+                            ? (currentLang === 'id' ? 'Diterima' : 'Accepted')
                             : p.status === 'rejected'
-                                ? (currentLang === 'id' ? '✗ Ditolak' : '✗ Rejected')
-                                : (currentLang === 'id' ? '⏳ Review' : '⏳ In Review');
+                                ? (currentLang === 'id' ? 'Ditolak' : 'Rejected')
+                                : (currentLang === 'id' ? 'Review' : 'In Review');
                         requestsHtml += `
                             <div class="loan-card">
                                 <div class="loan-card-header">
-                                    <span class="loan-card-title">${currentLang === 'id' ? '📝 Pengajuan Penerbitan' : '📝 Publication Request'}</span>
+                                    <span class="loan-card-title">${currentLang === 'id' ? 'Pengajuan Penerbitan' : 'Publication Request'}</span>
                                     <span class="status-badge ${p.status === 'review' ? 'pending' : p.status}">${statusLabel}</span>
                                 </div>
                                 <div class="loan-card-meta">
@@ -1127,13 +1163,13 @@ function showToast(message, type = 'success') {
                 body.innerHTML = `
                     <div class="modal-tabs">
                         <button class="modal-tab-btn active" onclick="switchUserTab('akun', this)">
-                            ${currentLang === 'id' ? '👤 Detail Akun' : '👤 Account'}
+                            ${currentLang === 'id' ? 'Detail Akun' : 'Account'}
                         </button>
                         <button class="modal-tab-btn" onclick="switchUserTab('pinjaman', this)">
-                            ${currentLang === 'id' ? '📚 Peminjaman' : '📚 Loans'} (${activeLoans.length})
+                            ${currentLang === 'id' ? 'Peminjaman' : 'Loans'} (${activeLoans.length})
                         </button>
                         <button class="modal-tab-btn" onclick="switchUserTab('pengajuan', this)">
-                            ${currentLang === 'id' ? '📋 Pengajuan' : '📋 Requests'} (${myBebas.length + myPenerbitan.length})
+                            ${currentLang === 'id' ? 'Pengajuan' : 'Requests'} (${myBebas.length + myPenerbitan.length})
                         </button>
                     </div>
                     <div id="userTab-akun" class="modal-tab-content active">
@@ -1148,14 +1184,16 @@ function showToast(message, type = 'success') {
                             <div class="info-grid">
                                 <div class="info-label">Email:</div>
                                 <div>${escapeHtml(currentUser.email)}</div>
-                                <div class="info-label">${currentLang === 'id' ? 'NIM/NIP:' : 'ID:'}</div>
+                                <div class="info-label">${currentLang === 'id' ? (currentUser.role === 'dosen' ? 'NIP:' : 'NIM:') : 'ID:'}</div>
                                 <div>${escapeHtml(currentUser.nim)}</div>
-                                <div class="info-label">${currentLang === 'id' ? 'Program Studi:' : 'Study Program:'}</div>
-                                <div>${escapeHtml(currentUser.prodi || '-')}</div>
+                                <div class="info-label">${currentLang === 'id' ? 'Peran:' : 'Role:'}</div>
+                                <div>${currentUser.role === 'admin' ? 'Pustakawan (Admin)' : currentUser.role === 'dosen' ? 'Dosen' : 'Mahasiswa'}</div>
+                                ${currentUser.role !== 'dosen' ? `<div class="info-label">${currentLang === 'id' ? 'Program Studi:' : 'Study Program:'}</div>
+                                <div>${escapeHtml(currentUser.prodi || '-')}</div>` : ''}
                                 <div class="info-label">${currentLang === 'id' ? 'No. Telepon:' : 'Phone No.:'}</div>
                                 <div>${escapeHtml(currentUser.telp)}</div>
                                 <div class="info-label">${currentLang === 'id' ? 'Pinjaman Aktif:' : 'Active Loans:'}</div>
-                                <div><strong>${activeLoans.length} / 3</strong></div>
+                                <div><strong>${activeLoans.length} / ${currentUser.role === 'dosen' ? 5 : 3}</strong></div>
                                 <div class="info-label">${currentLang === 'id' ? 'Bergabung:' : 'Joined:'}</div>
                                 <div>${new Date(currentUser.tanggal_daftar).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                             </div>
@@ -1214,8 +1252,12 @@ function showToast(message, type = 'success') {
                     <div class="alert alert-info">
                         <strong>${currentLang === 'id' ? 'Ketentuan Peminjaman:' : 'Borrowing Policy:'}</strong>
                         <ul style="margin: 10px 0 0 20px;">
-                            <li>${currentLang === 'id' ? 'Maksimal 3 buku per peminjam' : 'Maximum 3 books per borrower'}</li>
-                            <li>${currentLang === 'id' ? 'Durasi peminjaman: 7 hari' : 'Borrowing duration: 7 days'}</li>
+                            <li>${currentLang === 'id' 
+                                ? (currentUser.role === 'dosen' ? 'Maksimal 5 buku per dosen' : 'Maksimal 3 buku per mahasiswa') 
+                                : (currentUser.role === 'dosen' ? 'Maximum 5 books per lecturer' : 'Maximum 3 books per student')}</li>
+                            <li>${currentLang === 'id' 
+                                ? (currentUser.role === 'dosen' ? 'Durasi peminjaman: 14 hari' : 'Durasi peminjaman: 7 hari') 
+                                : (currentUser.role === 'dosen' ? 'Borrowing duration: 14 days' : 'Borrowing duration: 7 days')}</li>
                             <li>${currentLang === 'id' ? 'Denda keterlambatan: Rp 1.000/hari per buku' : 'Late fee: Rp 1,000/day per book'}</li>
                         </ul>
                     </div>
@@ -1399,11 +1441,11 @@ function showToast(message, type = 'success') {
                     <p style="margin-bottom: 20px;">${currentLang === 'id' ? 'Akses berbagai sumber elektronik untuk mendukung penelitian dan pembelajaran:' : 'Access various electronic resources to support research and learning:'}</p>
                     <div style="display: grid; gap: 15px;">
                         <div class="result-item" style="cursor: default;">
-                            <h4>📚 ${currentLang === 'id' ? 'E-Journals Database' : 'E-Journals Database'}</h4>
+                            <h4>${currentLang === 'id' ? 'E-Journals Database' : 'E-Journals Database'}</h4>
                             <p>${currentLang === 'id' ? 'Koleksi jurnal elektronik dari berbagai penerbit internasional dan nasional' : 'Electronic journal collection from various international and national publishers'}</p>
                         </div>
                         <div class="result-item" style="cursor: default;">
-                            <h4>📖 ${currentLang === 'id' ? 'E-Books Collection' : 'E-Books Collection'}</h4>
+                            <h4>${currentLang === 'id' ? 'E-Books Collection' : 'E-Books Collection'}</h4>
                             <p>${currentLang === 'id' ? 'Ribuan buku elektronik dalam berbagai bidang ilmu pengetahuan' : 'Thousands of electronic books across various fields of knowledge'}</p>
                         </div>
                     </div>
@@ -1492,10 +1534,10 @@ function showToast(message, type = 'success') {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             
-            const alertPasswordMismatch = currentLang === 'id' ? '❌ Password tidak cocok!' : '❌ Passwords do not match!';
-            const alertEmailExists = currentLang === 'id' ? '❌ Email sudah terdaftar!' : '❌ Email is already registered!';
-            const alertNIMExists = currentLang === 'id' ? '❌ NIM/NIP sudah terdaftar!' : '❌ Student ID/Staff ID is already registered!';
-            const alertSuccess = currentLang === 'id' ? '✓ Pendaftaran berhasil! Silakan login dengan akun Anda.' : '✓ Registration successful! Please log in with your account.';
+            const alertPasswordMismatch = currentLang === 'id' ? 'Password tidak cocok!' : 'Passwords do not match!';
+            const alertEmailExists = currentLang === 'id' ? 'Email sudah terdaftar!' : 'Email is already registered!';
+            const alertNIMExists = currentLang === 'id' ? 'NIM/NIP sudah terdaftar!' : 'Student ID/Staff ID is already registered!';
+            const alertSuccess = currentLang === 'id' ? 'Pendaftaran berhasil! Silakan login dengan akun Anda.' : 'Registration successful! Please log in with your account.';
 
             if (data.password !== data.confirm_password) {
                 showToast(alertPasswordMismatch, 'error');
@@ -1515,14 +1557,14 @@ function showToast(message, type = 'success') {
             }
             
             const newUser = {
-                id: 'u-' + Date.now(), // Menggunakan Date.now() sebagai generateId sederhana
+                id: 'u-' + Date.now(),
                 nama: data.nama,
                 email: data.email,
                 nim: data.nim,
                 prodi: data.prodi || '',
                 telp: data.telp,
                 password: data.password,
-                role: 'user', 
+                role: data.role_type || 'user', 
                 tanggal_daftar: new Date().toISOString()
             };
             
@@ -1544,8 +1586,8 @@ function showToast(message, type = 'success') {
             let users = loadUsers();
             const modalBody = document.getElementById('modalBody');
 
-            const alertEmailNotFound = currentLang === 'id' ? '❌ Email tidak terdaftar! Silakan periksa kembali.' : '❌ Email not found! Please check again.';
-            const alertResetSent = (email) => currentLang === 'id' ? `✓ Link reset password telah dikirim ke ${email}. (Simulasi: Silakan lanjutkan ganti password)` : `✓ Password reset link has been sent to ${email}. (Simulation: Please proceed to change password)`;
+            const alertEmailNotFound = currentLang === 'id' ? 'Email tidak terdaftar! Silakan periksa kembali.' : 'Email not found! Please check again.';
+            const alertResetSent = (email) => currentLang === 'id' ? `Link reset password telah dikirim ke ${email}. (Simulasi: Silakan lanjutkan ganti password)` : `Password reset link has been sent to ${email}. (Simulation: Please proceed to change password)`;
             const step2Title = currentLang === 'id' ? 'Langkah 2 dari 2.' : 'Step 2 of 2.';
             const step2Instruction = (email) => currentLang === 'id' ? `Masukkan kata sandi baru untuk ${escapeHtml(email)}.` : `Enter new password for ${escapeHtml(email)}.`;
             const labelNewPassword = currentLang === 'id' ? 'Password Baru *' : 'New Password *';
@@ -1553,10 +1595,10 @@ function showToast(message, type = 'success') {
             const placeholderMin6 = currentLang === 'id' ? 'Minimal 6 karakter' : 'Minimum 6 characters';
             const placeholderRepeat = currentLang === 'id' ? 'Ulangi password baru' : 'Repeat new password';
             const buttonChangePassword = currentLang === 'id' ? 'Ganti Password' : 'Change Password';
-            const alertPasswordMismatch = currentLang === 'id' ? '❌ Password baru tidak cocok!' : '❌ New passwords do not match!';
-            const alertMinLength = currentLang === 'id' ? '❌ Password minimal 6 karakter!' : '❌ Password must be at least 6 characters!';
-            const alertUserNotFound = currentLang === 'id' ? '❌ Terjadi kesalahan. Pengguna tidak ditemukan.' : '❌ An error occurred. User not found.';
-            const alertSuccessTitle = currentLang === 'id' ? '✓ Password Berhasil Diubah!' : '✓ Password Successfully Changed!';
+            const alertPasswordMismatch = currentLang === 'id' ? 'Password baru tidak cocok!' : 'New passwords do not match!';
+            const alertMinLength = currentLang === 'id' ? 'Password minimal 6 karakter!' : 'Password must be at least 6 characters!';
+            const alertUserNotFound = currentLang === 'id' ? 'Terjadi kesalahan. Pengguna tidak ditemukan.' : 'An error occurred. User not found.';
+            const alertSuccessTitle = currentLang === 'id' ? 'Password Berhasil Diubah!' : 'Password Successfully Changed!';
             const alertSuccessBody = currentLang === 'id' ? 'Anda sekarang dapat login menggunakan kata sandi yang baru.' : 'You can now log in using your new password.';
             const buttonLoginNow = currentLang === 'id' ? 'Login Sekarang' : 'Login Now';
 
@@ -1630,11 +1672,12 @@ function showToast(message, type = 'success') {
             const data = Object.fromEntries(formData);
             const kode = 'PJM-' + Date.now();
 
-            // Cek batas maksimal 3 peminjaman aktif per user
+            // Batas peminjaman berdasarkan peran: Mahasiswa=3, Dosen=5
             const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
             const activeLoanCount = peminjaman.filter(p => p.userEmail === currentUser.email && p.status !== 'returned').length;
-            if (activeLoanCount >= 3) {
-                showToast(currentLang === 'id' ? '❌ Gagal! Anda sudah meminjam 3 buku (batas maksimal).' : '❌ Failed! You already have 3 active loans (maximum limit).', 'error');
+            const maxLoan = currentUser.role === 'dosen' ? 5 : 3;
+            if (activeLoanCount >= maxLoan) {
+                showToast(currentLang === 'id' ? `Gagal! Anda sudah meminjam ${maxLoan} buku (batas maksimal).` : `Failed! You already have ${maxLoan} active loans (maximum limit).`, 'error');
                 return;
             }
 
@@ -1667,9 +1710,11 @@ function showToast(message, type = 'success') {
             }
 
             // Simpan data peminjaman dengan info lengkap
+            // Durasi pinjam: Mahasiswa=7 hari, Dosen=14 hari
             const today = new Date();
+            const loanDuration = currentUser.role === 'dosen' ? 14 : 7;
             const returnDate = new Date(today);
-            returnDate.setDate(returnDate.getDate() + 7);
+            returnDate.setDate(returnDate.getDate() + loanDuration);
 
             peminjaman.push({
                 ...data,
@@ -1686,12 +1731,12 @@ function showToast(message, type = 'success') {
             });
             localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
 
-            showToast(currentLang === 'id' ? '✓ Peminjaman berhasil! Stok buku diperbarui.' : '✓ Borrowing successful! Book stock updated.');
+            showToast(currentLang === 'id' ? 'Peminjaman berhasil! Stok buku diperbarui.' : 'Borrowing successful! Book stock updated.');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Peminjaman Berhasil!' : '✓ Borrowing Successful!'}</strong><br>
+                    <strong>${currentLang === 'id' ? 'Peminjaman Berhasil!' : 'Borrowing Successful!'}</strong><br>
                     ${currentLang === 'id' ? 'Kode Peminjaman' : 'Borrowing Code'}: <strong>${kode}</strong><br>
                     ${currentLang === 'id' ? 'Buku' : 'Book'}: <strong>${escapeHtml(bookTitle)}</strong><br>
                     ${currentLang === 'id' ? 'Tenggat Pengembalian' : 'Due Date'}: <strong>${data.tgl_kembali || returnDate.toISOString().split('T')[0]}</strong><br><br>
@@ -1713,8 +1758,8 @@ function showToast(message, type = 'success') {
             if (activeLoans.length > 0) {
                 const bookTitles = activeLoans.map(l => `"${l.judul}"`).join(', ');
                 showToast(currentLang === 'id'
-                    ? `❌ Gagal! Anda masih meminjam ${activeLoans.length} buku: ${bookTitles}. Kembalikan terlebih dahulu.`
-                    : `❌ Failed! You still have ${activeLoans.length} active loan(s): ${bookTitles}. Return them first.`, 'error');
+                    ? `Gagal! Anda masih meminjam ${activeLoans.length} buku: ${bookTitles}. Kembalikan terlebih dahulu.`
+                    : `Failed! You still have ${activeLoans.length} active loan(s): ${bookTitles}. Return them first.`, 'error');
                 return;
             }
 
@@ -1730,12 +1775,12 @@ function showToast(message, type = 'success') {
             });
             localStorage.setItem('uin_bebas_pinjam', JSON.stringify(bebas));
 
-            showToast(currentLang === 'id' ? '✓ Pengajuan surat dikirim! Menunggu persetujuan pustakawan.' : '✓ Letter request sent! Waiting for librarian approval.');
+            showToast(currentLang === 'id' ? 'Pengajuan surat dikirim! Menunggu persetujuan pustakawan.' : 'Letter request sent! Waiting for librarian approval.');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Pengajuan Dikirim!' : '✓ Request Submitted!'}</strong><br>
+                    <strong>${currentLang === 'id' ? 'Pengajuan Dikirim!' : 'Request Submitted!'}</strong><br>
                     ${currentLang === 'id' ? 'Nomor Pengajuan' : 'Request Number'}: <strong>${nomor}</strong><br><br>
                     ${currentLang === 'id' ? 'Pengajuan Anda akan diverifikasi oleh pustakawan. Cek status di menu profil Anda.' : 'Your request will be verified by the librarian. Check status in your profile menu.'}
                 </div>
@@ -1760,12 +1805,12 @@ function showToast(message, type = 'success') {
             });
             localStorage.setItem('uin_penerbitan', JSON.stringify(penerbitan));
             
-            showToast(currentLang === 'id' ? '✓ Pengajuan penerbitan dikirim!' : '✓ Publication request sent!');
+            showToast(currentLang === 'id' ? 'Pengajuan penerbitan dikirim!' : 'Publication request sent!');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Pengajuan Berhasil!' : '✓ Submission Successful!'}</strong><br>
+                    <strong>${currentLang === 'id' ? 'Pengajuan Berhasil!' : 'Submission Successful!'}</strong><br>
                     ${currentLang === 'id' ? 'Nomor Registrasi' : 'Registration Number'}: <strong>${nomor}</strong><br><br>
                     ${currentLang === 'id' ? 'Tim editorial akan meninjau naskah Anda dalam 7-14 hari kerja. Cek status di menu profil Anda.' : 'The editorial team will review your manuscript within 7-14 working days. Check status in your profile menu.'}
                 </div>
@@ -1786,12 +1831,12 @@ function showToast(message, type = 'success') {
             });
             localStorage.setItem('uin_survey', JSON.stringify(survey));
             
-            showToast(currentLang === 'id' ? '✓ Terima kasih atas saran Anda!' : '✓ Thank you for your feedback!');
+            showToast(currentLang === 'id' ? 'Terima kasih atas saran Anda!' : 'Thank you for your feedback!');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Terima Kasih!' : '✓ Thank You!'}</strong><br>
+                    <strong>${currentLang === 'id' ? 'Terima Kasih!' : 'Thank You!'}</strong><br>
                     ${currentLang === 'id' ? 'Survey Anda telah berhasil dikirim. Masukan Anda sangat berharga untuk peningkatan layanan perpustakaan.' : 'Your survey has been submitted successfully. Your feedback is highly valuable for improving library services.'}
                 </div>
                 <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
@@ -1819,7 +1864,7 @@ function showToast(message, type = 'success') {
             saveData();
             e.target.reset();
             // GANTI alert MENJADI showToast
-            showToast(currentLang === 'id' ? '✓ Jurnal berhasil ditambahkan!' : '✓ Journal successfully added!');
+            showToast(currentLang === 'id' ? 'Jurnal berhasil ditambahkan!' : 'Journal successfully added!');
         });
 
         document.getElementById('formAddBook').addEventListener('submit', (e) => {
@@ -1840,7 +1885,7 @@ function showToast(message, type = 'success') {
             
             saveData();
             e.target.reset();
-            showToast(currentLang === 'id' ? '✓ Buku berhasil ditambahkan!' : '✓ Book successfully added!');
+            showToast(currentLang === 'id' ? 'Buku berhasil ditambahkan!' : 'Book successfully added!');
         });
 
         document.getElementById('formAddOpac').addEventListener('submit', (e) => {
@@ -1862,7 +1907,7 @@ function showToast(message, type = 'success') {
             saveData();
             e.target.reset();
             // GANTI alert MENJADI showToast
-            showToast(currentLang === 'id' ? '✓ OPAC berhasil ditambahkan!' : '✓ OPAC successfully added!');
+            showToast(currentLang === 'id' ? 'OPAC berhasil ditambahkan!' : 'OPAC successfully added!');
         });
 
 /* ============================================================
@@ -1933,7 +1978,7 @@ function showToast(message, type = 'success') {
                     <div class="data-item-header">
                         <div style="flex: 1;">
                             <div class="data-item-title">${escapeHtml(user.nama)} ${isSelf ? '(Anda)' : ''}</div>
-                            <div class="muted" style="font-size: 12px;">${user.email} • Peran: <strong>${user.role.toUpperCase()}</strong></div>
+                            <div class="muted" style="font-size: 12px;">${user.email} • Peran: <strong>${user.role === 'admin' ? 'Pustakawan (Admin)' : user.role === 'dosen' ? 'Dosen' : 'Mahasiswa'}</strong></div>
                         </div>
                         ${!isSelf ? `
                         <div class="data-item-actions">
@@ -1955,7 +2000,7 @@ function showToast(message, type = 'success') {
                 users[index].role = newRole;
                 saveUsers(users);
                 // UPDATE: Ganti alert ke showToast
-                showToast(currentLang === 'id' ? '✓ Peran pengguna berhasil diperbarui!' : '✓ User role updated successfully!');
+                showToast(currentLang === 'id' ? 'Peran pengguna berhasil diperbarui!' : 'User role updated successfully!');
             }
         }
 
@@ -2053,7 +2098,7 @@ function showToast(message, type = 'success') {
                     if (data.available) libraryData[type][index].available = parseInt(data.available);
                     if (data.copies) libraryData[type][index].copies = parseInt(data.copies);
                     saveData();
-                    showToast(currentLang === 'id' ? '✓ Perubahan disimpan!' : '✓ Changes saved!');
+                    showToast(currentLang === 'id' ? 'Perubahan disimpan!' : 'Changes saved!');
                     closeModal();
                 }
             });
@@ -2064,7 +2109,7 @@ function showToast(message, type = 'success') {
             if (confirm(currentLang === 'id' ? 'Hapus data ini?' : 'Delete this data?')) {
                 libraryData[type] = libraryData[type].filter(i => i.id !== id);
                 saveData();
-                showToast(currentLang === 'id' ? '✓ Terhapus!' : '✓ Deleted!');
+                showToast(currentLang === 'id' ? 'Terhapus!' : 'Deleted!');
                 closeModal();
             }
         }
@@ -2099,8 +2144,8 @@ function showToast(message, type = 'success') {
                 <div style="font-weight: 800; color: var(--primary-blue); font-size: 13px;">${item.kode}</div>
                 <div style="font-weight: 700;">${escapeHtml(item.judul)}</div>
                 <div class="muted" style="font-size: 11px;">
-                    👤 ${escapeHtml(item.nama)} (${escapeHtml(item.nim)})<br>
-                    📅 Pinjam: ${item.tgl_pinjam} | Kembali: ${item.tgl_kembali}
+                    ${escapeHtml(item.nama)} (${escapeHtml(item.nim)})<br>
+                    Pinjam: ${item.tgl_pinjam} | Kembali: ${item.tgl_kembali}
                 </div>
             </div>
             <button class="btn-small" onclick="hapusPeminjaman(${index})" style="color: var(--danger); margin-top:5px;">Selesai/Hapus</button>
@@ -2118,7 +2163,7 @@ function hapusPeminjaman(index) {
         data.reverse(); // Balikkan lagi ke urutan asal
         localStorage.setItem('uin_peminjaman', JSON.stringify(data));
         renderPeminjamanAdmin();
-        showToast('✓ Data peminjaman diperbarui');
+        showToast('Data peminjaman diperbarui');
     }
 }
 /* ============================================================
@@ -2134,12 +2179,12 @@ function hapusPeminjaman(index) {
             a.click();
             URL.revokeObjectURL(url);
             // Diganti ke showToast
-            showToast(currentLang === 'id' ? '✓ Data berhasil diekspor sebagai JSON.' : '✓ Data successfully exported as JSON.');
+            showToast(currentLang === 'id' ? 'Data berhasil diekspor sebagai JSON.' : 'Data successfully exported as JSON.');
         }
 
         function loadDemoData() {
             const confirmMsg = currentLang === 'id' ? 'Muat data demo? Ini akan menimpa data saat ini.' : 'Load demo data? This will overwrite current data.';
-            const alertMsg = currentLang === 'id' ? '✓ Data demo berhasil dimuat!' : '✓ Demo data successfully loaded!';
+            const alertMsg = currentLang === 'id' ? 'Data demo berhasil dimuat!' : 'Demo data successfully loaded!';
 
             if (!confirm(confirmMsg)) return;
             libraryData = structuredClone(demoData);
@@ -2150,7 +2195,7 @@ function hapusPeminjaman(index) {
 
         function clearAllData() {
             const confirmMsg = currentLang === 'id' ? 'Hapus semua data? Tindakan ini tidak dapat dibatalkan!' : 'Delete all data? This action cannot be undone!';
-            const alertMsg = currentLang === 'id' ? '✓ Semua data berhasil dihapus!' : '✓ All data successfully deleted!';
+            const alertMsg = currentLang === 'id' ? 'Semua data berhasil dihapus!' : 'All data successfully deleted!';
             
             if (!confirm(confirmMsg)) return;
             
@@ -2176,6 +2221,17 @@ function hapusPeminjaman(index) {
                 if (['peminjaman', 'bebas-pinjam', 'penerbitan'].includes(service) && !currentUser) {
                      showToast(langDict.alert_not_logged_in, 'error');
                      openModal('login');
+                } else if (service === 'bebas-pinjam' && currentUser && currentUser.role === 'dosen') {
+                    // Dosen tidak bisa mengajukan Surat Bebas Pinjam
+                    showToast(currentLang === 'id' 
+                        ? 'Layanan Surat Bebas Pinjam hanya untuk Mahasiswa. Silakan gunakan layanan Penerbitan Buku.' 
+                        : 'Loan Clearance Letter is only for students. Please use the Book Publishing service.', 'error');
+                    openModal('penerbitan');
+                } else if (service === 'penerbitan' && currentUser && currentUser.role === 'user') {
+                    // Mahasiswa tidak bisa mengajukan Penerbitan
+                    showToast(currentLang === 'id' 
+                        ? 'Layanan Penerbitan Buku hanya untuk Dosen.' 
+                        : 'Book Publishing service is only for lecturers.', 'error');
                 } else {
                     openModal(service);
                 }
@@ -2193,14 +2249,14 @@ function hapusPeminjaman(index) {
                     'news-1': {
                         title: translations[currentLang].news_1_title,
                         content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">📰</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 20 Agustus 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">20 Agustus 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan menyelenggarakan program pelatihan **Systematic Literature Review (SLR)** untuk mahasiswa baru pascasarjana angkatan 2025. Pelatihan ini bertujuan untuk membekali mahasiswa dengan kemampuan melakukan tinjauan literatur sistematis yang sangat penting dalam penelitian akademik.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">Materi yang diberikan meliputi strategi pencarian literatur, evaluasi kualitas sumber, dan teknik sintesis informasi. Para mahasiswa juga diajarkan cara menggunakan berbagai database akademik dan tools manajemen referensi.</p>
                             <p style="line-height: 1.8;">Kegiatan ini mendapat sambutan positif dari peserta karena sangat relevan dengan kebutuhan penelitian mereka di tingkat pascasarjana.</p>
                         ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">📰</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 August 20, 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 20, 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit organized a **Systematic Literature Review (SLR)** training program for new postgraduate students of the 2025 cohort. This training aims to equip students with the ability to conduct systematic literature reviews, which is crucial in academic research.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">The material provided includes literature search strategies, source quality evaluation, and information synthesis techniques. Students were also taught how to use various academic databases and reference management tools.</p>
                             <p style="line-height: 1.8;">The activity received positive feedback from participants as it is highly relevant to their research needs at the postgraduate level.</p>
@@ -2209,14 +2265,14 @@ function hapusPeminjaman(index) {
                     'news-2': {
                         title: translations[currentLang].news_2_title,
                         content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">🎉</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 19 Agustus 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan turut memeriahkan acara **Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB)** tahun 2025.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">Dalam kegiatan ini, perpustakaan memperkenalkan berbagai layanan dan fasilitas yang tersedia untuk mendukung kegiatan akademik mahasiswa baru, termasuk cara mengakses e-resources, peminjaman buku, dan layanan referensi.</p>
                             <p style="line-height: 1.8;">Mahasiswa juga diberikan panduan cara mengakses koleksi digital perpustakaan dan tips efektif dalam mencari sumber referensi untuk tugas kuliah dan penelitian.</p>
                         ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">🎉</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 August 19, 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit participated in the **Introduction to Campus Life for New Students (PKKMB)** event in 2025.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">In this activity, the library introduced various services and facilities available to support the academic activities of new students, including how to access e-resources, book borrowing, and reference services.</p>
                             <p style="line-height: 1.8;">Students were also given a guide on how to access the library's digital collection and effective tips for finding reference sources for college assignments and research.</p>
@@ -2225,14 +2281,14 @@ function hapusPeminjaman(index) {
                     'news-3': {
                         title: translations[currentLang].news_3_title,
                         content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">📚</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 19 Agustus 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">Workshop **literasi digital** diselenggarakan untuk meningkatkan kemampuan riset dan penggunaan sumber digital bagi civitas akademika UIN Syarif Hidayatullah Jakarta.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">Peserta dilatih untuk mengevaluasi kredibilitas sumber online, menggunakan database akademik dengan efektif, mengelola referensi digital, dan menghindari plagiarisme dalam karya ilmiah.</p>
                             <p style="line-height: 1.8;">Workshop ini mendapat respon positif dari peserta dan akan dilanjutkan secara berkala setiap semester untuk memastikan seluruh civitas akademika memiliki kompetensi literasi digital yang memadai.</p>
                         ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;">📚</div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">📅 August 19, 2025</p>
+                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">A **digital literacy** workshop was held to enhance the research and digital resource usage skills of the academic community of UIN Syarif Hidayatullah Jakarta.</p>
                             <p style="line-height: 1.8; margin-bottom: 15px;">Participants were trained to evaluate the credibility of online sources, effectively use academic databases, manage digital references, and avoid plagiarism in scholarly works.</p>
                             <p style="line-height: 1.8;">The workshop received positive response from participants and will be continued periodically every semester to ensure all academic community members have adequate digital literacy competence.</p>
@@ -2332,7 +2388,7 @@ function returnBook(kode) {
     loan.tgl_dikembalikan = new Date().toISOString().split('T')[0];
     localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
 
-    showToast(currentLang === 'id' ? '✓ Buku berhasil dikembalikan!' : '✓ Book returned successfully!');
+    showToast(currentLang === 'id' ? 'Buku berhasil dikembalikan!' : 'Book returned successfully!');
     openModal('user-profile'); // Refresh dashboard
 }
 
@@ -2388,7 +2444,7 @@ function printSuratBebasPinjam(nomor) {
             </div>
         </div>
         <div style="margin-top:16px;display:flex;gap:10px;">
-            <button class="btn-primary" onclick="window.print()">🖨 ${currentLang === 'id' ? 'Cetak / Print' : 'Print'}</button>
+            <button class="btn-primary" onclick="window.print()">${currentLang === 'id' ? 'Cetak / Print' : 'Print'}</button>
             <button class="btn-secondary" onclick="openModal('user-profile')">${currentLang === 'id' ? '← Kembali' : '← Back'}</button>
         </div>
     `;
@@ -2413,7 +2469,7 @@ function openAdminDashboard() {
     const title = document.getElementById('modalTitle');
     const body = document.getElementById('modalBody');
 
-    title.textContent = currentLang === 'id' ? '⚙️ Dashboard Admin' : '⚙️ Admin Dashboard';
+    title.textContent = currentLang === 'id' ? 'Dashboard Admin' : 'Admin Dashboard';
 
     // Data
     const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
@@ -2428,7 +2484,7 @@ function openAdminDashboard() {
     } else {
         peminjaman.slice().reverse().forEach(loan => {
             const isOverdue = loan.status === 'active' && new Date(loan.tgl_kembali) < new Date();
-            const statusLabel = loan.status === 'returned' ? '✓ Dikembalikan' : isOverdue ? '⚠ Terlambat' : '📖 Dipinjam';
+            const statusLabel = loan.status === 'returned' ? 'Dikembalikan' : isOverdue ? 'Terlambat' : 'Dipinjam';
             const statusClass = loan.status === 'returned' ? 'returned' : isOverdue ? 'rejected' : 'active';
             transaksiHtml += `
                 <div class="loan-card ${isOverdue ? 'overdue' : ''}">
@@ -2437,14 +2493,14 @@ function openAdminDashboard() {
                         <span class="status-badge ${statusClass}">${statusLabel}</span>
                     </div>
                     <div class="loan-card-meta">
-                        👤 ${escapeHtml(loan.userName || loan.nama || '-')} (${escapeHtml(loan.userNim || loan.nim || '-')})<br>
+                        ${escapeHtml(loan.userName || loan.nama || '-')} (${escapeHtml(loan.userNim || loan.nim || '-')})<br>
                         Kode: ${loan.kode} | Pinjam: ${loan.tgl_pinjam || '-'} | Tenggat: ${loan.tgl_kembali || '-'}
-                        ${loan.tgl_dikembalikan ? `<br>✓ Dikembalikan: ${loan.tgl_dikembalikan}` : ''}
+                        ${loan.tgl_dikembalikan ? `<br>Dikembalikan: ${loan.tgl_dikembalikan}` : ''}
                     </div>
                     ${loan.status === 'active' ? `
                         <div class="loan-card-actions">
                             <button class="btn-primary" onclick="adminReturnBook('${loan.kode}')" style="font-size:13px;padding:8px 14px;">
-                                ↩ Proses Pengembalian
+                                Proses Pengembalian
                             </button>
                         </div>
                     ` : ''}
@@ -2459,7 +2515,7 @@ function openAdminDashboard() {
         bebasHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada pengajuan.</p>`;
     } else {
         bebasPinjam.slice().reverse().forEach(b => {
-            const statusLabel = b.status === 'approved' ? '✓ Disetujui' : b.status === 'rejected' ? '✗ Ditolak' : '⏳ Menunggu';
+            const statusLabel = b.status === 'approved' ? 'Disetujui' : b.status === 'rejected' ? 'Ditolak' : 'Menunggu';
             const statusClass = b.status;
 
             // Cek apakah user masih punya pinjaman aktif
@@ -2468,18 +2524,18 @@ function openAdminDashboard() {
             bebasHtml += `
                 <div class="loan-card">
                     <div class="loan-card-header">
-                        <span class="loan-card-title">📄 ${escapeHtml(b.userName || b.nama || '-')}</span>
+                        <span class="loan-card-title">${escapeHtml(b.userName || b.nama || '-')}</span>
                         <span class="status-badge ${statusClass}">${statusLabel}</span>
                     </div>
                     <div class="loan-card-meta">
                         NIM: ${escapeHtml(b.userNim || b.nim || '-')} | No: ${b.nomor}<br>
                         Tanggal: ${new Date(b.tanggal).toLocaleDateString('id-ID')}
-                        ${userActiveLoans.length > 0 ? `<br><span style="color:var(--danger);font-weight:700;">⚠ Masih meminjam ${userActiveLoans.length} buku!</span>` : '<br><span style="color:#065f46;font-weight:700;">✓ Tidak ada pinjaman aktif</span>'}
+                        ${userActiveLoans.length > 0 ? `<br><span style="color:var(--danger);font-weight:700;">Masih meminjam ${userActiveLoans.length} buku!</span>` : '<br><span style="color:#065f46;font-weight:700;">Tidak ada pinjaman aktif</span>'}
                     </div>
                     ${b.status === 'pending' ? `
                         <div class="loan-card-actions">
-                            <button class="btn-primary" onclick="approveBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">✓ Setujui</button>
-                            <button class="btn-danger" onclick="rejectBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">✗ Tolak</button>
+                            <button class="btn-primary" onclick="approveBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">Setujui</button>
+                            <button class="btn-danger" onclick="rejectBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">Tolak</button>
                         </div>
                     ` : ''}
                 </div>
@@ -2493,21 +2549,21 @@ function openAdminDashboard() {
         penerbitanHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada pengajuan.</p>`;
     } else {
         penerbitan.slice().reverse().forEach(p => {
-            const statusLabel = p.status === 'approved' ? '✓ Diterima' : p.status === 'rejected' ? '✗ Ditolak' : '⏳ Review';
+            const statusLabel = p.status === 'approved' ? 'Diterima' : p.status === 'rejected' ? 'Ditolak' : 'Review';
             penerbitanHtml += `
                 <div class="loan-card">
                     <div class="loan-card-header">
-                        <span class="loan-card-title">📝 ${escapeHtml(p.judul || '-')}</span>
+                        <span class="loan-card-title">${escapeHtml(p.judul || '-')}</span>
                         <span class="status-badge ${p.status === 'review' ? 'pending' : p.status}">${statusLabel}</span>
                     </div>
                     <div class="loan-card-meta">
-                        👤 ${escapeHtml(p.userName || p.nama || '-')} | No: ${p.nomor}<br>
+                        ${escapeHtml(p.userName || p.nama || '-')} | No: ${p.nomor}<br>
                         Tanggal: ${new Date(p.tanggal).toLocaleDateString('id-ID')}
                     </div>
                     ${p.status === 'review' ? `
                         <div class="loan-card-actions">
-                            <button class="btn-primary" onclick="approvePenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">✓ Terima</button>
-                            <button class="btn-danger" onclick="rejectPenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">✗ Tolak</button>
+                            <button class="btn-primary" onclick="approvePenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">Terima</button>
+                            <button class="btn-danger" onclick="rejectPenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">Tolak</button>
                         </div>
                     ` : ''}
                 </div>
@@ -2543,7 +2599,7 @@ function openAdminDashboard() {
                     <div class="stat-box-label">Skor Kepuasan</div>
                 </div>
             </div>
-            <h4 style="margin-bottom:12px;">📊 Distribusi Rating</h4>
+            <h4 style="margin-bottom:12px;">Distribusi Rating</h4>
         `;
         for (let i = 5; i >= 1; i--) {
             const count = ratingDist[i - 1];
@@ -2560,7 +2616,7 @@ function openAdminDashboard() {
         // Daftar saran/masukan
         const suggestions = surveyData.filter(s => s.saran && s.saran.trim() !== '');
         if (suggestions.length > 0) {
-            surveyHtml += `<h4 style="margin-top:24px;margin-bottom:12px;">💬 Saran & Masukan (${suggestions.length})</h4>`;
+            surveyHtml += `<h4 style="margin-top:24px;margin-bottom:12px;">Saran & Masukan (${suggestions.length})</h4>`;
             suggestions.slice().reverse().forEach(s => {
                 surveyHtml += `
                     <div class="loan-card">
@@ -2582,16 +2638,16 @@ function openAdminDashboard() {
     body.innerHTML = `
         <div class="admin-tabs">
             <button class="admin-tab-btn active" onclick="switchAdminTab('transaksi', this)">
-                📚 Transaksi (${activeLoansCount})
+                Transaksi (${activeLoansCount})
             </button>
             <button class="admin-tab-btn" onclick="switchAdminTab('bebas', this)">
-                📄 Bebas Pinjam ${pendingBebas > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingBebas}</span>` : ''}
+                Bebas Pinjam ${pendingBebas > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingBebas}</span>` : ''}
             </button>
             <button class="admin-tab-btn" onclick="switchAdminTab('penerbitan', this)">
-                📝 Penerbitan ${pendingPenerbitan > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingPenerbitan}</span>` : ''}
+                Penerbitan ${pendingPenerbitan > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingPenerbitan}</span>` : ''}
             </button>
             <button class="admin-tab-btn" onclick="switchAdminTab('survey', this)">
-                📊 Survey (${surveyData.length})
+                Survey (${surveyData.length})
             </button>
         </div>
         <div id="adminTab-transaksi" class="admin-tab-content active">
@@ -2629,14 +2685,14 @@ function approveBebasPinjam(nomor) {
     const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
     const activeLoans = peminjaman.filter(p => p.userEmail === item.userEmail && p.status === 'active');
     if (activeLoans.length > 0) {
-        showToast(`❌ Tidak bisa menyetujui! ${item.userName} masih meminjam ${activeLoans.length} buku.`, 'error');
+        showToast(`Tidak bisa menyetujui! ${item.userName} masih meminjam ${activeLoans.length} buku.`, 'error');
         return;
     }
 
     item.status = 'approved';
     item.tgl_disetujui = new Date().toISOString();
     localStorage.setItem('uin_bebas_pinjam', JSON.stringify(data));
-    showToast('✓ Pengajuan bebas pinjam disetujui!');
+    showToast('Pengajuan bebas pinjam disetujui!');
     openAdminDashboard();
 }
 
@@ -2662,7 +2718,7 @@ function approvePenerbitan(nomor) {
 
     item.status = 'approved';
     localStorage.setItem('uin_penerbitan', JSON.stringify(data));
-    showToast('✓ Pengajuan penerbitan diterima!');
+    showToast('Pengajuan penerbitan diterima!');
     openAdminDashboard();
 }
 
@@ -2689,23 +2745,30 @@ document.addEventListener('click', (e) => {
     }
 });
 
-// FAQ accordion functionality
-document.addEventListener('DOMContentLoaded', () => {
+// FAQ accordion functionality (single init with guard to prevent double-binding)
+function initFAQ() {
     document.querySelectorAll('.faq-item').forEach(function(item) {
+        if (item.dataset.faqInitialized) return; // Prevent double-binding
+        item.dataset.faqInitialized = 'true';
         item.addEventListener('click', function() {
             const expanded = item.getAttribute('aria-expanded') === 'true';
+            // Close all other FAQ items first
+            document.querySelectorAll('.faq-item').forEach(function(other) {
+                if (other !== item) {
+                    other.setAttribute('aria-expanded', 'false');
+                    const otherAnswer = other.querySelector('.faq-answer');
+                    if (otherAnswer) otherAnswer.hidden = true;
+                }
+            });
             item.setAttribute('aria-expanded', !expanded);
             const answer = item.querySelector('.faq-answer');
             if (answer) answer.hidden = expanded;
         });
     });
-});
-// Fallback manual execution for FAQ if DOMContentLoaded already fired
-document.querySelectorAll('.faq-item').forEach(function(item) {
-    item.addEventListener('click', function() {
-        const expanded = item.getAttribute('aria-expanded') === 'true';
-        item.setAttribute('aria-expanded', !expanded);
-        const answer = item.querySelector('.faq-answer');
-        if (answer) answer.hidden = expanded;
-    });
-});
+}
+// Run on DOMContentLoaded or immediately if already loaded
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFAQ);
+} else {
+    initFAQ();
+}
