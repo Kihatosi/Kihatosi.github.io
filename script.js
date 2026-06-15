@@ -37,14 +37,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 
 
                 // Hero
-                hero_badge: '📚 Perpustakaan Utama UIN Jakarta',
                 hero_title: 'Selamat Datang di Perpustakaan UIN Syarif Hidayatullah Jakarta',
                 hero_subtitle: 'Gerbang Ilmu Pengetahuan dan Inovasi untuk Masa Depan',
-                hero_cta_explore: 'Jelajahi Koleksi',
-                hero_cta_guide: 'Panduan Perpustakaan',
-                hero_stat_collection: 'Koleksi',
-                hero_stat_members: 'Anggota Aktif',
-                hero_stat_journals: 'Jurnal Digital',
 
                 // Search Tabs & Form
                 tab_journal: 'e-Journal',
@@ -195,14 +189,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_admin: 'Librarian',
 
                 // Hero
-                hero_badge: '📚 UIN Jakarta Main Library',
                 hero_title: 'Welcome to UIN Syarif Hidayatullah Jakarta Library',
                 hero_subtitle: 'The Gateway of Knowledge and Innovation for the Future',
-                hero_cta_explore: 'Explore Collection',
-                hero_cta_guide: 'Library Guide',
-                hero_stat_collection: 'Collections',
-                hero_stat_members: 'Active Members',
-                hero_stat_journals: 'Digital Journals',
 
                 // Search Tabs & Form
                 tab_journal: 'e-Journal',
@@ -3069,78 +3057,7 @@ function initFAQ() {
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
         initFAQ();
-        initHeroCounters();
     });
 } else {
     initFAQ();
-    initHeroCounters();
-}
-
-/* ============================================================
-   HERO STAT COUNTER ANIMATION
-   ============================================================ */
-function initHeroCounters() {
-    const counters = document.querySelectorAll('.hero-stat-number[data-count]');
-    if (!counters.length) return;
-
-    let animated = false;
-
-    function animateCounters() {
-        if (animated) return;
-        animated = true;
-
-        counters.forEach(counter => {
-            const target = parseInt(counter.getAttribute('data-count'), 10);
-            const duration = 2000; // 2 seconds
-            const startTime = performance.now();
-
-            function formatNumber(num) {
-                if (num >= 1000) {
-                    return (num / 1000).toFixed(num >= 10000 ? 0 : 1).replace(/\.0$/, '') + 'K';
-                }
-                return num.toString();
-            }
-
-            function updateCounter(currentTime) {
-                const elapsed = currentTime - startTime;
-                const progress = Math.min(elapsed / duration, 1);
-                // Ease-out cubic
-                const easedProgress = 1 - Math.pow(1 - progress, 3);
-                const current = Math.floor(easedProgress * target);
-
-                counter.textContent = formatNumber(current);
-
-                if (progress < 1) {
-                    requestAnimationFrame(updateCounter);
-                } else {
-                    counter.textContent = formatNumber(target);
-                }
-            }
-
-            requestAnimationFrame(updateCounter);
-        });
-    }
-
-    // Use IntersectionObserver to trigger animation when hero is in view
-    if ('IntersectionObserver' in window) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateCounters();
-                    observer.disconnect();
-                }
-            });
-        }, { threshold: 0.3 });
-
-        const heroStats = document.querySelector('.hero-stats');
-        if (heroStats) {
-            observer.observe(heroStats);
-        } else {
-            // If no hero stats element, just run immediately
-            animateCounters();
-        }
-    } else {
-        // Fallback for browsers without IntersectionObserver
-        animateCounters();
-    }
 }
