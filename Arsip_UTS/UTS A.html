@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIMPEL FST - Sistem Peminjaman Laboratorium</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --yellow: #F5A800;
+            --yellow-light: #FFF3CC;
+            --yellow-dark: #D48F00;
+            --yellow-hover: #FFB800;
+            --white: #FFFFFF;
+            --gray-50: #FAFAFA;
+            --gray-100: #F5F5F5;
+            --gray-200: #E8E8E8;
+            --gray-400: #A0A0A0;
+            --gray-600: #666666;
+            --gray-800: #333333;
+            --gray-900: #111111;
+            --green: #2E7D32;
+            --green-light: #E8F5E9;
+            --red: #C62828;
+            --red-light: #FFEBEE;
+            --blue: #1565C0;
+            --blue-light: #E3F2FD;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
+            --shadow-md: 0 4px 16px rgba(0,0,0,0.10);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.13);
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-800);
+            min-height: 100vh;
+        }
+
+        h1, h2, h3, h4, .brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        .hidden { display: none !important; }
+
+        /* ========== LOGIN VIEW ========== */
+        #login-view {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFFDE7 50%, #FFF3CC 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #login-view::before {
+            content: '';
+            position: absolute;
+            top: -120px; right: -120px;
+            width: 400px; height: 400px;
+            border-radius: 50%;
+            background: rgba(245, 168, 0, 0.15);
+        }
+        #login-view::after {
+            content: '';
+            position: absolute;
+            bottom: -80px; left: -80px;
+            width: 280px; height: 280px;
+            border-radius: 50%;
+            background: rgba(245, 168, 0, 0.10);
+        }
+
+        .login-card {
+            background: var(--white);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(245, 168, 0, 0.18), 0 4px 16px rgba(0,0,0,0.08);
+            width: 100%;
+            max-width: 440px;
+            overflow: hidden;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.5s ease;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .login-header {
+            background: var(--yellow);
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-logo-icon {
+            width: 52px; height: 52px;
+            background: rgba(255,255,255,0.25);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+        }
+
+        .login-header h1 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: white;
+            letter-spacing: -0.5px;
+        }
+
+        .login-header p {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .login-body { padding: 2rem; }
+
+        .form-group { margin-bottom: 1.2rem; }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--gray-700, #555);
+            margin-bottom: 0.4rem;
+        }
+
+        .input-wrap { position: relative; }
+
+        .input-icon {
+            position: absolute;
+            left: 12px; top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray-400);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 10px 12px 10px 36px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-family: 'DM Sans', sans-serif;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            background: var(--gray-50);
+            outline: none;
+        }
+        .form-input:focus {
+            border-color: var(--yellow);
+            box-shadow: 0 0 0 3px rgba(245, 168, 0, 0.15);
+            background: white;
+        }
+
+        select.form-input { padding-left: 36px; appearance: none; cursor: pointer; }
+
+        .btn-login {
+            width: 100%;
+            padding: 12px;
+            background: var(--yellow);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+            box-shadow: 0 4px 14px rgba(245, 168, 0, 0.4);
+            margin-top: 1rem;
+        }
+        .btn-login:hover { background: var(--yellow-dark); box-shadow: 0 6px 20px rgba(245, 168, 0, 0.5); transform: translateY(-1px); }
+        .btn-login:active { transform: translateY(0); }
+
+        .login-footer {
+            text-align: center;
+            padding: 1rem 2rem;
+            background: var(--gray-50);
+            border-top: 1px solid var(--gray-200);
+            font-size: 0.8rem;
+            color: var(--gray-400);
+        }
+
+        /* ========== NAVBAR ========== */
+        #dashboard-view { min-height: 100vh; display: flex; flex-direction: column; }
+
+        .navbar {
+            background: var(--white);
+            border-bottom: 3px solid var(--yellow);
+            position: sticky; top: 0; z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .navbar-inner {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 38px; height: 38px;
+            background: var(--yellow);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem; color: white;
+        }
+
+        .brand-text {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--gray-900);
+            letter-spacing: -0.5px;
+        }
+
+        .brand-text span { color: var(--yellow); }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .notif-btn {
+            position: relative;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--gray-600);
+            padding: 6px;
+            border-radius: 8px;
+            transition: background 0.15s, color 0.15s;
+        }
+        .notif-btn:hover { background: var(--yellow-light); color: var(--yellow-dark); }
+
+        .notif-dot {
+            position: absolute;
+            top: 4px; right: 4px;
+            width: 8px; height: 8px;
+            background: var(--red);
+            border-radius: 50%;
+            border: 2px solid white;
+        }
+
+        .user-chip {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 10px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 50px;
+        }
+
+        .user-avatar {
+            width: 30px; height: 30px;
+            background: var(--yellow);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .user-name { font-size: 0.85rem; font-weight: 600; color: var(--gray-800); }
+
+        .btn-logout {
+            background: none;
+            border: 1.5px solid var(--red-light, #FFCDD2);
+            color: var(--red);
+            padding: 5px 14px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+            display: flex; align-items: center; gap: 5px;
+        }
+        .btn-logout:hover { background: var(--red-light); }
+
+        /* ========== MAIN CONTENT ========== */
+        main {
+            flex: 1;
+            max-width: 1280px;
+            margin: 0 auto;
+            width: 100%;
+            padding: 2rem 1.5rem;
+        }
+
+        /* Page header */
+        .page-header {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .page-title { font-size: 1.6rem; font-weight: 800; color: var(--gray-900); }
+        .page-subtitle { color: var(--gray-400); font-size: 0.9rem; margin-top: 3px; }
+
+        .btn-primary {
+            background: var(--yellow);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-size: 0.9rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            display: flex; align-items: center; gap: 7px;
+            transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+            box-shadow: 0 3px 10px rgba(245,168,0,0.35);
+        }
+        .btn-primary:hover { background: var(--yellow-dark); transform: translateY(-1px); box-shadow: 0 5px 15px rgba(245,168,0,0.45); }
+        .btn-primary:active { transform: translateY(0); }
+
+        /* Stat Cards */
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.2rem; margin-bottom: 1.5rem; }
+
+        .stat-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.3rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+            border: 1.5px solid var(--gray-200);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+        .stat-icon {
+            width: 48px; height: 48px;
+            border-radius: 12px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .stat-icon.yellow { background: var(--yellow-light); color: var(--yellow-dark); }
+        .stat-icon.green { background: var(--green-light); color: var(--green); }
+        .stat-icon.red { background: var(--red-light); color: var(--red); }
+        .stat-icon.blue { background: var(--blue-light); color: var(--blue); }
+
+        .stat-label { font-size: 0.8rem; font-weight: 600; color: var(--gray-400); text-transform: uppercase; letter-spacing: 0.3px; }
+        .stat-value { font-size: 1.8rem; font-weight: 800; color: var(--gray-900); line-height: 1; margin-top: 4px; font-family: 'Plus Jakarta Sans', sans-serif; }
+
+        /* Card Table */
+        .card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            border: 1.5px solid var(--gray-200);
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            padding: 1.1rem 1.5rem;
+            border-bottom: 1.5px solid var(--gray-200);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .card-title { font-size: 1rem; font-weight: 700; color: var(--gray-900); }
+
+        .search-wrap { position: relative; }
+        .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--gray-400); font-size: 0.85rem; }
+        .search-input {
+            padding: 7px 12px 7px 32px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+            width: 220px;
+        }
+        .search-input:focus { border-color: var(--yellow); }
+
+        /* Table */
+        .table-wrap { overflow-x: auto; }
+
+        table { width: 100%; border-collapse: collapse; }
+
+        thead tr { background: var(--gray-50); }
+        thead th {
+            padding: 0.75rem 1.5rem;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--gray-400);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            border-bottom: 1.5px solid var(--gray-200);
+            white-space: nowrap;
+        }
+
+        tbody tr { border-bottom: 1px solid var(--gray-100); transition: background 0.15s; }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: var(--yellow-light); }
+        tbody tr.fade-out { opacity: 0; transform: translateX(20px); transition: opacity 0.3s, transform 0.3s; }
+
+        td { padding: 1rem 1.5rem; font-size: 0.88rem; vertical-align: middle; }
+
+        .td-id { font-weight: 700; color: var(--yellow-dark); font-family: 'Plus Jakarta Sans', sans-serif; }
+        .td-lab { font-weight: 600; color: var(--gray-800); }
+        .td-date { font-weight: 600; color: var(--gray-900); }
+        .td-time { font-size: 0.78rem; color: var(--gray-400); margin-top: 2px; }
+        .td-peminjam-name { font-weight: 700; color: var(--gray-900); }
+        .td-peminjam-id { font-size: 0.78rem; color: var(--gray-400); margin-top: 2px; }
+
+        /* Badges */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 50px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+        .badge.menunggu { background: #FFF3E0; color: #E65100; }
+        .badge.disetujui { background: var(--green-light); color: var(--green); }
+        .badge.ditolak { background: var(--red-light); color: var(--red); }
+        .badge.mahasiswa { background: var(--blue-light); color: var(--blue); }
+        .badge.dosen { background: #F3E5F5; color: #6A1B9A; }
+
+        /* Action Buttons */
+        .action-btns { display: flex; gap: 6px; justify-content: center; }
+        .btn-approve, .btn-reject {
+            width: 34px; height: 34px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .btn-approve { background: var(--green-light); color: var(--green); }
+        .btn-approve:hover { background: var(--green); color: white; transform: scale(1.1); }
+        .btn-reject { background: var(--red-light); color: var(--red); }
+        .btn-reject:hover { background: var(--red); color: white; transform: scale(1.1); }
+
+        /* Admin border-left stats */
+        .stat-card.border-yellow { border-left: 4px solid var(--yellow); }
+        .stat-card.border-green { border-left: 4px solid var(--green); }
+        .stat-card.border-blue { border-left: 4px solid var(--blue); }
+        .stat-card.border-red { border-left: 4px solid var(--red); }
+
+        /* ========== MODAL ========== */
+        .modal-overlay {
+            position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(4px);
+            display: flex; align-items: center; justify-content: center;
+            padding: 1rem;
+            animation: fadeIn 0.2s ease;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        .modal-box {
+            background: white;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 520px;
+            box-shadow: 0 24px 64px rgba(0,0,0,0.2);
+            overflow: hidden;
+            animation: slideUp 0.25s ease;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: var(--yellow);
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .modal-title { font-size: 1rem; font-weight: 700; color: white; font-family: 'Plus Jakarta Sans', sans-serif; }
+        .modal-close {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 28px; height: 28px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex; align-items: center; justify-content: center;
+            transition: background 0.15s;
+        }
+        .modal-close:hover { background: rgba(255,255,255,0.35); }
+
+        .modal-body { padding: 1.5rem; }
+
+        .modal-form-group { margin-bottom: 1.1rem; }
+        .modal-label { display: block; font-size: 0.85rem; font-weight: 600; color: var(--gray-600); margin-bottom: 0.35rem; }
+        .modal-input, .modal-select, .modal-textarea {
+            width: 100%;
+            padding: 9px 12px;
+            border: 1.5px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-family: 'DM Sans', sans-serif;
+            outline: none;
+            transition: border-color 0.2s;
+            background: var(--gray-50);
+        }
+        .modal-input:focus, .modal-select:focus, .modal-textarea:focus {
+            border-color: var(--yellow);
+            background: white;
+            box-shadow: 0 0 0 3px rgba(245,168,0,0.12);
+        }
+        .modal-textarea { resize: vertical; min-height: 90px; }
+
+        .modal-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+        .time-row { display: flex; align-items: center; gap: 6px; }
+
+        .modal-info {
+            background: var(--yellow-light);
+            border-left: 3px solid var(--yellow);
+            padding: 0.75rem 1rem;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.82rem;
+            color: #8B6914;
+            display: flex;
+            align-items: flex-start;
+            gap: 7px;
+        }
+
+        .modal-footer {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid var(--gray-200);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+        }
+
+        .btn-cancel {
+            padding: 8px 18px;
+            border: 1.5px solid var(--gray-200);
+            background: none;
+            color: var(--gray-600);
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+        .btn-cancel:hover { background: var(--gray-100); }
+
+        .btn-submit {
+            padding: 8px 20px;
+            background: var(--yellow);
+            border: none;
+            color: white;
+            border-radius: 8px;
+            font-size: 0.88rem;
+            font-weight: 700;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover { background: var(--yellow-dark); }
+
+        /* Modal detail */
+        .detail-row { display: flex; gap: 0.5rem; margin-bottom: 0.75rem; }
+        .detail-label { font-size: 0.82rem; color: var(--gray-400); font-weight: 600; min-width: 140px; }
+        .detail-value { font-size: 0.88rem; color: var(--gray-800); font-weight: 600; }
+
+        /* ========== TOAST ========== */
+        #toast {
+            position: fixed;
+            bottom: 1.5rem; right: 1.5rem;
+            z-index: 999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1), opacity 0.3s;
+            pointer-events: none;
+        }
+        #toast.show { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+        .toast-inner {
+            background: var(--gray-900);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 12px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 500;
+            max-width: 320px;
+        }
+
+        /* ========== LAB STATUS ========== */
+        .lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+
+        .lab-card {
+            background: white;
+            border-radius: var(--radius);
+            padding: 1.2rem;
+            border: 1.5px solid var(--gray-200);
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .lab-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+
+        .lab-status-dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+        }
+        .lab-status-dot.aktif { background: var(--green); box-shadow: 0 0 0 3px var(--green-light); }
+        .lab-status-dot.kosong { background: var(--gray-400); }
+
+        .lab-name { font-weight: 700; font-size: 0.9rem; color: var(--gray-900); margin-top: 0.75rem; }
+        .lab-cap { font-size: 0.78rem; color: var(--gray-400); margin-top: 3px; }
+        .lab-status-text { font-size: 0.78rem; font-weight: 600; margin-top: 8px; }
+        .lab-status-text.aktif { color: var(--green); }
+        .lab-status-text.kosong { color: var(--gray-400); }
+
+        /* Empty state */
+        .empty-state { text-align: center; padding: 3rem 1rem; color: var(--gray-400); }
+        .empty-state i { font-size: 2.5rem; margin-bottom: 0.75rem; color: var(--gray-200); display: block; }
+        .empty-state p { font-size: 0.9rem; }
+
+        /* Tabs */
+        .tab-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--gray-200); padding-bottom: 0; }
+        .tab-btn {
+            padding: 8px 18px;
+            background: none;
+            border: none;
+            font-size: 0.88rem;
+            font-weight: 600;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--gray-400);
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -2px;
+            transition: color 0.2s, border-color 0.2s;
+        }
+        .tab-btn.active { color: var(--yellow-dark); border-bottom-color: var(--yellow); }
+        .tab-btn:hover { color: var(--gray-800); }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+
+        /* Filter bar */
+        .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1rem; }
+        .filter-btn {
+            padding: 5px 14px;
+            border-radius: 50px;
+            border: 1.5px solid var(--gray-200);
+            background: white;
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.15s;
+            color: var(--gray-600);
+        }
+        .filter-btn.active { background: var(--yellow); border-color: var(--yellow); color: white; }
+        .filter-btn:hover:not(.active) { border-color: var(--yellow); color: var(--yellow-dark); }
+
+        /* Riwayat full */
+        .riwayat-item {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--gray-100);
+            align-items: flex-start;
+            transition: background 0.15s;
+        }
+        .riwayat-item:last-child { border-bottom: none; }
+        .riwayat-item:hover { background: var(--yellow-light); }
+
+        .riwayat-icon {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        @media (max-width: 640px) {
+            .modal-grid { grid-template-columns: 1fr; }
+            .stat-grid { grid-template-columns: 1fr 1fr; }
+            .user-name { display: none; }
+            .page-header { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ================= LOGIN ================= -->
+<div id="login-view">
+    <div class="login-card">
+        <div class="login-header">
+            <div class="login-logo">
+                <div class="login-logo-icon"><i class="fa-solid fa-flask"></i></div>
+                <h1>SIMPEL FST</h1>
+            </div>
+            <p>Sistem Peminjaman Laboratorium Terpadu</p>
+            <p style="font-size:0.78rem;color:rgba(255,255,255,0.7);margin-top:4px;">Fakultas Sains dan Teknologi — UIN Jakarta</p>
+        </div>
+        <div class="login-body">
+            <div class="form-group">
+                <label class="form-label">Nomor Induk (NIM / NIP)</label>
+                <div class="input-wrap">
+                    <i class="fa-regular fa-id-card input-icon"></i>
+                    <input type="text" id="username" class="form-input" placeholder="Masukkan NIM / NIP" value="12409011050120">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Kata Sandi</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-lock input-icon"></i>
+                    <input type="password" id="password" class="form-input" placeholder="••••••••" value="password123">
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Masuk Sebagai</label>
+                <div class="input-wrap">
+                    <i class="fa-solid fa-user-tag input-icon"></i>
+                    <select id="role-select" class="form-input">
+                        <option value="mahasiswa">🎓 Mahasiswa</option>
+                        <option value="dosen">👨‍🏫 Dosen</option>
+                        <option value="admin">🔧 Admin Laboratorium</option>
+                    </select>
+                </div>
+            </div>
+            <button class="btn-login" onclick="handleLogin()">
+                Masuk Sekarang <i class="fa-solid fa-arrow-right-to-bracket"></i>
+            </button>
+        </div>
+        <div class="login-footer">
+            &copy; 2026 FST UIN Jakarta — SIMPEL v2.0
+        </div>
+    </div>
+</div>
+
+<!-- ================= DASHBOARD ================= -->
+<div id="dashboard-view" class="hidden">
+
+    <nav class="navbar">
+        <div class="navbar-inner">
+            <div class="navbar-brand">
+                <div class="brand-icon"><i class="fa-solid fa-flask"></i></div>
+                <span class="brand-text">SIMPEL <span>FST</span></span>
+            </div>
+            <div class="navbar-right">
+                <button class="notif-btn" onclick="toggleNotifPanel()">
+                    <i class="fa-solid fa-bell"></i>
+                    <span class="notif-dot" id="notif-dot"></span>
+                </button>
+                <div class="user-chip">
+                    <div class="user-avatar" id="user-avatar">M</div>
+                    <span class="user-name" id="user-name-display">Pengguna</span>
+                </div>
+                <button class="btn-logout" onclick="handleLogout()">
+                    <i class="fa-solid fa-right-from-bracket"></i> Keluar
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- ====== MAHASISWA / DOSEN DASHBOARD ====== -->
+        <div id="user-dashboard" class="hidden">
+
+            <div class="page-header">
+                <div>
+                    <div class="page-title" id="welcome-title">Dashboard Mahasiswa</div>
+                    <div class="page-subtitle">Kelola reservasi laboratorium FST dengan mudah.</div>
+                </div>
+                <button class="btn-primary" onclick="openModal('modal-reservasi')">
+                    <i class="fa-solid fa-plus"></i> Buat Peminjaman Baru
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="stat-grid">
+                <div class="stat-card border-yellow">
+                    <div class="stat-icon yellow"><i class="fa-solid fa-clock-rotate-left"></i></div>
+                    <div>
+                        <div class="stat-label">Menunggu</div>
+                        <div class="stat-value" id="user-pending-count">1</div>
+                    </div>
+                </div>
+                <div class="stat-card border-green">
+                    <div class="stat-icon green"><i class="fa-solid fa-calendar-check"></i></div>
+                    <div>
+                        <div class="stat-label">Disetujui</div>
+                        <div class="stat-value" id="user-approved-count">2</div>
+                    </div>
+                </div>
+                <div class="stat-card border-red">
+                    <div class="stat-icon red"><i class="fa-solid fa-xmark"></i></div>
+                    <div>
+                        <div class="stat-label">Ditolak</div>
+                        <div class="stat-value" id="user-rejected-count">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filter + Table -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Riwayat & Status Peminjaman</div>
+                    <div class="filter-bar" style="margin:0">
+                        <button class="filter-btn active" onclick="filterUserTable('semua', this)">Semua</button>
+                        <button class="filter-btn" onclick="filterUserTable('Menunggu', this)">Menunggu</button>
+                        <button class="filter-btn" onclick="filterUserTable('Disetujui', this)">Disetujui</button>
+                        <button class="filter-btn" onclick="filterUserTable('Ditolak', this)">Ditolak</button>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Laboratorium</th>
+                                <th>Waktu</th>
+                                <th>Keperluan</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-table-body"></tbody>
+                    </table>
+                    <div id="user-empty" class="empty-state hidden">
+                        <i class="fa-solid fa-inbox"></i>
+                        <p>Tidak ada data untuk filter ini.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ====== ADMIN DASHBOARD ====== -->
+        <div id="admin-dashboard" class="hidden">
+            <div class="page-header">
+                <div>
+                    <div class="page-title">Dashboard Admin Laboratorium</div>
+                    <div class="page-subtitle">Pantau dan kelola semua permintaan peminjaman ruangan.</div>
+                </div>
+            </div>
+
+            <!-- Tab Bar -->
+            <div class="tab-bar">
+                <button class="tab-btn active" onclick="switchTab('tab-permintaan', this)">Permintaan Masuk</button>
+                <button class="tab-btn" onclick="switchTab('tab-laboratorium', this)">Status Laboratorium</button>
+                <button class="tab-btn" onclick="switchTab('tab-riwayat', this)">Riwayat Lengkap</button>
+            </div>
+
+            <!-- Admin Stats -->
+            <div class="stat-grid">
+                <div class="stat-card border-yellow">
+                    <div class="stat-icon yellow"><i class="fa-solid fa-file-circle-exclamation"></i></div>
+                    <div>
+                        <div class="stat-label">Menunggu Verifikasi</div>
+                        <div class="stat-value" id="pending-count">3</div>
+                    </div>
+                </div>
+                <div class="stat-card border-green">
+                    <div class="stat-icon green"><i class="fa-solid fa-check-double"></i></div>
+                    <div>
+                        <div class="stat-label">Total Disetujui</div>
+                        <div class="stat-value" id="total-approved">24</div>
+                    </div>
+                </div>
+                <div class="stat-card border-blue">
+                    <div class="stat-icon blue"><i class="fa-solid fa-door-open"></i></div>
+                    <div>
+                        <div class="stat-label">Lab Aktif / Kosong</div>
+                        <div class="stat-value">4 / 6</div>
+                    </div>
+                </div>
+                <div class="stat-card border-red">
+                    <div class="stat-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div>
+                        <div class="stat-label">Laporan Kendala</div>
+                        <div class="stat-value">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Permintaan -->
+            <div id="tab-permintaan" class="tab-content active">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Daftar Permintaan Masuk</div>
+                        <div class="search-wrap">
+                            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                            <input type="text" class="search-input" id="admin-search" placeholder="Cari peminjam..." oninput="searchAdmin()">
+                        </div>
+                    </div>
+                    <div class="table-wrap">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Peminjam</th>
+                                    <th>Laboratorium</th>
+                                    <th>Waktu Peminjaman</th>
+                                    <th>Keperluan</th>
+                                    <th class="text-center">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-pending-body"></tbody>
+                        </table>
+                        <div id="admin-empty" class="empty-state hidden">
+                            <i class="fa-solid fa-circle-check" style="color:var(--green);"></i>
+                            <p>Tidak ada permintaan yang menunggu verifikasi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tab: Laboratorium -->
+            <div id="tab-laboratorium" class="tab-content">
+                <div class="lab-grid" id="lab-grid"></div>
+            </div>
+
+            <!-- Tab: Riwayat -->
+            <div id="tab-riwayat" class="tab-content">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Semua Riwayat Peminjaman</div>
+                        <div class="filter-bar" style="margin:0">
+                            <button class="filter-btn active" onclick="filterAdminHistory('semua', this)">Semua</button>
+                            <button class="filter-btn" onclick="filterAdminHistory('Disetujui', this)">Disetujui</button>
+                            <button class="filter-btn" onclick="filterAdminHistory('Ditolak', this)">Ditolak</button>
+                        </div>
+                    </div>
+                    <div id="admin-history-list"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+</div>
+
+<!-- ================= MODAL RESERVASI ================= -->
+<div id="modal-reservasi" class="modal-overlay hidden">
+    <div class="modal-box">
+        <div class="modal-header">
+            <span class="modal-title"><i class="fa-solid fa-calendar-plus" style="margin-right:7px;"></i>Formulir Reservasi Laboratorium</span>
+            <button class="modal-close" onclick="closeModal('modal-reservasi')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-form-group">
+                <label class="modal-label">Pilih Laboratorium</label>
+                <select class="modal-select" id="res-lab">
+                    <option value="">-- Pilih Laboratorium --</option>
+                    <option>Lab Komputer Dasar (Kapasitas 40)</option>
+                    <option>Lab Jaringan & Hardware (Kapasitas 30)</option>
+                    <option>Lab Rekayasa Perangkat Lunak (Kapasitas 30)</option>
+                    <option>Lab Sistem Cerdas & AI (Kapasitas 20)</option>
+                    <option>Lab Multimedia (Kapasitas 25)</option>
+                    <option>Lab Biologi Molekuler (Kapasitas 20)</option>
+                </select>
+            </div>
+            <div class="modal-grid">
+                <div class="modal-form-group">
+                    <label class="modal-label">Tanggal Pelaksanaan</label>
+                    <input type="date" class="modal-input" id="res-date">
+                </div>
+                <div class="modal-form-group">
+                    <label class="modal-label">Estimasi Peserta</label>
+                    <input type="number" class="modal-input" id="res-peserta" placeholder="Jumlah orang" min="1">
+                </div>
+            </div>
+            <div class="modal-form-group">
+                <label class="modal-label">Waktu Pelaksanaan</label>
+                <div class="time-row">
+                    <input type="time" class="modal-input" id="res-time-start" style="flex:1">
+                    <span style="color:var(--gray-400);font-weight:600">—</span>
+                    <input type="time" class="modal-input" id="res-time-end" style="flex:1">
+                </div>
+            </div>
+            <div class="modal-form-group">
+                <label class="modal-label">Keperluan / Deskripsi Kegiatan</label>
+                <textarea class="modal-textarea" id="res-keperluan" placeholder="Jelaskan tujuan peminjaman secara singkat..."></textarea>
+            </div>
+            <div class="modal-info">
+                <i class="fa-solid fa-circle-info" style="margin-top:2px;flex-shrink:0;"></i>
+                <span>Notifikasi persetujuan akan dikirim melalui sistem paling lambat 1x24 jam setelah pengajuan.</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('modal-reservasi')">Batal</button>
+            <button class="btn-submit" onclick="submitReservasi()"><i class="fa-solid fa-paper-plane"></i> Kirim Permintaan</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL DETAIL ================= -->
+<div id="modal-detail" class="modal-overlay hidden">
+    <div class="modal-box" style="max-width:440px">
+        <div class="modal-header">
+            <span class="modal-title"><i class="fa-solid fa-circle-info" style="margin-right:7px;"></i>Detail Peminjaman</span>
+            <button class="modal-close" onclick="closeModal('modal-detail')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body" id="detail-body"></div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('modal-detail')">Tutup</button>
+        </div>
+    </div>
+</div>
+
+<!-- ================= MODAL TOLAK ================= -->
+<div id="modal-tolak" class="modal-overlay hidden">
+    <div class="modal-box" style="max-width:400px">
+        <div class="modal-header" style="background:#C62828;">
+            <span class="modal-title"><i class="fa-solid fa-triangle-exclamation" style="margin-right:7px;"></i>Konfirmasi Penolakan</span>
+            <button class="modal-close" onclick="closeModal('modal-tolak')"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="modal-body">
+            <p style="font-size:0.9rem;color:var(--gray-600);margin-bottom:1rem;">Berikan alasan penolakan peminjaman ini:</p>
+            <textarea class="modal-textarea" id="tolak-alasan" placeholder="Contoh: Lab sedang dalam perbaikan / Slot waktu sudah terisi..."></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" onclick="closeModal('modal-tolak')">Batal</button>
+            <button class="btn-submit" style="background:#C62828;" onclick="confirmReject()"><i class="fa-solid fa-xmark"></i> Konfirmasi Tolak</button>
+        </div>
+    </div>
+</div>
+
+<!-- Toast -->
+<div id="toast">
+    <div class="toast-inner">
+        <i id="toast-icon" class="fa-solid fa-circle-check" style="color:var(--yellow);font-size:1.1rem;"></i>
+        <span id="toast-message">Notifikasi</span>
+    </div>
+</div>
+
+<script>
+// ======== STATE ========
+let currentRole = '';
+let rejectTargetId = null;
+
+let userReservations = [
+    { id: '#RES-001', lab: 'Lab Komputer Dasar', date: '20 Apr 2026', time: '08:00 - 10:00 WIB', keperluan: 'Praktikum Pemrograman Dasar (Python)', status: 'Disetujui' },
+    { id: '#RES-002', lab: 'Lab Rekayasa Perangkat Lunak', date: '01 Mei 2026', time: '08:00 - 10:00 WIB', keperluan: 'Mengerjakan Tugas DAA (C++)', status: 'Disetujui' },
+    { id: '#RES-003', lab: 'Lab Jaringan & Hardware', date: '05 Mei 2026', time: '13:00 - 15:00 WIB', keperluan: 'Riset Tugas Akhir', status: 'Ditolak' },
+    { id: '#RES-004', lab: 'Lab Jaringan Komputer', date: '10 Mei 2026', time: '13:00 - 15:00 WIB', keperluan: 'Praktikum Sistem Digital', status: 'Menunggu' },
+];
+
+let adminPending = [
+    { id: 'p1', name: 'Budi Santoso', nim: '1122334455', role: 'Mahasiswa', lab: 'Lab Multimedia', date: '10 Mei 2026', time: '10:00 - 12:00 WIB', keperluan: 'Tugas Akhir Video Editing' },
+    { id: 'p2', name: 'Dr. Andi Wijaya', nim: '198001012005011001', role: 'Dosen', lab: 'Lab Kecerdasan Buatan', date: '11 Mei 2026', time: '08:00 - 11:30 WIB', keperluan: 'Praktikum Mahasiswa (Kelas A)' },
+    { id: 'p3', name: 'Siti Rahayu', nim: '1234567890', role: 'Mahasiswa', lab: 'Lab Biologi Molekuler', date: '12 Mei 2026', time: '09:00 - 11:00 WIB', keperluan: 'Penelitian Skripsi Biokimia' },
+];
+
+let adminHistory = [];
+
+const labs = [
+    { name: 'Lab Komputer Dasar', cap: 40, status: 'aktif', usedBy: 'Budi Santoso' },
+    { name: 'Lab Jaringan & Hardware', cap: 30, status: 'aktif', usedBy: 'Dr. Hendra' },
+    { name: 'Lab Rekayasa Perangkat Lunak', cap: 30, status: 'kosong', usedBy: null },
+    { name: 'Lab Sistem Cerdas & AI', cap: 20, status: 'aktif', usedBy: 'Kelompok 3B' },
+    { name: 'Lab Multimedia', cap: 25, status: 'aktif', usedBy: 'Kelas Multimedia B' },
+    { name: 'Lab Biologi Molekuler', cap: 20, status: 'kosong', usedBy: null },
+];
+
+let resCount = 5;
+
+// ======== LOGIN ========
+function handleLogin() {
+    const nim = document.getElementById('username').value.trim();
+    const pass = document.getElementById('password').value.trim();
+    const role = document.getElementById('role-select').value;
+
+    if (!nim || !pass) { showToast('NIM/NIP dan kata sandi wajib diisi!', 'error'); return; }
+
+    currentRole = role;
+    document.getElementById('login-view').classList.add('hidden');
+    document.getElementById('dashboard-view').classList.remove('hidden');
+
+    let userName = 'Pengguna', initial = 'P';
+    if (role === 'mahasiswa') { userName = 'Rusmin Nuryadin'; initial = 'R'; }
+    else if (role === 'dosen') { userName = 'Dr. Pengampu'; initial = 'D'; }
+    else { userName = 'Admin Lab'; initial = 'A'; }
+
+    document.getElementById('user-name-display').textContent = userName;
+    document.getElementById('user-avatar').textContent = initial;
+
+    const userDash = document.getElementById('user-dashboard');
+    const adminDash = document.getElementById('admin-dashboard');
+
+    if (role === 'mahasiswa' || role === 'dosen') {
+        userDash.classList.remove('hidden');
+        adminDash.classList.add('hidden');
+        document.getElementById('welcome-title').textContent = role === 'dosen' ? 'Dashboard Dosen' : 'Dashboard Mahasiswa';
+        renderUserTable(userReservations);
+        updateUserStats();
+    } else {
+        userDash.classList.add('hidden');
+        adminDash.classList.remove('hidden');
+        renderAdminPending();
+        renderLabGrid();
+        renderAdminHistory();
+    }
+
+    showToast('Berhasil masuk sebagai ' + role.charAt(0).toUpperCase() + role.slice(1), 'success');
+}
+
+function handleLogout() {
+    document.getElementById('dashboard-view').classList.add('hidden');
+    document.getElementById('login-view').classList.remove('hidden');
+    document.getElementById('user-dashboard').classList.add('hidden');
+    document.getElementById('admin-dashboard').classList.add('hidden');
+    currentRole = '';
+}
+
+// ======== USER TABLE ========
+function renderUserTable(data) {
+    const tbody = document.getElementById('user-table-body');
+    const empty = document.getElementById('user-empty');
+    if (!data.length) {
+        tbody.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+    }
+    empty.classList.add('hidden');
+    tbody.innerHTML = data.map(r => `
+        <tr>
+            <td><span class="td-id">${r.id}</span></td>
+            <td class="td-lab">${r.lab}</td>
+            <td><div class="td-date">${r.date}</div><div class="td-time">${r.time}</div></td>
+            <td style="max-width:180px;white-space:normal;">${r.keperluan}</td>
+            <td>${badgeHtml(r.status)}</td>
+            <td><button class="btn-primary" style="padding:5px 12px;font-size:0.8rem;" onclick="showUserDetail(${JSON.stringify(r).replace(/"/g,'&quot;')})">Detail</button></td>
+        </tr>
+    `).join('');
+}
+
+function badgeHtml(status) {
+    const map = { 'Menunggu': 'menunggu', 'Disetujui': 'disetujui', 'Ditolak': 'ditolak' };
+    const icon = { 'Menunggu': 'fa-clock', 'Disetujui': 'fa-check', 'Ditolak': 'fa-xmark' };
+    return `<span class="badge ${map[status]}"><i class="fa-solid ${icon[status]}"></i> ${status}</span>`;
+}
+
+function updateUserStats() {
+    document.getElementById('user-pending-count').textContent = userReservations.filter(r => r.status === 'Menunggu').length;
+    document.getElementById('user-approved-count').textContent = userReservations.filter(r => r.status === 'Disetujui').length;
+    document.getElementById('user-rejected-count').textContent = userReservations.filter(r => r.status === 'Ditolak').length;
+}
+
+function filterUserTable(status, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filtered = status === 'semua' ? userReservations : userReservations.filter(r => r.status === status);
+    renderUserTable(filtered);
+}
+
+function showUserDetail(r) {
+    document.getElementById('detail-body').innerHTML = `
+        <div class="detail-row"><span class="detail-label">ID Reservasi</span><span class="detail-value">${r.id}</span></div>
+        <div class="detail-row"><span class="detail-label">Laboratorium</span><span class="detail-value">${r.lab}</span></div>
+        <div class="detail-row"><span class="detail-label">Tanggal</span><span class="detail-value">${r.date}</span></div>
+        <div class="detail-row"><span class="detail-label">Waktu</span><span class="detail-value">${r.time}</span></div>
+        <div class="detail-row"><span class="detail-label">Keperluan</span><span class="detail-value">${r.keperluan}</span></div>
+        <div class="detail-row"><span class="detail-label">Status</span><span class="detail-value">${badgeHtml(r.status)}</span></div>
+    `;
+    openModal('modal-detail');
+}
+
+// ======== SUBMIT RESERVASI ========
+function submitReservasi() {
+    const lab = document.getElementById('res-lab').value;
+    const date = document.getElementById('res-date').value;
+    const ts = document.getElementById('res-time-start').value;
+    const te = document.getElementById('res-time-end').value;
+    const kep = document.getElementById('res-keperluan').value.trim();
+
+    if (!lab || !date || !ts || !te || !kep) { showToast('Harap lengkapi semua field!', 'error'); return; }
+    if (ts >= te) { showToast('Waktu selesai harus setelah waktu mulai!', 'error'); return; }
+
+    resCount++;
+    const dateObj = new Date(date);
+    const formatted = dateObj.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+
+    const newRes = {
+        id: `#RES-00${resCount}`,
+        lab: lab.replace(/ \(Kapasitas \d+\)/, ''),
+        date: formatted,
+        time: `${ts} - ${te} WIB`,
+        keperluan: kep,
+        status: 'Menunggu'
+    };
+    userReservations.unshift(newRes);
+
+    // Also add to admin pending
+    adminPending.push({
+        id: 'p' + resCount,
+        name: document.getElementById('user-name-display').textContent,
+        nim: document.getElementById('username').value,
+        role: currentRole === 'dosen' ? 'Dosen' : 'Mahasiswa',
+        lab: newRes.lab,
+        date: newRes.date,
+        time: newRes.time,
+        keperluan: kep
+    });
+
+    renderUserTable(userReservations);
+    updateUserStats();
+    closeModal('modal-reservasi');
+    clearReservasiForm();
+    showToast('Permintaan reservasi berhasil dikirim!', 'success');
+}
+
+function clearReservasiForm() {
+    document.getElementById('res-lab').value = '';
+    document.getElementById('res-date').value = '';
+    document.getElementById('res-time-start').value = '';
+    document.getElementById('res-time-end').value = '';
+    document.getElementById('res-keperluan').value = '';
+    document.getElementById('res-peserta').value = '';
+}
+
+// ======== ADMIN ========
+function renderAdminPending() {
+    const tbody = document.getElementById('admin-pending-body');
+    const empty = document.getElementById('admin-empty');
+
+    const search = (document.getElementById('admin-search') || {}).value?.toLowerCase() || '';
+    const filtered = adminPending.filter(p =>
+        p.name.toLowerCase().includes(search) ||
+        p.lab.toLowerCase().includes(search) ||
+        p.keperluan.toLowerCase().includes(search)
+    );
+
+    if (!filtered.length) {
+        tbody.innerHTML = '';
+        empty.classList.remove('hidden');
+    } else {
+        empty.classList.add('hidden');
+        tbody.innerHTML = filtered.map(p => `
+            <tr id="admin-row-${p.id}">
+                <td>
+                    <div class="td-peminjam-name">${p.name}</div>
+                    <div class="td-peminjam-id">${p.role === 'Dosen' ? 'NIP' : 'NIM'}: ${p.nim}</div>
+                    <span class="badge ${p.role.toLowerCase()}" style="margin-top:5px;">${p.role}</span>
+                </td>
+                <td class="td-lab">${p.lab}</td>
+                <td><div class="td-date">${p.date}</div><div class="td-time">${p.time}</div></td>
+                <td style="max-width:160px;white-space:normal;">${p.keperluan}</td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn-approve" title="Setujui" onclick="approveItem('${p.id}')"><i class="fa-solid fa-check"></i></button>
+                        <button class="btn-reject" title="Tolak" onclick="openReject('${p.id}')"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+    }
+    document.getElementById('pending-count').textContent = adminPending.length;
+}
+
+function approveItem(id) {
+    const item = adminPending.find(p => p.id === id);
+    if (!item) return;
+    const row = document.getElementById(`admin-row-${id}`);
+    row.classList.add('fade-out');
+    setTimeout(() => {
+        adminPending = adminPending.filter(p => p.id !== id);
+        adminHistory.push({ ...item, status: 'Disetujui', resolvedDate: new Date().toLocaleDateString('id-ID') });
+        const approved = parseInt(document.getElementById('total-approved').textContent) + 1;
+        document.getElementById('total-approved').textContent = approved;
+        renderAdminPending();
+        renderAdminHistory();
+        showToast(`Peminjaman ${item.name} berhasil disetujui!`, 'success');
+    }, 300);
+}
+
+function openReject(id) {
+    rejectTargetId = id;
+    document.getElementById('tolak-alasan').value = '';
+    openModal('modal-tolak');
+}
+
+function confirmReject() {
+    if (!rejectTargetId) return;
+    const alasan = document.getElementById('tolak-alasan').value.trim();
+    const item = adminPending.find(p => p.id === rejectTargetId);
+    if (!item) return;
+    const row = document.getElementById(`admin-row-${rejectTargetId}`);
+    row.classList.add('fade-out');
+    setTimeout(() => {
+        adminPending = adminPending.filter(p => p.id !== rejectTargetId);
+        adminHistory.push({ ...item, status: 'Ditolak', alasan: alasan || '-', resolvedDate: new Date().toLocaleDateString('id-ID') });
+        renderAdminPending();
+        renderAdminHistory();
+        closeModal('modal-tolak');
+        rejectTargetId = null;
+        showToast('Peminjaman berhasil ditolak.', 'error');
+    }, 300);
+}
+
+function searchAdmin() { renderAdminPending(); }
+
+// Lab Grid
+function renderLabGrid() {
+    const grid = document.getElementById('lab-grid');
+    grid.innerHTML = labs.map(l => `
+        <div class="lab-card">
+            <div>
+                <span class="lab-status-dot ${l.status}"></span>
+                <span style="font-size:0.78rem;font-weight:600;color:${l.status === 'aktif' ? 'var(--green)' : 'var(--gray-400)'};">${l.status === 'aktif' ? 'Sedang Digunakan' : 'Tersedia'}</span>
+            </div>
+            <div class="lab-name">${l.name}</div>
+            <div class="lab-cap"><i class="fa-solid fa-users" style="margin-right:4px;"></i>Kapasitas ${l.cap} orang</div>
+            ${l.usedBy ? `<div style="margin-top:8px;font-size:0.78rem;color:var(--gray-400);">Digunakan: <strong style="color:var(--gray-700)">${l.usedBy}</strong></div>` : ''}
+        </div>
+    `).join('');
+}
+
+// Admin History
+function renderAdminHistory(filterStatus = 'semua') {
+    const container = document.getElementById('admin-history-list');
+    const data = filterStatus === 'semua' ? adminHistory : adminHistory.filter(h => h.status === filterStatus);
+    if (!data.length) {
+        container.innerHTML = `<div class="empty-state"><i class="fa-solid fa-clock-rotate-left"></i><p>Belum ada riwayat peminjaman yang diproses.</p></div>`;
+        return;
+    }
+    container.innerHTML = data.map(h => `
+        <div class="riwayat-item">
+            <div class="riwayat-icon ${h.status === 'Disetujui' ? 'green' : 'red'}" style="background:${h.status === 'Disetujui' ? 'var(--green-light)' : 'var(--red-light)'};color:${h.status === 'Disetujui' ? 'var(--green)' : 'var(--red)'};">
+                <i class="fa-solid ${h.status === 'Disetujui' ? 'fa-check' : 'fa-xmark'}"></i>
+            </div>
+            <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:0.5rem;">
+                    <div>
+                        <span style="font-weight:700;color:var(--gray-900);">${h.name}</span>
+                        <span style="font-size:0.78rem;color:var(--gray-400);margin-left:6px;">${h.nim}</span>
+                    </div>
+                    ${badgeHtml(h.status)}
+                </div>
+                <div style="font-size:0.85rem;color:var(--gray-600);margin-top:3px;">${h.lab} — ${h.date}</div>
+                <div style="font-size:0.8rem;color:var(--gray-400);margin-top:2px;">${h.keperluan}</div>
+                ${h.alasan ? `<div style="font-size:0.78rem;color:var(--red);margin-top:4px;"><i class="fa-solid fa-circle-exclamation"></i> Alasan: ${h.alasan}</div>` : ''}
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterAdminHistory(status, btn) {
+    document.querySelectorAll('#tab-riwayat .filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderAdminHistory(status);
+}
+
+// ======== TABS ========
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(tabId).classList.add('active');
+}
+
+// ======== MODAL ========
+function openModal(id) { document.getElementById(id).classList.remove('hidden'); }
+function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
+
+// Close modal on overlay click
+document.querySelectorAll('.modal-overlay').forEach(overlay => {
+    overlay.addEventListener('click', function(e) {
+        if (e.target === this) this.classList.add('hidden');
+    });
+});
+
+// Notif panel (simple toggle dot)
+function toggleNotifPanel() {
+    const dot = document.getElementById('notif-dot');
+    if (dot.style.display !== 'none') {
+        dot.style.display = 'none';
+        showToast('Tidak ada notifikasi baru', 'info');
+    }
+}
+
+// ======== TOAST ========
+let toastTimer;
+function showToast(message, type) {
+    const toast = document.getElementById('toast');
+    const icon = document.getElementById('toast-icon');
+    document.getElementById('toast-message').textContent = message;
+
+    if (type === 'error') icon.className = 'fa-solid fa-circle-xmark';
+    else if (type === 'info') icon.className = 'fa-solid fa-circle-info';
+    else icon.className = 'fa-solid fa-circle-check';
+
+    icon.style.color = type === 'error' ? '#ef5350' : type === 'info' ? '#42a5f5' : 'var(--yellow)';
+
+    toast.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 3500);
+}
+</script>
+</body>
+</html>

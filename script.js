@@ -12,6 +12,13 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         // --- KAMUS BAHASA (LANGUAGE DICTIONARY) ---
         const translations = {
             id: {
+                nav_collections: 'Koleksi',
+                modal_collections_title: 'Seluruh Koleksi Perpustakaan',
+                collection_all: 'Semua',
+                collection_journal: 'Jurnal',
+                collection_book: 'Buku',
+                collection_opac: 'OPAC',
+
                 // Top Bar
                 top_phone: '📱 021 7494136',
                 top_email: '📧 Perpustakaan@apps.uinjkt.ac.id',
@@ -25,6 +32,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_event: 'Event',
                 nav_contact: 'Kontak',
                 nav_login: 'Login',
+                
 
                 // Hero
                 hero_title: 'Selamat Datang di Perpustakaan UIN Syarif Hidayatullah Jakarta',
@@ -154,6 +162,13 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 alert_role_updated: '✓ Peran pengguna berhasil diperbarui!'
             },
             en: {
+                nav_collections: 'Collections',
+                modal_collections_title: 'All Library Collections',
+                collection_all: 'All',
+                collection_journal: 'Journals',
+                collection_book: 'Books',
+                collection_opac: 'OPAC',
+
                 // Top Bar
                 top_phone: '📱 +62 21 7494136',
                 top_email: '📧 Perpustakaan@apps.uinjkt.ac.id',
@@ -293,7 +308,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 alert_not_logged_in: 'You must log in first to access this service.',
                 alert_admin_only: '❌ Access Denied! This feature is for Admin only.',
                 alert_role_updated: '✓ User role updated successfully!'
+                
             }
+            
         };
 
 /* ============================================================
@@ -464,11 +481,10 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 }
             }
 
-            // --- PERBAIKAN: MEMASTIKAN ADMIN & USER DEMO SELALU TERSEDIA ---
+            // --- MEMASTIKAN ADMIN & USER DEMO SELALU TERSEDIA ---
             const adminEmail = 'admin@uinjkt.ac.id';
             const demoUserEmail = 'demo@uinjkt.ac.id';
 
-            // Inject Admin jika belum ada
             if (!users.some(u => u.email === adminEmail)) {
                 users.push({
                     id: 'u-admin-1',
@@ -478,12 +494,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     prodi: 'Staff IT',
                     telp: '081234567890',
                     password: 'admin123', 
-                    role: 'admin', // Penanda akun admin
+                    role: 'admin',
                     tanggal_daftar: new Date().toISOString()
                 });
             }
 
-            // Inject Demo User jika belum ada
             if (!users.some(u => u.email === demoUserEmail)) {
                 users.push({
                     id: 'u-demo-1',
@@ -493,12 +508,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     prodi: 'Mahasiswa',
                     telp: '081122334455',
                     password: 'password', 
-                    role: 'user', // Akun user biasa
+                    role: 'user',
                     tanggal_daftar: new Date().toISOString()
                 });
             }
 
-            // Simpan agar admin & demo user permanen di storage
             localStorage.setItem(USERS_KEY, JSON.stringify(users));
             return users; 
         }
@@ -508,87 +522,124 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (typeof renderUserList === 'function') renderUserList();
         }
 
-        function updateAuthButton() {
-            const authButton = document.getElementById('authButton');
-            const adminTab = document.getElementById('adminTab'); 
-            if (!authButton) return;
-            const langDict = translations[currentLang];
+       function updateAuthButton() {
+    const authButton = document.getElementById('authButton');
+    const adminTab = document.getElementById('adminTab'); 
+    const collectionTab = document.getElementById('collectionTab');
+    
+    if (!authButton) return;
+    const langDict = translations[currentLang];
 
-            if (currentUser) {
-                // --- MODIFIKASI: PROTEKSI MENU KELOLA DATA ---
-                if (adminTab) {
-                    adminTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
-                }
+    if (currentUser) {
+        if (collectionTab) collectionTab.style.display = 'block';
 
-                authButton.innerHTML = `
-                    <div class="user-menu">
-                        <div class="user-avatar" onclick="toggleUserDropdown()" style="background: var(--accent-orange); color: white; cursor: pointer;">
-                            ${currentUser.nama.charAt(0).toUpperCase()}
-                        </div>
-                        <div class="user-dropdown" id="userDropdown">
-                            <div class="user-dropdown-item" onclick="openModal('user-profile')">
-                                <strong>${currentUser.nama} ${currentUser.role === 'admin' ? '(Admin)' : ''}</strong><br>
-                                <small class="muted">${currentUser.email}</small>
-                            </div>
-                            <div class="user-dropdown-item" onclick="logout()" style="color: var(--danger); font-weight: bold;">
-                                🚪 ${currentLang === 'id' ? 'Logout' : 'Logout'}
-                            </div>
-                        </div>
+        if (adminTab) {
+            adminTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
+        }
+
+        // ✅ CEK APAKAH USER PUNYA FOTO
+        const avatarContent = currentUser.photo 
+            ? `<img src="${currentUser.photo}" alt="Profile" style="width: 100%; height: 100%; object-fit: cover;">` 
+            : currentUser.nama.charAt(0).toUpperCase();
+
+        const avatarStyle = currentUser.photo 
+            ? 'background: transparent; padding: 0;' 
+            : 'background: var(--accent-orange);';
+
+        authButton.innerHTML = `
+            <div class="user-menu">
+                <div class="user-avatar" onclick="toggleUserDropdown()" style="${avatarStyle} color: white; cursor: pointer;">
+                    ${avatarContent}
+                </div>
+                <div class="user-dropdown" id="userDropdown">
+                    <div class="user-dropdown-item" onclick="openModal('user-profile')">
+                        <strong>${currentUser.nama} ${currentUser.role === 'admin' ? '(Admin)' : ''}</strong><br>
+                        <small class="muted">${currentUser.email}</small>
                     </div>
-                `;
-            } else {
-                if (adminTab) adminTab.style.display = 'none';
-                authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
+                    <div class="user-dropdown-item" onclick="logout()" style="color: var(--danger); font-weight: bold;">
+                        🚪 ${currentLang === 'id' ? 'Logout' : 'Logout'}
+                    </div>
+                </div>
+            </div>
+        `;
+    } else {
+        if (adminTab) adminTab.style.display = 'none';
+        if (collectionTab) collectionTab.style.display = 'none';
+
+        authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
+    }
+}
+
+function toggleUserDropdown() {
+    const dropdown = document.getElementById('userDropdown');
+    if (dropdown) dropdown.classList.toggle('show');
+}
+
+document.addEventListener('click', (e) => {
+    const userMenu = document.querySelector('.user-menu');
+    if (userMenu && !userMenu.contains(e.target)) {
+        const dropdown = document.getElementById('userDropdown');
+        if (dropdown) dropdown.classList.remove('show');
+    }
+});
+
+function logout() {
+    const langDict = translations[currentLang];
+    if (confirm(langDict.alert_logout_confirm)) {
+        saveCurrentUser(null);
+        showToast(langDict.alert_logout_success);
+        
+        const activeTab = document.querySelector('.tab-btn.active');
+        if (activeTab) {
+            const tabIdx = activeTab.getAttribute('data-tab');
+            if (tabIdx === "3" || tabIdx === "4") {
+                switchTab(0);
             }
         }
 
-        function toggleUserDropdown() {
-            const dropdown = document.getElementById('userDropdown');
-            if (dropdown) dropdown.classList.toggle('show');
-        }
-
-        document.addEventListener('click', (e) => {
-            const userMenu = document.querySelector('.user-menu');
-            if (userMenu && !userMenu.contains(e.target)) {
-                const dropdown = document.getElementById('userDropdown');
-                if (dropdown) dropdown.classList.remove('show');
-            }
-        });
-
-        function logout() {
-            const langDict = translations[currentLang];
-            if (confirm(langDict.alert_logout_confirm)) {
-                saveCurrentUser(null);
-                alert(langDict.alert_logout_success);
-                
-                const activeTab = document.querySelector('.tab-btn.active');
-                if (activeTab && activeTab.getAttribute('data-tab') === "3") {
-                    switchTab(0);
-                }
-
-                closeModal();
-            }
-        }
+        closeModal();
+    }
+}
 
 /* ============================================================
    SECTION 7: UI UTILITIES & SCROLLING
    ============================================================ */
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
 
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-        function scrollToSection(id) {
-            const element = document.getElementById(id);
-            if (element) {
-                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
+function scrollToSection(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+}
+
+function showToast(message, type = 'success') {
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`; 
+    toast.textContent = message;
+    container.appendChild(toast);
+    
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+    }, 3000);
+}
+
 
 /* ============================================================
    SECTION 8: SEARCH & TABS LOGIC
@@ -613,24 +664,48 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (tabs[0]) tabs[0].textContent = `${langDict.tab_journal} (${libraryData.journal.length})`;
             if (tabs[1]) tabs[1].textContent = `${langDict.tab_book} (${libraryData.book.length})`;
             if (tabs[2]) tabs[2].textContent = `${langDict.tab_opac} (${libraryData.opac.length})`;
-            if (tabs[3]) tabs[3].textContent = `${langDict.tab_manage}`; 
+            
+            // TAMBAHAN: Update Tab Koleksi (Index 3)
+            if (tabs[3]) {
+                const total = libraryData.journal.length + libraryData.book.length + libraryData.opac.length;
+                const collLabel = currentLang === 'id' ? 'Koleksi' : 'Collections';
+                tabs[3].textContent = `📂 ${collLabel} (${total})`;
+            }
+            
+            // GESER: Tab Kelola Data sekarang di Index 4
+            if (tabs[4]) tabs[4].textContent = `${langDict.tab_manage}`; 
         }
 
-        // --- UPDATE LISTENER TAB DENGAN PROTEKSI ADMIN ---
+        // --- UPDATE LISTENER TAB DENGAN PROTEKSI LOGIN & ADMIN ---
         document.querySelectorAll('.tab-btn').forEach((btn, index) => {
             btn.addEventListener('click', () => {
                 const langDict = translations[currentLang];
-                // Proteksi: Jika tab index 3 (Kelola Data) diklik
+                
+                // TAMBAHAN: Proteksi Tab Index 3 (Koleksi) - Harus Login
                 if (index === 3) {
                     if (!currentUser) {
-                        alert(langDict.alert_not_logged_in);
+                        showToast(langDict.alert_not_logged_in, 'error');
                         openModal('login');
-                        return; 
-                    }
-                    if (currentUser.role !== 'admin') {
-                        alert(langDict.alert_admin_only);
                         return;
                     }
+                    if (typeof filterCollection === 'function') filterCollection('all');
+                }
+
+                // GESER: Proteksi Tab Index 4 (Kelola Data) - Harus Admin
+                if (index === 4) {
+                    if (!currentUser) {
+                        showToast(langDict.alert_not_logged_in, 'error');
+                        openModal('login');
+                        return;
+                    }
+                    if (currentUser.role !== 'admin') {
+                        showToast(langDict.alert_admin_only, 'error');
+                        return;
+                    }
+                    if (typeof renderUserList === 'function') renderUserList();
+                
+
+                    renderPeminjamanAdmin(); 
                     if (typeof renderUserList === 'function') renderUserList();
                 }
                 switchTab(index);
@@ -647,7 +722,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 const langDict = translations[currentLang];
                 
                 if (!query) {
-                    alert(langDict.alert_no_query);
+                    showToast(langDict.alert_no_query, 'error');
                     return;
                 }
 
@@ -680,7 +755,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 resultsDiv.classList.add('show');
             });
         });
-
 /* ============================================================
    SECTION 9: MODAL SYSTEM & ITEM DETAILS
    ============================================================ */
@@ -806,7 +880,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (currentUser) {
                 openModal('peminjaman', bookTitle);
             } else {
-                alert(langDict.alert_not_logged_in);
+                // UPDATE: Menggunakan showToast alih-alih alert
+                showToast(langDict.alert_not_logged_in, 'error');
                 openModal('login');
             }
         }
@@ -903,7 +978,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                         </form>
                     </div>
                 `;
-            } else if (type === 'forgot-password') { // RESET PASSWORD 23
+            } else if (type === 'forgot-password') {
                 title.textContent = langDict.modal_forgot_password_title;
                 body.innerHTML = `
                     <div class="alert alert-info">
@@ -922,10 +997,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     </form>
                 `;
             } else if (type === 'user-profile') {
-                if (!currentUser) {
-                    openModal('login');
-                    return;
-                }
+                if (!currentUser) { openModal('login'); return; }
                 title.textContent = langDict.modal_profile_title;
                 body.innerHTML = `
                     <div class="profile-section">
@@ -939,16 +1011,12 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                         <div class="info-grid">
                             <div class="info-label">${currentLang === 'id' ? 'Email:' : 'Email:'}</div>
                             <div>${escapeHtml(currentUser.email)}</div>
-                            
                             <div class="info-label">${currentLang === 'id' ? 'NIM/NIP:' : 'ID:'}</div>
                             <div>${escapeHtml(currentUser.nim)}</div>
-                            
                             <div class="info-label">${currentLang === 'id' ? 'Program Studi:' : 'Study Program:'}</div>
                             <div>${escapeHtml(currentUser.prodi || '-')}</div>
-                            
                             <div class="info-label">${currentLang === 'id' ? 'No. Telepon:' : 'Phone No.:'}</div>
                             <div>${escapeHtml(currentUser.telp)}</div>
-                            
                             <div class="info-label">${currentLang === 'id' ? 'Bergabung:' : 'Joined:'}</div>
                             <div>${new Date(currentUser.tanggal_daftar).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                         </div>
@@ -957,81 +1025,39 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 `;
             } else if (type === 'profile') {
                 title.textContent = langDict.modal_library_profile_title;
-
                 const missionList = langDict.profile_mission_content.map(item => `<li>${item}</li>`).join('');
-
                 body.innerHTML = `
                     <div class="auth-tabs">
                         <button class="auth-tab active" onclick="switchProfileTab('visi-misi', this)" data-lang-key="profile_tab_vision_mission">${langDict.profile_tab_vision_mission}</button>
                         <button class="auth-tab" onclick="switchProfileTab('pustakawan', this)" data-lang-key="profile_tab_librarian">${langDict.profile_tab_librarian}</button>
                         <button class="auth-tab" onclick="switchProfileTab('staff', this)" data-lang-key="profile_tab_staff">${langDict.profile_tab_staff}</button>
                     </div>
-                    
                     <div class="auth-content active" id="visi-misi-content">
                         <div class="profile-section">
                             <h3 style="color: var(--primary-blue); margin-bottom: 20px; font-weight: 700;" data-lang-key="profile_vision">${langDict.profile_vision}</h3>
-                            <p style="line-height: 1.8; margin-bottom: 30px; text-align: justify;" data-lang-key="profile_vision_content">
-                                ${langDict.profile_vision_content}
-                            </p>
-                            
+                            <p style="line-height: 1.8; margin-bottom: 30px; text-align: justify;" data-lang-key="profile_vision_content">${langDict.profile_vision_content}</p>
                             <h3 style="color: var(--primary-blue); margin-bottom: 20px; font-weight: 700;" data-lang-key="profile_mission">${langDict.profile_mission}</h3>
-                            <ul style="line-height: 2; margin-left: 20px;">
-                                ${missionList}
-                            </ul>
+                            <ul style="line-height: 2; margin-left: 20px;">${missionList}</ul>
                         </div>
                     </div>
-                    
                     <div class="auth-content" id="pustakawan-content">
                         <div class="staff-grid">
-                            <div class="staff-card">
-                                <div class="staff-avatar">RN</div>
-                                <h4>Rusmin Nuryadin</h4>
-                                <p>${currentLang === 'id' ? 'Kepala Perpustakaan' : 'Head of Library'}</p>
-                                <p class="muted">NIM : 12409011050120</p>
-                            </div>
-                            <div class="staff-card">
-                                <div class="staff-avatar">ZB</div>
-                                <h4>M. Zaidan Zuhdi Basuri</h4>
-                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
-                                <p class="muted">NIM: 12409011050128</p>
-                            </div>
-                            <div class="staff-card">
-                                <div class="staff-avatar">ZM</div>
-                                <h4>M. Zain Muttaqin</h4>
-                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
-                                <p class="muted">NIM: 12409011050131</p>
-                            </div>
-                                                     
+                            <div class="staff-card"><div class="staff-avatar">RN</div><h4>Rusmin Nuryadin</h4><p>${currentLang === 'id' ? 'Kepala Perpustakaan' : 'Head of Library'}</p><p class="muted">NIM : 12409011050120</p></div>
+                            <div class="staff-card"><div class="staff-avatar">ZB</div><h4>M. Zaidan Zuhdi Basuri</h4><p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p><p class="muted">NIM: 12409011050128</p></div>
+                            <div class="staff-card"><div class="staff-avatar">ZM</div><h4>M. Zain Muttaqin</h4><p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p><p class="muted">NIM: 12409011050131</p></div>
                         </div>
                     </div>
-                    
                     <div class="auth-content" id="staff-content">
                         <div class="staff-grid">
-                            <div class="staff-card">
-                                <div class="staff-avatar">RN</div>
-                                <h4>Rusmin Nuryadin</h4>
-                                <p>${currentLang === 'id' ? 'Kepala Tata Usaha' : 'Head of Administration'}</p>
-                                <p class="muted">NIM : 12409011050120</p>
-                            </div>
-                           <div class="staff-card">
-                                <div class="staff-avatar">ZB</div>
-                                <h4>M. Zaidan Zuhdi Basuri</h4>
-                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
-                                <p class="muted">NIM: 12409011050128</p>
-                            </div>
-                            <div class="staff-card">
-                                <div class="staff-avatar">ZM</div>
-                                <h4>M. Zain Muttaqin</h4>
-                                <p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p>
-                                <p class="muted">NIM: 12409011050131</p>
-                            </div>
-                           
+                            <div class="staff-card"><div class="staff-avatar">RN</div><h4>Rusmin Nuryadin</h4><p>${currentLang === 'id' ? 'Kepala Tata Usaha' : 'Head of Administration'}</p><p class="muted">NIM : 12409011050120</p></div>
+                            <div class="staff-card"><div class="staff-avatar">ZB</div><h4>M. Zaidan Zuhdi Basuri</h4><p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p><p class="muted">NIM: 12409011050128</p></div>
+                            <div class="staff-card"><div class="staff-avatar">ZM</div><h4>M. Zain Muttaqin</h4><p>${currentLang === 'id' ? 'Pustakawan Ahli Madya' : 'Associate Expert Librarian'}</p><p class="muted">NIM: 12409011050131</p></div>
                         </div>
                     </div>
                 `;
             } else if (type === 'peminjaman') {
                 if (!currentUser) {
-                    alert(langDict.alert_not_logged_in);
+                    showToast(langDict.alert_not_logged_in, 'error');
                     openModal('login');
                     return;
                 }
@@ -1084,7 +1110,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 `;
             } else if (type === 'bebas-pinjam') {
                 if (!currentUser) {
-                    alert(langDict.alert_not_logged_in);
+                    showToast(langDict.alert_not_logged_in, 'error');
                     openModal('login');
                     return;
                 }
@@ -1138,7 +1164,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 `;
             } else if (type === 'penerbitan') {
                 if (!currentUser) {
-                    alert(langDict.alert_not_logged_in);
+                    showToast(langDict.alert_not_logged_in, 'error');
                     openModal('login');
                     return;
                 }
@@ -1234,11 +1260,24 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                         </div>
                     </div>
                 `;
+            } else if (type === 'all-collections') {
+                title.textContent = langDict.modal_collections_title;
+                let html = `
+                    <div class="auth-tabs" style="margin-bottom: 20px;">
+                        <button class="auth-tab active" onclick="filterCollection('all', this)">${langDict.collection_all}</button>
+                        <button class="auth-tab" onclick="filterCollection('journal', this)">${langDict.collection_journal}</button>
+                        <button class="auth-tab" onclick="filterCollection('book', this)">${langDict.collection_book}</button>
+                        <button class="auth-tab" onclick="filterCollection('opac', this)">${langDict.collection_opac}</button>
+                    </div>
+                    <div id="collectionListContainer" class="manage-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                    </div>
+                `;
+                body.innerHTML = html;
+                setTimeout(() => filterCollection('all'), 50); 
             }
 
             modal.classList.add('show');
         }
-
 /* ============================================================
    SECTION 10: AUTHENTICATION HANDLERS
    ============================================================ */
@@ -1290,10 +1329,13 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             
             if (user) {
                 saveCurrentUser(user);
-                alert(langDict.alert_login_success(user.nama));
+                // Menggunakan fungsi alert dari kamus bahasa
+                const successMsg = currentLang === 'id' ? `Selamat datang kembali, ${user.nama}!` : `Welcome back, ${user.nama}!`;
+                showToast(successMsg);
                 closeModal();
             } else {
-                alert(langDict.alert_login_fail);
+                const failMsg = currentLang === 'id' ? 'Email atau password salah!' : 'Invalid email or password!';
+                showToast(failMsg, 'error');
             }
         }
 
@@ -1301,7 +1343,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             e.preventDefault();
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
-            const langDict = translations[currentLang];
             
             const alertPasswordMismatch = currentLang === 'id' ? '❌ Password tidak cocok!' : '❌ Passwords do not match!';
             const alertEmailExists = currentLang === 'id' ? '❌ Email sudah terdaftar!' : '❌ Email is already registered!';
@@ -1309,42 +1350,45 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             const alertSuccess = currentLang === 'id' ? '✓ Pendaftaran berhasil! Silakan login dengan akun Anda.' : '✓ Registration successful! Please log in with your account.';
 
             if (data.password !== data.confirm_password) {
-                alert(alertPasswordMismatch);
+                showToast(alertPasswordMismatch, 'error');
                 return;
             }
             
             const users = loadUsers();
             
             if (users.some(u => u.email === data.email)) {
-                alert(alertEmailExists);
+                showToast(alertEmailExists, 'error');
                 return;
             }
             
             if (users.some(u => u.nim === data.nim)) {
-                alert(alertNIMExists);
+                showToast(alertNIMExists, 'error');
                 return;
             }
             
             const newUser = {
-                id: generateId(),
+                id: 'u-' + Date.now(), // Menggunakan Date.now() sebagai generateId sederhana
                 nama: data.nama,
                 email: data.email,
                 nim: data.nim,
                 prodi: data.prodi || '',
                 telp: data.telp,
                 password: data.password,
-                role: 'user', // Default role untuk pendaftar baru
+                role: 'user', 
                 tanggal_daftar: new Date().toISOString()
             };
             
             users.push(newUser);
             saveUsers(users);
             
-            alert(alertSuccess);
-            switchAuthTab('login', document.querySelector('#loginContent').previousElementSibling.querySelector('.auth-tab:first-child'));
+            showToast(alertSuccess);
+            
+            // Berpindah otomatis ke tab login setelah daftar
+            const loginTabBtn = document.querySelector('.auth-tab');
+            if (loginTabBtn) switchAuthTab('login', loginTabBtn);
         }
 
-        // ⭐ FUNGSI BARU UNTUK RESET PASSWORD
+        // ⭐ FUNGSI RESET PASSWORD (2 LANGKAH)
         function handleForgotPassword(event) {
             event.preventDefault();
             const formData = new FormData(event.target);
@@ -1368,16 +1412,15 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             const alertSuccessBody = currentLang === 'id' ? 'Anda sekarang dapat login menggunakan kata sandi yang baru.' : 'You can now log in using your new password.';
             const buttonLoginNow = currentLang === 'id' ? 'Login Sekarang' : 'Login Now';
 
-
             if (data.step === 'request') {
                 const user = users.find(u => u.email === data.email);
                 
                 if (!user) {
-                    alert(alertEmailNotFound);
+                    showToast(alertEmailNotFound, 'error');
                     return;
                 }
                 
-                alert(alertResetSent(user.email));
+                showToast(alertResetSent(user.email));
                 
                 modalBody.innerHTML = `
                     <div class="alert alert-info">
@@ -1402,19 +1445,19 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
             } else if (data.step === 'change') {
                 if (data.new_password !== data.confirm_password) {
-                    alert(alertPasswordMismatch);
+                    showToast(alertPasswordMismatch, 'error');
                     return;
                 }
 
                 if (data.new_password.length < 6) {
-                     alert(alertMinLength);
+                     showToast(alertMinLength, 'error');
                     return;
                 }
 
                 const userIndex = users.findIndex(u => u.email === data.email);
                 
                 if (userIndex === -1) {
-                    alert(alertUserNotFound);
+                    showToast(alertUserNotFound, 'error');
                     return;
                 }
                 
@@ -1430,8 +1473,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 `;
             }
         }
-        // ⭐ AKHIR FUNGSI RESET PASSWORD BARU
-
 /* ============================================================
    SECTION 11: SERVICE REQUEST HANDLERS
    ============================================================ */
@@ -1446,6 +1487,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             peminjaman.push({ ...data, kode, tanggal: new Date().toISOString() });
             localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
             
+            // Tambahan: Notifikasi Toast
+            showToast(currentLang === 'id' ? '✓ Peminjaman berhasil diajukan!' : '✓ Borrowing request submitted!');
+
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
@@ -1467,6 +1511,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             bebas.push({ ...data, nomor, tanggal: new Date().toISOString() });
             localStorage.setItem('uin_bebas_pinjam', JSON.stringify(bebas));
             
+            // Tambahan: Notifikasi Toast
+            showToast(currentLang === 'id' ? '✓ Pengajuan surat berhasil!' : '✓ Letter request successful!');
+
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
@@ -1488,6 +1535,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             penerbitan.push({ ...data, nomor, tanggal: new Date().toISOString() });
             localStorage.setItem('uin_penerbitan', JSON.stringify(penerbitan));
             
+            // Tambahan: Notifikasi Toast
+            showToast(currentLang === 'id' ? '✓ Pengajuan penerbitan dikirim!' : '✓ Publication request sent!');
+
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
@@ -1508,6 +1558,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             survey.push({ ...data, tanggal: new Date().toISOString() });
             localStorage.setItem('uin_survey', JSON.stringify(survey));
             
+            // Tambahan: Notifikasi Toast
+            showToast(currentLang === 'id' ? '✓ Terima kasih atas saran Anda!' : '✓ Thank you for your feedback!');
+
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
@@ -1537,7 +1590,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             
             saveData();
             e.target.reset();
-            alert(currentLang === 'id' ? '✓ Jurnal berhasil ditambahkan!' : '✓ Journal successfully added!');
+            // GANTI alert MENJADI showToast
+            showToast(currentLang === 'id' ? '✓ Jurnal berhasil ditambahkan!' : '✓ Journal successfully added!');
         });
 
         document.getElementById('formAddBook').addEventListener('submit', (e) => {
@@ -1558,7 +1612,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             
             saveData();
             e.target.reset();
-            alert(currentLang === 'id' ? '✓ Buku berhasil ditambahkan! ' : '✓ Book successfully added! ');
+            showToast(currentLang === 'id' ? '✓ Buku berhasil ditambahkan!' : '✓ Book successfully added!');
         });
 
         document.getElementById('formAddOpac').addEventListener('submit', (e) => {
@@ -1579,7 +1633,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             
             saveData();
             e.target.reset();
-            alert(currentLang === 'id' ? '✓ OPAC berhasil ditambahkan! ' : '✓ OPAC successfully added! ');
+            // GANTI alert MENJADI showToast
+            showToast(currentLang === 'id' ? '✓ OPAC berhasil ditambahkan!' : '✓ OPAC successfully added!');
         });
 
 /* ============================================================
@@ -1671,7 +1726,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 const newRole = users[index].role === 'admin' ? 'user' : 'admin';
                 users[index].role = newRole;
                 saveUsers(users);
-                alert(translations[currentLang].alert_role_updated);
+                // UPDATE: Ganti alert ke showToast
+                showToast(currentLang === 'id' ? '✓ Peran pengguna berhasil diperbarui!' : '✓ User role updated successfully!');
             }
         }
 
@@ -1769,7 +1825,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     if (data.available) libraryData[type][index].available = parseInt(data.available);
                     if (data.copies) libraryData[type][index].copies = parseInt(data.copies);
                     saveData();
-                    alert(currentLang === 'id' ? '✓ Perubahan disimpan!' : '✓ Changes saved!');
+                    showToast(currentLang === 'id' ? '✓ Perubahan disimpan!' : '✓ Changes saved!');
                     closeModal();
                 }
             });
@@ -1780,11 +1836,63 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (confirm(currentLang === 'id' ? 'Hapus data ini?' : 'Delete this data?')) {
                 libraryData[type] = libraryData[type].filter(i => i.id !== id);
                 saveData();
-                alert(currentLang === 'id' ? '✓ Terhapus!' : '✓ Deleted!');
+                showToast(currentLang === 'id' ? '✓ Terhapus!' : '✓ Deleted!');
                 closeModal();
             }
         }
 
+        function saveData() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(libraryData));
+            renderDataLists();
+            // UPDATE: Menambahkan sinkronisasi angka di Tab Koleksi secara real-time
+            if (typeof updateTabCounts === 'function') updateTabCounts();
+        }
+        function renderPeminjamanAdmin() {
+    const container = document.getElementById('peminjamanListAdmin');
+    if (!container) return;
+
+    // Ambil data peminjaman dari localStorage
+    const dataPeminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+    
+    if (dataPeminjaman.length === 0) {
+        container.innerHTML = '<p class="muted" style="text-align:center; padding:10px;">Belum ada peminjaman.</p>';
+        return;
+    }
+
+    container.innerHTML = '';
+    
+    // Tampilkan dari yang terbaru
+    dataPeminjaman.reverse().forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'data-item';
+        div.style.borderLeft = '4px solid var(--accent-orange)';
+        div.innerHTML = `
+            <div style="display: flex; flex-direction: column; gap: 3px;">
+                <div style="font-weight: 800; color: var(--primary-blue); font-size: 13px;">${item.kode}</div>
+                <div style="font-weight: 700;">${escapeHtml(item.judul)}</div>
+                <div class="muted" style="font-size: 11px;">
+                    👤 ${escapeHtml(item.nama)} (${escapeHtml(item.nim)})<br>
+                    📅 Pinjam: ${item.tgl_pinjam} | Kembali: ${item.tgl_kembali}
+                </div>
+            </div>
+            <button class="btn-small" onclick="hapusPeminjaman(${index})" style="color: var(--danger); margin-top:5px;">Selesai/Hapus</button>
+        `;
+        container.appendChild(div);
+    });
+}
+
+// Fungsi untuk menghapus riwayat peminjaman jika sudah selesai
+function hapusPeminjaman(index) {
+    if (confirm('Tandai peminjaman ini sebagai selesai dan hapus dari daftar?')) {
+        let data = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+        data.reverse(); // Sesuaikan index karena tadi di-reverse saat render
+        data.splice(index, 1);
+        data.reverse(); // Balikkan lagi ke urutan asal
+        localStorage.setItem('uin_peminjaman', JSON.stringify(data));
+        renderPeminjamanAdmin();
+        showToast('✓ Data peminjaman diperbarui');
+    }
+}
 /* ============================================================
    SECTION 14: DATA UTILITIES (EXPORT & DEMO)
    ============================================================ */
@@ -1797,7 +1905,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             a.download = 'perpustakaan_data_' + Date.now() + '.json';
             a.click();
             URL.revokeObjectURL(url);
-            alert(currentLang === 'id' ? '✓ Data berhasil diekspor sebagai JSON.' : '✓ Data successfully exported as JSON.');
+            // Diganti ke showToast
+            showToast(currentLang === 'id' ? '✓ Data berhasil diekspor sebagai JSON.' : '✓ Data successfully exported as JSON.');
         }
 
         function loadDemoData() {
@@ -1807,7 +1916,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (!confirm(confirmMsg)) return;
             libraryData = structuredClone(demoData);
             saveData();
-            alert(alertMsg);
+            // Diganti ke showToast
+            showToast(alertMsg);
         }
 
         function clearAllData() {
@@ -1822,11 +1932,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             localStorage.removeItem('uin_penerbitan');
             localStorage.removeItem('uin_survey');
             
-            libraryData = structuredClone(demoData); // Reload demo data structure
+            libraryData = structuredClone(demoData); 
             saveData();
-            alert(alertMsg);
+            // Diganti ke showToast
+            showToast(alertMsg);
         }
-
 /* ============================================================
    SECTION 15: CARD INTERACTIVITY & NEWS
    ============================================================ */
@@ -1836,7 +1946,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 const langDict = translations[currentLang];
                 // Check if the service requires login
                 if (['peminjaman', 'bebas-pinjam', 'penerbitan'].includes(service) && !currentUser) {
-                     alert(langDict.alert_not_logged_in);
+                     showToast(langDict.alert_not_logged_in, 'error');
                      openModal('login');
                 } else {
                     openModal(service);
@@ -1902,25 +2012,63 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     }
                 };
 
-                title.textContent = newsData[news].title;
-                body.innerHTML = newsData[news].content;
-                modal.classList.add('show');
-                lastOpenedModalType = 'news';
+                if (newsData[news]) {
+                    title.textContent = newsData[news].title;
+                    body.innerHTML = newsData[news].content;
+                    modal.classList.add('show');
+                    lastOpenedModalType = 'news';
+                }
             });
         });
-
 /* ============================================================
-   SECTION 16: SOCIAL MEDIA & INITIAL CALLS
+   SECTION 16: COLLECTIONS LIST (USER FEATURE)
    ============================================================ */
-        document.querySelectorAll('a[data-social]').forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                const platform = link.dataset.social;
-                alert(`${currentLang === 'id' ? 'Membuka' : 'Opening'} ${platform}... (Demo)`);
-            });
-        });
+function filterCollection(category, element = null) {
+    const container = document.getElementById('collectionListContainer');
+    if (!container) return;
 
-        // Initial calls
-        applyTranslations(); // Panggil applyTranslations pertama kali
-        renderDataLists();
-        updateAuthButton();
+    // Update state tombol tab (mengubah warna tombol yang aktif)
+    if (element) {
+        const tabs = element.parentElement.querySelectorAll('.auth-tab');
+        tabs.forEach(t => t.classList.remove('active'));
+        element.classList.add('active');
+    }
+
+    container.innerHTML = '';
+    let itemsToDisplay = [];
+
+    // Menggabungkan data dari libraryData
+    if (category === 'all') {
+        itemsToDisplay = [
+            ...libraryData.journal.map(i => ({...i, type: 'journal'})),
+            ...libraryData.book.map(i => ({...i, type: 'book'})),
+            ...libraryData.opac.map(i => ({...i, type: 'opac'}))
+        ];
+    } else {
+        itemsToDisplay = libraryData[category].map(i => ({...i, type: category}));
+    }
+
+    if (itemsToDisplay.length === 0) {
+        const noDataMsg = currentLang === 'id' ? 'Tidak ada koleksi ditemukan.' : 'No collections found.';
+        container.innerHTML = `<p class="muted" style="grid-column: 1/-1; text-align: center; padding: 20px;">${noDataMsg}</p>`;
+        return;
+    }
+
+    itemsToDisplay.forEach(item => {
+        const card = document.createElement('div');
+        card.className = 'result-item'; 
+        card.style.margin = '0';
+        card.innerHTML = `
+            <div onclick="showDetail('${item.type}', '${item.id}')">
+                <small style="text-transform: uppercase; color: var(--secondary-blue); font-weight: bold; font-size: 10px;">${item.type}</small>
+                <h4 style="margin-top: 5px; font-size: 14px;">${escapeHtml(item.title)}</h4>
+                <p style="font-size: 12px;">${escapeHtml(item.author)}</p>
+            </div>
+        `;
+        container.appendChild(card);
+    });
+}
+
+applyTranslations(); 
+renderDataLists();
+updateAuthButton();

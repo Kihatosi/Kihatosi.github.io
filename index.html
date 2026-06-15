@@ -8,10 +8,13 @@
     <title>Perpustakaan UIN Syarif Hidayatullah Jakarta</title>
 </head>
 <body>
+    <!-- Top Bar -->
     <div class="top-bar">
         <div class="container">
             <div class="top-info">
-                <span data-lang-key="top_email">📧 Perpustakaan@apps.uinjkt.ac.id</span> • <span data-lang-key="top_phone">📱 021 7494136</span>
+                <span data-lang-key="top_email">📧 Perpustakaan@apps.uinjkt.ac.id</span>
+                <span>•</span>
+                <span data-lang-key="top_phone">📱 021 7494136</span>
             </div>
             <div class="top-schedule-lang">
                 <span class="top-schedule" data-lang-key="top_schedule">Senin-Kamis: 09.00-19.30 | Jumat: 09.00-16.00</span>
@@ -30,44 +33,52 @@
         </div>
     </div>
 
+    <!-- Header Navigation -->
     <header>
         <nav>
             <div class="logo-section" onclick="scrollToTop()">
                 <div class="logo-mark"></div>
                 <div>
-                    <div style="color: var(--primary-blue); font-weight: 800; font-size: 18px;">UIN Syarif Hidayatullah Jakarta</div>
-                    <div class="muted" style="font-size: 13px;" data-lang-key="header_subtitle">Perpustakaan</div>
+                    <div class="logo-title">UIN Syarif Hidayatullah Jakarta</div>
+                    <div class="logo-subtitle" data-lang-key="header_subtitle">Perpustakaan Utama</div>
                 </div>
             </div>
             <ul class="nav-links">
                 <li><a onclick="scrollToSection('layanan')" data-lang-key="nav_services">Layanan</a></li>
-                <li><a onclick="openModal('profile')" data-lang-key="nav_profile">Profile</a></li>
+                <li><a onclick="openModal('profile')" data-lang-key="nav_profile">Profil</a></li>
                 <li><a onclick="openModal('e-resources')" data-lang-key="nav_eresources">E-Resources</a></li>
                 <li><a onclick="scrollToSection('event')" data-lang-key="nav_event">Event</a></li>
                 <li><a onclick="scrollToSection('kontak')" data-lang-key="nav_contact">Kontak</a></li>
-                <li id="authButton"><button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">Login</button></li>
+                <li id="authButton">
+                    <button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">Login</button>
+                </li>
             </ul>
         </nav>
     </header>
 
+    <!-- Hero Section -->
     <section class="hero">
+        <div class="hero-overlay"></div>
         <div class="container">
-            <h1 data-lang-key="hero_title"></h1> 
-            <p data-lang-key="hero_subtitle"></p>
+            <h1 data-lang-key="hero_title">Pusat Literasi & Riset Digital</h1>
+            <p data-lang-key="hero_subtitle">Mengintegrasikan keilmuan, keislaman, dan keindonesiaan dalam satu akses terpadu.</p>
         </div>
     </section>
 
+    <!-- Search Section -->
     <section class="search-section">
         <div class="search-tabs">
             <div class="tab-buttons">
                 <button class="tab-btn active" data-tab="0" data-lang-key="tab_journal">📚 e-Journal</button>
-                <button class="tab-btn" data-tab="1" data-lang-key="tab_book">📖 BOOK</button>
+                <button class="tab-btn" data-tab="1" data-lang-key="tab_book">📖 BUKU</button>
                 <button class="tab-btn" data-tab="2" data-lang-key="tab_opac">🔍 OPAC</button>
-                <button class="tab-btn" id="adminTab" data-tab="3" data-lang-key="tab_manage" style="display: none;">⚙️ Kelola Data</button>
+                <button class="tab-btn" id="collectionTab" data-tab="3" data-lang-key="nav_collections" style="display: none;">📂 Koleksi</button>
+                <button class="tab-btn" id="adminTab" data-tab="4" data-lang-key="tab_manage" style="display: none;">⚙️ Kelola Data</button>
             </div>
-            
-            <div class="tab-content active" data-content="0">
-                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_journal_title">Pencarian Koleksi Jurnal</h3>
+
+            <!-- Journal Tab -->
+            <div class="tab-content active" data-content="1">
+                <h3 class="tab-title" data-lang-key="search_journal_title">Pencarian Koleksi Jurnal</h3>
                 <form class="search-form" data-type="journal">
                     <input type="text" data-lang-key-placeholder="search_journal_placeholder" placeholder="Cari jurnal berdasarkan judul atau penulis...">
                     <button type="submit" data-lang-key="search_button">Cari</button>
@@ -75,8 +86,9 @@
                 <div class="search-results" id="journalResults"></div>
             </div>
 
-            <div class="tab-content" data-content="1">
-                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_book_title">Pencarian Buku</h3>
+            <!-- Book Tab -->
+            <div class="tab-content" data-content="2">
+                <h3 class="tab-title" data-lang-key="search_book_title">Pencarian Buku</h3>
                 <form class="search-form" data-type="book">
                     <input type="text" data-lang-key-placeholder="search_book_placeholder" placeholder="Cari buku berdasarkan judul atau penulis...">
                     <button type="submit" data-lang-key="search_button">Cari</button>
@@ -84,8 +96,9 @@
                 <div class="search-results" id="bookResults"></div>
             </div>
 
-            <div class="tab-content" data-content="2">
-                <h3 style="margin-bottom: 20px; color: var(--primary-blue); font-weight: 700;" data-lang-key="search_opac_title">Pencarian Koleksi OPAC</h3>
+            <!-- OPAC Tab -->
+            <div class="tab-content" data-content="3">
+                <h3 class="tab-title" data-lang-key="search_opac_title">Pencarian Koleksi OPAC</h3>
                 <form class="search-form" data-type="opac">
                     <input type="text" data-lang-key-placeholder="search_opac_placeholder" placeholder="Cari koleksi berdasarkan judul, penulis, atau nomor panggil...">
                     <button type="submit" data-lang-key="search_button">Cari</button>
@@ -93,11 +106,25 @@
                 <div class="search-results" id="opacResults"></div>
             </div>
 
-            <div class="tab-content" data-content="3">
-                <h3 style="margin-bottom: 15px; color: var(--primary-blue); font-weight: 700;" data-lang-key="manage_title">Kelola Data Perpustakaan</h3>
-                <p class="muted" style="margin-bottom: 20px;" data-lang-key="manage_subtitle">Tambah, edit, atau hapus data jurnal, buku, dan OPAC. </p>
-                
+            <!-- Collection Tab -->
+            <div class="tab-content" data-content="4">
+                <h3 class="tab-title" data-lang-key="modal_collections_title">Seluruh Koleksi Perpustakaan</h3>
+                <div class="auth-tabs">
+                    <button class="auth-tab active" onclick="filterCollection('all', this)" data-lang-key="collection_all">Semua</button>
+                    <button class="auth-tab" onclick="filterCollection('journal', this)" data-lang-key="collection_journal">Jurnal</button>
+                    <button class="auth-tab" onclick="filterCollection('book', this)" data-lang-key="collection_book">Buku</button>
+                    <button class="auth-tab" onclick="filterCollection('opac', this)" data-lang-key="collection_opac">OPAC</button>
+                </div>
+                <div id="collectionListContainer" class="manage-grid"></div>
+            </div>
+
+            <!-- Admin Tab -->
+            <div class="tab-content" data-content="5">
+                <h3 class="tab-title" data-lang-key="manage_title">Kelola Data Perpustakaan</h3>
+                <p class="muted" data-lang-key="manage_subtitle">Tambah, edit, atau hapus data jurnal, buku, dan OPAC.</p>
+
                 <div class="manage-grid">
+                    <!-- Add Journal Form -->
                     <div class="manage-card">
                         <h4 data-lang-key="manage_add_journal">➕ Tambah Jurnal</h4>
                         <form id="formAddJournal">
@@ -127,6 +154,7 @@
                         </form>
                     </div>
 
+                    <!-- Add Book Form -->
                     <div class="manage-card">
                         <h4 data-lang-key="manage_add_book">➕ Tambah Buku</h4>
                         <form id="formAddBook">
@@ -166,6 +194,7 @@
                         </form>
                     </div>
 
+                    <!-- Add OPAC Form -->
                     <div class="manage-card">
                         <h4 data-lang-key="manage_add_opac">➕ Tambah OPAC</h4>
                         <form id="formAddOpac">
@@ -206,49 +235,59 @@
                         </form>
                     </div>
 
+                    <!-- Current Data -->
                     <div class="manage-card">
                         <h4 data-lang-key="manage_current_data">📊 Data Saat Ini</h4>
                         <div id="dataLists" class="data-list"></div>
-                        <div style="margin-top: 15px; display: flex; flex-direction: column; gap: 8px;">
-                            <button class="btn-secondary" onclick="exportData()" style="margin: 0;" data-lang-key="button_export">💾 Ekspor JSON</button>
-                            <button class="btn-secondary" onclick="loadDemoData()" style="margin: 0;" data-lang-key="button_load_demo">🔄 Muat Demo</button>
+                        <div class="button-group">
+                            <button class="btn-secondary" onclick="exportData()" data-lang-key="button_export">💾 Ekspor JSON</button>
+                            <button class="btn-secondary" onclick="loadDemoData()" data-lang-key="button_load_demo">🔄 Muat Demo</button>
                             <button class="btn-danger" onclick="clearAllData()" data-lang-key="button_clear_all">🗑️ Hapus Semua</button>
                         </div>
+                    </div>
+
+                    <!-- Active Loans -->
+                    <div class="manage-card">
+                        <h4>📑 Daftar Peminjaman Aktif</h4>
+                        <p class="muted">Daftar kode dan detail buku yang dipinjam user.</p>
+                        <div id="peminjamanListAdmin" class="data-list"></div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Services Section -->
     <section class="quick-access" id="layanan">
         <h2 data-lang-key="services_title">Layanan Kami</h2>
         <div class="service-grid">
             <div class="service-card" data-service="bebas-pinjam">
                 <div class="service-icon">📄</div>
                 <h3 data-lang-key="service_bebas_pinjam_title">Surat Bebas Pinjam</h3>
-                <p class="muted" data-lang-key="service_bebas_pinjam_desc">Layanan pembuatan surat bebas pinjam untuk mahasiswa</p>
+                <p data-lang-key="service_bebas_pinjam_desc">Layanan pembuatan surat bebas pinjam secara online.</p>
             </div>
-            
+
             <div class="service-card" data-service="peminjaman">
                 <div class="service-icon">📚</div>
                 <h3 data-lang-key="service_peminjaman_title">Peminjaman Buku</h3>
-                <p class="muted" data-lang-key="service_peminjaman_desc">Pinjam buku koleksi perpustakaan</p>
+                <p data-lang-key="service_peminjaman_desc">Akses ribuan koleksi buku fisik perpustakaan.</p>
             </div>
-           
+
             <div class="service-card" data-service="penerbitan">
                 <div class="service-icon">📖</div>
                 <h3 data-lang-key="service_penerbitan_title">Penerbitan Buku</h3>
-                <p class="muted" data-lang-key="service_penerbitan_desc">Layanan penerbitan Buku</p>
+                <p data-lang-key="service_penerbitan_desc">Dukungan publikasi ilmiah dan penerbitan buku.</p>
             </div>
-            
+
             <div class="service-card" data-service="survey">
                 <div class="service-icon">📊</div>
                 <h3 data-lang-key="service_survey_title">Survey Kepuasan</h3>
-                <p class="muted" data-lang-key="service_survey_desc">Berikan feedback untuk layanan kami</p>
+                <p data-lang-key="service_survey_desc">Berikan feedback untuk kualitas layanan kami.</p>
             </div>
         </div>
     </section>
 
+    <!-- News Section -->
     <section class="news-section" id="event">
         <div class="news-container">
             <h2 data-lang-key="news_title">Berita & Event Terkini</h2>
@@ -257,43 +296,44 @@
                     <div class="news-icon">📰</div>
                     <div class="news-content">
                         <div class="news-date">20 Agustus 2025</div>
-                        <h3 data-lang-key="news_1_title">Perpustakaan Bekali Mahasiswa Pascasarjana 2025</h3>
-                        <p class="muted" data-lang-key="news_1_desc">Program pelatihan SLR untuk mahasiswa baru pascasarjana...</p>
+                        <h3 data-lang-key="news_1_title">Literasi Riset Pascasarjana 2025</h3>
+                        <p data-lang-key="news_1_desc">Pelatihan intensif literasi informasi bagi mahasiswa baru.</p>
                     </div>
                 </div>
+
                 <div class="news-card" data-news="news-2">
                     <div class="news-icon">🎉</div>
                     <div class="news-content">
                         <div class="news-date">19 Agustus 2025</div>
-                        <h3 data-lang-key="news_2_title">Meriahkan PKKMB UIN 2025</h3>
-                        <p class="muted" data-lang-key="news_2_desc">Perpustakaan turut memeriahkan acara penerimaan mahasiswa baru...</p>
+                        <h3 data-lang-key="news_2_title">Kemeriahan PKKMB UIN 2025</h3>
+                        <p data-lang-key="news_2_desc">Perpustakaan menyambut generasi baru literat UIN Jakarta.</p>
                     </div>
                 </div>
+
                 <div class="news-card" data-news="news-3">
                     <div class="news-icon">📚</div>
                     <div class="news-content">
-                        <div class="news-date">19 Agustus 2025</div>
-                        <h3 data-lang-key="news_3_title">Workshop Literasi Digital</h3>
-                        <p class="muted" data-lang-key="news_3_desc">Pelatihan literasi digital untuk meningkatkan kemampuan riset mahasiswa...</p>
+                        <div class="news-date">15 Agustus 2025</div>
+                        <h3 data-lang-key="news_3_title">Workshop E-Resources</h3>
+                        <p data-lang-key="news_3_desc">Optimalisasi penggunaan database jurnal internasional.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
+    <!-- Footer -->
     <footer id="kontak">
         <div class="footer-container">
             <div class="footer-section">
-                <h3 data-lang-key="footer_library">Perpustakaan</h3>
-                <p class="muted" data-lang-key="footer_address">Jl. Ir Haji Juanda Ciputat<br>
-                No. 95, Cempaka Putih<br>
-                Kec. Ciputat Timur, Banten 15412</p>
-                <p style="margin-top: 15px;">
+                <h3 data-lang-key="footer_library">Perpustakaan Utama</h3>
+                <p data-lang-key="footer_address">Jl. Ir Haji Juanda Ciputat No. 95,<br>Kec. Ciputat Timur, Banten 15412</p>
+                <p class="footer-contact">
                     📧 Perpustakaan@apps.uinjkt.ac.id<br>
                     📱 021 7494136
                 </p>
             </div>
-            
+
             <div class="footer-section">
                 <h3 data-lang-key="footer_service_hours">Jam Layanan</h3>
                 <ul>
@@ -302,32 +342,32 @@
                     <li data-lang-key="footer_schedule_weekend">Sabtu-Minggu: Tutup</li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
-                <h3 data-lang-key="footer_quick_links">Link Cepat</h3>
+                <h3 data-lang-key="footer_quick_links">Tautan Cepat</h3>
                 <ul>
-                    <li><a href="#" onclick="scrollToSection('opac');" data-lang-key="nav_opac">OPAC</a></li>
+                    <li><a href="#" onclick="scrollToSection('search-section');" data-lang-key="nav_opac">Cari Koleksi</a></li>
                     <li><a href="#" onclick="openModal('e-resources'); return false;" data-lang-key="footer_quick_eresources">E-Resources</a></li>
-                    <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_book">UIN Book</a></li>
+                    <li><a href="#" onclick="openModal('penerbitan'); return false;" data-lang-key="footer_quick_book">UIN Book Store</a></li>
                 </ul>
             </div>
-            
+
             <div class="footer-section">
                 <h3 data-lang-key="footer_social_media">Media Sosial</h3>
                 <ul>
-                    <li><a href="https://www.youtube.com/@uinjktofficial/featured" data-social="YouTube" target="_blank">YouTube</a> </li>
-                    <li><a href="https://www.instagram.com/uinjktofficial/" data-social="Instagram" target="_blank">Instagram</a></li>
-                    <li><a href="https://x.com/uinjktofficial" data-social="Twitter" target="_blank">Twitter</a></li>
-                    <li><a href="https://www.tiktok.com/@uinjktofficial" data-social="TikTok" target="_blank">Tiktok</a></li>
+                    <li><a href="https://www.instagram.com/uinjktofficial/" target="_blank">Instagram</a></li>
+                    <li><a href="https://www.youtube.com/@uinjktofficial/featured" target="_blank">YouTube</a></li>
+                    <li><a href="https://x.com/uinjktofficial" target="_blank">Twitter</a></li>
                 </ul>
             </div>
         </div>
-        
+
         <div class="footer-bottom">
-            <p data-lang-key="footer_copyright">© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.</p>
+            <p data-lang-key="footer_copyright">© 2025 UIN Syarif Hidayatullah Jakarta. Member of Indonesia OneSearch.</p>
         </div>
     </footer>
 
+    <!-- Modal -->
     <div id="modal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -337,5 +377,8 @@
             <div id="modalBody"></div>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container"></div>
 </body>
 </html>
