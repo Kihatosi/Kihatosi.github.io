@@ -19,7 +19,7 @@
     --bg: #f8fafc;                 /* Very light slate background (Slate 50) */
     --card: #ffffff;               /* Solid white for cards/panels */
     --text-dark: #0f172a;          /* Soft dark slate text (Slate 900) */
-    --muted: #64748b;              /* Slate 500 for secondary text */
+    --muted: #475569;              /* Slate 600 for secondary text - WCAG AA compliant */
     
     /* Semantic colors - blue theme but highly readable and distinct */
     --success: #0d9488;            /* Soft teal/emerald - readable success */
@@ -419,7 +419,7 @@ nav {
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, 0.3);
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.75) 0%, rgba(30, 41, 59, 0.5) 100%);
     z-index: 1;
 }
 

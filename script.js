@@ -330,7 +330,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             document.querySelectorAll('[data-lang-key]').forEach(element => {
                 const key = element.getAttribute('data-lang-key');
                 if (langDict[key] && typeof langDict[key] === 'string') {
-                    element.textContent = langDict[key];
+                    element.innerHTML = langDict[key];
                 }
             });
             document.querySelectorAll('[data-lang-key-placeholder]').forEach(element => {
