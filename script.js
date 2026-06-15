@@ -556,6 +556,11 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                         <strong>${currentUser.nama} ${currentUser.role === 'admin' ? '(Admin)' : ''}</strong><br>
                         <small class="muted">${currentUser.email}</small>
                     </div>
+                    ${currentUser.role === 'admin' ? `
+                    <div class="user-dropdown-item" onclick="openAdminDashboard()" style="color: var(--secondary-blue); font-weight: bold;">
+                        ⚙️ ${currentLang === 'id' ? 'Dashboard Admin' : 'Admin Dashboard'}
+                    </div>
+                    ` : ''}
                     <div class="user-dropdown-item" onclick="logout()" style="color: var(--danger); font-weight: bold;">
                         🚪 ${currentLang === 'id' ? 'Logout' : 'Logout'}
                     </div>
@@ -999,29 +1004,158 @@ function showToast(message, type = 'success') {
             } else if (type === 'user-profile') {
                 if (!currentUser) { openModal('login'); return; }
                 title.textContent = langDict.modal_profile_title;
+
+                // Ambil data peminjaman dan pengajuan user
+                const allLoans = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+                const myLoans = allLoans.filter(p => p.userEmail === currentUser.email);
+                const activeLoans = myLoans.filter(p => p.status === 'active');
+                const returnedLoans = myLoans.filter(p => p.status === 'returned');
+
+                const allBebas = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+                const myBebas = allBebas.filter(b => b.userEmail === currentUser.email);
+
+                const allPenerbitan = JSON.parse(localStorage.getItem('uin_penerbitan') || '[]');
+                const myPenerbitan = allPenerbitan.filter(p => p.userEmail === currentUser.email);
+
+                // Render daftar peminjaman
+                let loansHtml = '';
+                if (myLoans.length === 0) {
+                    loansHtml = `<p class="muted" style="text-align:center;padding:24px;">${currentLang === 'id' ? 'Belum ada riwayat peminjaman.' : 'No borrowing history yet.'}</p>`;
+                } else {
+                    myLoans.forEach(loan => {
+                        const isOverdue = loan.status === 'active' && new Date(loan.tgl_kembali) < new Date();
+                        const statusLabel = loan.status === 'returned'
+                            ? (currentLang === 'id' ? 'Dikembalikan' : 'Returned')
+                            : isOverdue
+                                ? (currentLang === 'id' ? 'Terlambat!' : 'Overdue!')
+                                : (currentLang === 'id' ? 'Dipinjam' : 'Borrowed');
+                        const statusClass = loan.status === 'returned' ? 'returned' : isOverdue ? 'rejected' : 'active';
+
+                        loansHtml += `
+                            <div class="loan-card ${isOverdue ? 'overdue' : ''}">
+                                <div class="loan-card-header">
+                                    <span class="loan-card-title">${escapeHtml(loan.judul)}</span>
+                                    <span class="status-badge ${statusClass}">${statusLabel}</span>
+                                </div>
+                                <div class="loan-card-meta">
+                                    ${currentLang === 'id' ? 'Kode' : 'Code'}: ${loan.kode}<br>
+                                    ${currentLang === 'id' ? 'Tgl Pinjam' : 'Borrow Date'}: ${loan.tgl_pinjam || '-'} &nbsp;|&nbsp;
+                                    ${currentLang === 'id' ? 'Tenggat' : 'Due'}: ${loan.tgl_kembali || '-'}
+                                </div>
+                                ${loan.status === 'active' ? `
+                                    <div class="loan-card-actions">
+                                        <button class="btn-primary" onclick="returnBook('${loan.kode}')" style="font-size:13px;padding:8px 16px;">
+                                            ${currentLang === 'id' ? '↩ Kembalikan Buku' : '↩ Return Book'}
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+                }
+
+                // Render daftar pengajuan
+                let requestsHtml = '';
+                if (myBebas.length === 0 && myPenerbitan.length === 0) {
+                    requestsHtml = `<p class="muted" style="text-align:center;padding:24px;">${currentLang === 'id' ? 'Belum ada pengajuan.' : 'No requests yet.'}</p>`;
+                } else {
+                    // Surat Bebas Pinjam
+                    myBebas.forEach(b => {
+                        const statusLabel = b.status === 'approved'
+                            ? (currentLang === 'id' ? '✓ Disetujui' : '✓ Approved')
+                            : b.status === 'rejected'
+                                ? (currentLang === 'id' ? '✗ Ditolak' : '✗ Rejected')
+                                : (currentLang === 'id' ? '⏳ Menunggu' : '⏳ Pending');
+                        requestsHtml += `
+                            <div class="loan-card">
+                                <div class="loan-card-header">
+                                    <span class="loan-card-title">${currentLang === 'id' ? '📄 Surat Bebas Pinjam' : '📄 No-Loan Certificate'}</span>
+                                    <span class="status-badge ${b.status}">${statusLabel}</span>
+                                </div>
+                                <div class="loan-card-meta">
+                                    ${currentLang === 'id' ? 'Nomor' : 'Number'}: ${b.nomor}<br>
+                                    ${currentLang === 'id' ? 'Tanggal' : 'Date'}: ${new Date(b.tanggal).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US')}
+                                    ${b.alasan_tolak ? `<br><span style="color:var(--danger)">${currentLang === 'id' ? 'Alasan' : 'Reason'}: ${escapeHtml(b.alasan_tolak)}</span>` : ''}
+                                </div>
+                                ${b.status === 'approved' ? `
+                                    <div class="loan-card-actions">
+                                        <button class="btn-primary" onclick="printSuratBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 16px;">
+                                            ${currentLang === 'id' ? '🖨 Cetak Surat' : '🖨 Print Letter'}
+                                        </button>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `;
+                    });
+                    // Penerbitan
+                    myPenerbitan.forEach(p => {
+                        const statusLabel = p.status === 'approved'
+                            ? (currentLang === 'id' ? '✓ Diterima' : '✓ Accepted')
+                            : p.status === 'rejected'
+                                ? (currentLang === 'id' ? '✗ Ditolak' : '✗ Rejected')
+                                : (currentLang === 'id' ? '⏳ Review' : '⏳ In Review');
+                        requestsHtml += `
+                            <div class="loan-card">
+                                <div class="loan-card-header">
+                                    <span class="loan-card-title">${currentLang === 'id' ? '📝 Pengajuan Penerbitan' : '📝 Publication Request'}</span>
+                                    <span class="status-badge ${p.status === 'review' ? 'pending' : p.status}">${statusLabel}</span>
+                                </div>
+                                <div class="loan-card-meta">
+                                    ${currentLang === 'id' ? 'Nomor' : 'Number'}: ${p.nomor}<br>
+                                    ${currentLang === 'id' ? 'Judul' : 'Title'}: ${escapeHtml(p.judul || '-')}<br>
+                                    ${currentLang === 'id' ? 'Tanggal' : 'Date'}: ${new Date(p.tanggal).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US')}
+                                </div>
+                            </div>
+                        `;
+                    });
+                }
+
                 body.innerHTML = `
-                    <div class="profile-section">
-                        <div class="profile-header">
-                            <div class="profile-avatar-large">${currentUser.nama.charAt(0).toUpperCase()}</div>
-                            <div class="profile-info">
-                                <h3>${escapeHtml(currentUser.nama)}</h3>
-                                <p class="muted">${escapeHtml(currentUser.nim)}</p>
+                    <div class="modal-tabs">
+                        <button class="modal-tab-btn active" onclick="switchUserTab('akun', this)">
+                            ${currentLang === 'id' ? '👤 Detail Akun' : '👤 Account'}
+                        </button>
+                        <button class="modal-tab-btn" onclick="switchUserTab('pinjaman', this)">
+                            ${currentLang === 'id' ? '📚 Peminjaman' : '📚 Loans'} (${activeLoans.length})
+                        </button>
+                        <button class="modal-tab-btn" onclick="switchUserTab('pengajuan', this)">
+                            ${currentLang === 'id' ? '📋 Pengajuan' : '📋 Requests'} (${myBebas.length + myPenerbitan.length})
+                        </button>
+                    </div>
+                    <div id="userTab-akun" class="modal-tab-content active">
+                        <div class="profile-section">
+                            <div class="profile-header">
+                                <div class="profile-avatar-large">${currentUser.nama.charAt(0).toUpperCase()}</div>
+                                <div class="profile-info">
+                                    <h3>${escapeHtml(currentUser.nama)}</h3>
+                                    <p class="muted">${escapeHtml(currentUser.nim)}</p>
+                                </div>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-label">Email:</div>
+                                <div>${escapeHtml(currentUser.email)}</div>
+                                <div class="info-label">${currentLang === 'id' ? 'NIM/NIP:' : 'ID:'}</div>
+                                <div>${escapeHtml(currentUser.nim)}</div>
+                                <div class="info-label">${currentLang === 'id' ? 'Program Studi:' : 'Study Program:'}</div>
+                                <div>${escapeHtml(currentUser.prodi || '-')}</div>
+                                <div class="info-label">${currentLang === 'id' ? 'No. Telepon:' : 'Phone No.:'}</div>
+                                <div>${escapeHtml(currentUser.telp)}</div>
+                                <div class="info-label">${currentLang === 'id' ? 'Pinjaman Aktif:' : 'Active Loans:'}</div>
+                                <div><strong>${activeLoans.length} / 3</strong></div>
+                                <div class="info-label">${currentLang === 'id' ? 'Bergabung:' : 'Joined:'}</div>
+                                <div>${new Date(currentUser.tanggal_daftar).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
                             </div>
                         </div>
-                        <div class="info-grid">
-                            <div class="info-label">${currentLang === 'id' ? 'Email:' : 'Email:'}</div>
-                            <div>${escapeHtml(currentUser.email)}</div>
-                            <div class="info-label">${currentLang === 'id' ? 'NIM/NIP:' : 'ID:'}</div>
-                            <div>${escapeHtml(currentUser.nim)}</div>
-                            <div class="info-label">${currentLang === 'id' ? 'Program Studi:' : 'Study Program:'}</div>
-                            <div>${escapeHtml(currentUser.prodi || '-')}</div>
-                            <div class="info-label">${currentLang === 'id' ? 'No. Telepon:' : 'Phone No.:'}</div>
-                            <div>${escapeHtml(currentUser.telp)}</div>
-                            <div class="info-label">${currentLang === 'id' ? 'Bergabung:' : 'Joined:'}</div>
-                            <div>${new Date(currentUser.tanggal_daftar).toLocaleDateString(currentLang === 'id' ? 'id-ID' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' })}</div>
-                        </div>
                     </div>
-                    <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
+                    <div id="userTab-pinjaman" class="modal-tab-content">
+                        ${loansHtml}
+                    </div>
+                    <div id="userTab-pengajuan" class="modal-tab-content">
+                        ${requestsHtml}
+                    </div>
+                    <div style="margin-top:16px;">
+                        <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
+                    </div>
                 `;
             } else if (type === 'profile') {
                 title.textContent = langDict.modal_library_profile_title;
@@ -1481,21 +1615,73 @@ function showToast(message, type = 'success') {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             const kode = 'PJM-' + Date.now();
-            const langDict = translations[currentLang];
-            
+
+            // Cek batas maksimal 3 peminjaman aktif per user
             const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
-            peminjaman.push({ ...data, kode, tanggal: new Date().toISOString() });
+            const activeLoanCount = peminjaman.filter(p => p.userEmail === currentUser.email && p.status !== 'returned').length;
+            if (activeLoanCount >= 3) {
+                showToast(currentLang === 'id' ? '❌ Gagal! Anda sudah meminjam 3 buku (batas maksimal).' : '❌ Failed! You already have 3 active loans (maximum limit).', 'error');
+                return;
+            }
+
+            // Cari buku di katalog dan kurangi stok
+            const bookTitle = data.judul;
+            let bookFound = null;
+            let bookType = null;
+
+            // Cari di koleksi buku
+            bookFound = libraryData.book.find(b => b.title === bookTitle && b.available > 0);
+            if (bookFound) {
+                bookType = 'book';
+                bookFound.available--;
+            } else {
+                // Cari di koleksi OPAC
+                const opacItem = libraryData.opac.find(o => o.title === bookTitle && o.status === 'Tersedia');
+                if (opacItem) {
+                    bookType = 'opac';
+                    bookFound = opacItem;
+                    if (opacItem.copies > 1) {
+                        opacItem.copies--;
+                    } else {
+                        opacItem.status = 'Dipinjam';
+                    }
+                }
+            }
+
+            if (bookFound) {
+                saveData(); // Simpan perubahan stok ke localStorage
+            }
+
+            // Simpan data peminjaman dengan info lengkap
+            const today = new Date();
+            const returnDate = new Date(today);
+            returnDate.setDate(returnDate.getDate() + 7);
+
+            peminjaman.push({
+                ...data,
+                kode,
+                bookId: bookFound ? bookFound.id : null,
+                bookType: bookType,
+                userEmail: currentUser.email,
+                userName: currentUser.nama,
+                userNim: currentUser.nim,
+                status: 'active',
+                tgl_pinjam: data.tgl_pinjam || today.toISOString().split('T')[0],
+                tgl_kembali: data.tgl_kembali || returnDate.toISOString().split('T')[0],
+                tanggal: new Date().toISOString()
+            });
             localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
-            
-            // Tambahan: Notifikasi Toast
-            showToast(currentLang === 'id' ? '✓ Peminjaman berhasil diajukan!' : '✓ Borrowing request submitted!');
+
+            showToast(currentLang === 'id' ? '✓ Peminjaman berhasil! Stok buku diperbarui.' : '✓ Borrowing successful! Book stock updated.');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Pengajuan Berhasil!' : '✓ Submission Successful!'}</strong><br>
-                    ${currentLang === 'id' ? 'Kode Peminjaman' : 'Borrowing Code'}: <strong>${kode}</strong><br><br>
-                    ${currentLang === 'id' ? 'Silakan datang ke perpustakaan dalam 2 hari untuk mengambil buku. (Ini adalah demo, data disimpan di browser Anda.)' : 'Please come to the library within 2 days to pick up the book. (This is a demo, data is stored in your browser.)'}
+                    <strong>${currentLang === 'id' ? '✓ Peminjaman Berhasil!' : '✓ Borrowing Successful!'}</strong><br>
+                    ${currentLang === 'id' ? 'Kode Peminjaman' : 'Borrowing Code'}: <strong>${kode}</strong><br>
+                    ${currentLang === 'id' ? 'Buku' : 'Book'}: <strong>${escapeHtml(bookTitle)}</strong><br>
+                    ${currentLang === 'id' ? 'Tenggat Pengembalian' : 'Due Date'}: <strong>${data.tgl_kembali || returnDate.toISOString().split('T')[0]}</strong><br><br>
+                    ${currentLang === 'id' ? 'Silakan datang ke perpustakaan untuk mengambil buku.' : 'Please come to the library to pick up the book.'}
                 </div>
                 <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
             `;
@@ -1506,20 +1692,38 @@ function showToast(message, type = 'success') {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             const nomor = 'SBP-' + Date.now();
-            
+
+            // VALIDASI: Cek apakah user masih memiliki peminjaman aktif
+            const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+            const activeLoans = peminjaman.filter(p => p.userEmail === currentUser.email && p.status === 'active');
+            if (activeLoans.length > 0) {
+                const bookTitles = activeLoans.map(l => `"${l.judul}"`).join(', ');
+                showToast(currentLang === 'id'
+                    ? `❌ Gagal! Anda masih meminjam ${activeLoans.length} buku: ${bookTitles}. Kembalikan terlebih dahulu.`
+                    : `❌ Failed! You still have ${activeLoans.length} active loan(s): ${bookTitles}. Return them first.`, 'error');
+                return;
+            }
+
             const bebas = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
-            bebas.push({ ...data, nomor, tanggal: new Date().toISOString() });
+            bebas.push({
+                ...data,
+                nomor,
+                userEmail: currentUser.email,
+                userName: currentUser.nama,
+                userNim: currentUser.nim,
+                status: 'pending', // Menunggu persetujuan admin
+                tanggal: new Date().toISOString()
+            });
             localStorage.setItem('uin_bebas_pinjam', JSON.stringify(bebas));
-            
-            // Tambahan: Notifikasi Toast
-            showToast(currentLang === 'id' ? '✓ Pengajuan surat berhasil!' : '✓ Letter request successful!');
+
+            showToast(currentLang === 'id' ? '✓ Pengajuan surat dikirim! Menunggu persetujuan pustakawan.' : '✓ Letter request sent! Waiting for librarian approval.');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
-                    <strong>${currentLang === 'id' ? '✓ Pengajuan Berhasil!' : '✓ Submission Successful!'}</strong><br>
+                    <strong>${currentLang === 'id' ? '✓ Pengajuan Dikirim!' : '✓ Request Submitted!'}</strong><br>
                     ${currentLang === 'id' ? 'Nomor Pengajuan' : 'Request Number'}: <strong>${nomor}</strong><br><br>
-                    ${currentLang === 'id' ? 'Surat akan diproses dalam 1-2 hari kerja. Anda akan menerima notifikasi via email. (Ini adalah demo, data disimpan di browser Anda.)' : 'The letter will be processed within 1-2 working days. You will receive an email notification. (This is a demo, data is stored in your browser.)'}
+                    ${currentLang === 'id' ? 'Pengajuan Anda akan diverifikasi oleh pustakawan. Cek status di menu profil Anda.' : 'Your request will be verified by the librarian. Check status in your profile menu.'}
                 </div>
                 <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
             `;
@@ -1532,10 +1736,16 @@ function showToast(message, type = 'success') {
             const nomor = 'UINP-' + Date.now();
             
             const penerbitan = JSON.parse(localStorage.getItem('uin_penerbitan') || '[]');
-            penerbitan.push({ ...data, nomor, tanggal: new Date().toISOString() });
+            penerbitan.push({
+                ...data,
+                nomor,
+                userEmail: currentUser.email,
+                userName: currentUser.nama,
+                status: 'review', // Dalam peninjauan
+                tanggal: new Date().toISOString()
+            });
             localStorage.setItem('uin_penerbitan', JSON.stringify(penerbitan));
             
-            // Tambahan: Notifikasi Toast
             showToast(currentLang === 'id' ? '✓ Pengajuan penerbitan dikirim!' : '✓ Publication request sent!');
 
             const body = document.getElementById('modalBody');
@@ -1543,7 +1753,7 @@ function showToast(message, type = 'success') {
                 <div class="alert alert-success">
                     <strong>${currentLang === 'id' ? '✓ Pengajuan Berhasil!' : '✓ Submission Successful!'}</strong><br>
                     ${currentLang === 'id' ? 'Nomor Registrasi' : 'Registration Number'}: <strong>${nomor}</strong><br><br>
-                    ${currentLang === 'id' ? 'Tim editorial akan meninjau naskah Anda dalam 7-14 hari kerja.' : 'The editorial team will review your manuscript within 7-14 working days.'}
+                    ${currentLang === 'id' ? 'Tim editorial akan meninjau naskah Anda dalam 7-14 hari kerja. Cek status di menu profil Anda.' : 'The editorial team will review your manuscript within 7-14 working days. Check status in your profile menu.'}
                 </div>
                 <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
             `;
@@ -1555,21 +1765,25 @@ function showToast(message, type = 'success') {
             const data = Object.fromEntries(formData);
             
             const survey = JSON.parse(localStorage.getItem('uin_survey') || '[]');
-            survey.push({ ...data, tanggal: new Date().toISOString() });
+            survey.push({
+                ...data,
+                userEmail: currentUser ? currentUser.email : 'anonymous',
+                tanggal: new Date().toISOString()
+            });
             localStorage.setItem('uin_survey', JSON.stringify(survey));
             
-            // Tambahan: Notifikasi Toast
             showToast(currentLang === 'id' ? '✓ Terima kasih atas saran Anda!' : '✓ Thank you for your feedback!');
 
             const body = document.getElementById('modalBody');
             body.innerHTML = `
                 <div class="alert alert-success">
                     <strong>${currentLang === 'id' ? '✓ Terima Kasih!' : '✓ Thank You!'}</strong><br>
-                    ${currentLang === 'id' ? 'Survey Anda telah berhasil dikirim. Masukan Anda sangat berharga untuk kami. (Ini adalah demo, data disimpan di browser Anda.)' : 'Your survey has been submitted successfully. Your feedback is highly valuable to us. (This is a demo, data is stored in your browser.)'}
+                    ${currentLang === 'id' ? 'Survey Anda telah berhasil dikirim. Masukan Anda sangat berharga untuk peningkatan layanan perpustakaan.' : 'Your survey has been submitted successfully. Your feedback is highly valuable for improving library services.'}
                 </div>
                 <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
             `;
         }
+
 
 /* ============================================================
    SECTION 12: CRUD FORM HANDLERS (ADMIN)
@@ -2067,6 +2281,386 @@ function filterCollection(category, element = null) {
         `;
         container.appendChild(card);
     });
+}
+
+
+/* ============================================================
+   SECTION 17: USER DASHBOARD HELPERS
+   ============================================================ */
+function switchUserTab(tabId, btn) {
+    document.querySelectorAll('.modal-tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.modal-tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('userTab-' + tabId).classList.add('active');
+    btn.classList.add('active');
+}
+
+function returnBook(kode) {
+    const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+    const loan = peminjaman.find(p => p.kode === kode);
+    if (!loan || loan.status === 'returned') return;
+
+    // Kembalikan stok buku ke katalog
+    if (loan.bookId && loan.bookType) {
+        const item = libraryData[loan.bookType].find(b => b.id === loan.bookId);
+        if (item) {
+            if (loan.bookType === 'book') {
+                item.available++;
+            } else if (loan.bookType === 'opac') {
+                item.status = 'Tersedia';
+                if (item.copies !== undefined) item.copies++;
+            }
+            saveData();
+        }
+    }
+
+    // Update status peminjaman
+    loan.status = 'returned';
+    loan.tgl_dikembalikan = new Date().toISOString().split('T')[0];
+    localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
+
+    showToast(currentLang === 'id' ? '✓ Buku berhasil dikembalikan!' : '✓ Book returned successfully!');
+    openModal('user-profile'); // Refresh dashboard
+}
+
+/* ============================================================
+   SECTION 18: CETAK SURAT BEBAS PINJAM
+   ============================================================ */
+function printSuratBebasPinjam(nomor) {
+    const allBebas = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+    const surat = allBebas.find(b => b.nomor === nomor);
+    if (!surat) return;
+
+    const today = new Date();
+    const tanggalCetak = today.toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modalTitle');
+    const body = document.getElementById('modalBody');
+
+    title.textContent = currentLang === 'id' ? 'Surat Keterangan Bebas Pinjam' : 'No-Loan Certificate';
+    body.innerHTML = `
+        <div class="surat-container" id="suratCetak">
+            <div class="surat-kop">
+                <h3>KEMENTERIAN AGAMA REPUBLIK INDONESIA</h3>
+                <h2>UIN SYARIF HIDAYATULLAH JAKARTA</h2>
+                <h3>PERPUSTAKAAN</h3>
+                <p>Jl. Ir. H. Juanda No. 95, Ciputat 15412, Tangerang Selatan</p>
+                <p>Telp. (021) 7401925 | Email: perpustakaan@uinjkt.ac.id</p>
+            </div>
+            <div class="surat-body">
+                <p style="text-align:center;font-weight:700;text-decoration:underline;font-size:16px;margin-bottom:4px;">
+                    SURAT KETERANGAN BEBAS PINJAM
+                </p>
+                <p style="text-align:center;margin-bottom:24px;">
+                    Nomor: ${surat.nomor}
+                </p>
+                <p>Yang bertanda tangan di bawah ini, Kepala Perpustakaan UIN Syarif Hidayatullah Jakarta, menerangkan bahwa:</p>
+                <table>
+                    <tr><td>Nama</td><td>: ${escapeHtml(surat.userName || surat.nama || '-')}</td></tr>
+                    <tr><td>NIM/NIP</td><td>: ${escapeHtml(surat.userNim || surat.nim || '-')}</td></tr>
+                    <tr><td>Program Studi</td><td>: ${escapeHtml(surat.prodi || surat.fakultas || '-')}</td></tr>
+                    <tr><td>Tanggal Pengajuan</td><td>: ${new Date(surat.tanggal).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}</td></tr>
+                </table>
+                <p>Berdasarkan pengecekan data peminjaman perpustakaan, yang bersangkutan dinyatakan <strong>BEBAS dari tanggungan peminjaman buku</strong> di Perpustakaan UIN Syarif Hidayatullah Jakarta.</p>
+                <p>Demikian surat keterangan ini dibuat untuk dapat dipergunakan sebagaimana mestinya.</p>
+            </div>
+            <div class="surat-ttd">
+                <div>
+                    <p>Jakarta, ${tanggalCetak}</p>
+                    <p>Kepala Perpustakaan</p>
+                    <p class="nama">Dr. H. Abdul Hamid, M.Ag.</p>
+                    <p class="jabatan">NIP. 197001011995031001</p>
+                </div>
+            </div>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;">
+            <button class="btn-primary" onclick="window.print()">🖨 ${currentLang === 'id' ? 'Cetak / Print' : 'Print'}</button>
+            <button class="btn-secondary" onclick="openModal('user-profile')">${currentLang === 'id' ? '← Kembali' : '← Back'}</button>
+        </div>
+    `;
+    modal.classList.add('show');
+    lastOpenedModalType = 'surat';
+}
+
+/* ============================================================
+   SECTION 19: ADMIN DASHBOARD TERPADU
+   ============================================================ */
+function switchAdminTab(tabId, btn) {
+    document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.admin-tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById('adminTab-' + tabId).classList.add('active');
+    btn.classList.add('active');
+}
+
+function openAdminDashboard() {
+    if (!currentUser || currentUser.role !== 'admin') return;
+
+    const modal = document.getElementById('modal');
+    const title = document.getElementById('modalTitle');
+    const body = document.getElementById('modalBody');
+
+    title.textContent = currentLang === 'id' ? '⚙️ Dashboard Admin' : '⚙️ Admin Dashboard';
+
+    // Data
+    const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+    const bebasPinjam = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+    const penerbitan = JSON.parse(localStorage.getItem('uin_penerbitan') || '[]');
+    const surveyData = JSON.parse(localStorage.getItem('uin_survey') || '[]');
+
+    // === TAB 1: Transaksi Peminjaman ===
+    let transaksiHtml = '';
+    if (peminjaman.length === 0) {
+        transaksiHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada transaksi.</p>`;
+    } else {
+        peminjaman.slice().reverse().forEach(loan => {
+            const isOverdue = loan.status === 'active' && new Date(loan.tgl_kembali) < new Date();
+            const statusLabel = loan.status === 'returned' ? '✓ Dikembalikan' : isOverdue ? '⚠ Terlambat' : '📖 Dipinjam';
+            const statusClass = loan.status === 'returned' ? 'returned' : isOverdue ? 'rejected' : 'active';
+            transaksiHtml += `
+                <div class="loan-card ${isOverdue ? 'overdue' : ''}">
+                    <div class="loan-card-header">
+                        <span class="loan-card-title">${escapeHtml(loan.judul)}</span>
+                        <span class="status-badge ${statusClass}">${statusLabel}</span>
+                    </div>
+                    <div class="loan-card-meta">
+                        👤 ${escapeHtml(loan.userName || loan.nama || '-')} (${escapeHtml(loan.userNim || loan.nim || '-')})<br>
+                        Kode: ${loan.kode} | Pinjam: ${loan.tgl_pinjam || '-'} | Tenggat: ${loan.tgl_kembali || '-'}
+                        ${loan.tgl_dikembalikan ? `<br>✓ Dikembalikan: ${loan.tgl_dikembalikan}` : ''}
+                    </div>
+                    ${loan.status === 'active' ? `
+                        <div class="loan-card-actions">
+                            <button class="btn-primary" onclick="adminReturnBook('${loan.kode}')" style="font-size:13px;padding:8px 14px;">
+                                ↩ Proses Pengembalian
+                            </button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+    }
+
+    // === TAB 2: Pengajuan Bebas Pinjam ===
+    let bebasHtml = '';
+    if (bebasPinjam.length === 0) {
+        bebasHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada pengajuan.</p>`;
+    } else {
+        bebasPinjam.slice().reverse().forEach(b => {
+            const statusLabel = b.status === 'approved' ? '✓ Disetujui' : b.status === 'rejected' ? '✗ Ditolak' : '⏳ Menunggu';
+            const statusClass = b.status;
+
+            // Cek apakah user masih punya pinjaman aktif
+            const userActiveLoans = peminjaman.filter(p => p.userEmail === b.userEmail && p.status === 'active');
+
+            bebasHtml += `
+                <div class="loan-card">
+                    <div class="loan-card-header">
+                        <span class="loan-card-title">📄 ${escapeHtml(b.userName || b.nama || '-')}</span>
+                        <span class="status-badge ${statusClass}">${statusLabel}</span>
+                    </div>
+                    <div class="loan-card-meta">
+                        NIM: ${escapeHtml(b.userNim || b.nim || '-')} | No: ${b.nomor}<br>
+                        Tanggal: ${new Date(b.tanggal).toLocaleDateString('id-ID')}
+                        ${userActiveLoans.length > 0 ? `<br><span style="color:var(--danger);font-weight:700;">⚠ Masih meminjam ${userActiveLoans.length} buku!</span>` : '<br><span style="color:#065f46;font-weight:700;">✓ Tidak ada pinjaman aktif</span>'}
+                    </div>
+                    ${b.status === 'pending' ? `
+                        <div class="loan-card-actions">
+                            <button class="btn-primary" onclick="approveBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">✓ Setujui</button>
+                            <button class="btn-danger" onclick="rejectBebasPinjam('${b.nomor}')" style="font-size:13px;padding:8px 14px;">✗ Tolak</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+    }
+
+    // === TAB 3: Pengajuan Penerbitan ===
+    let penerbitanHtml = '';
+    if (penerbitan.length === 0) {
+        penerbitanHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada pengajuan.</p>`;
+    } else {
+        penerbitan.slice().reverse().forEach(p => {
+            const statusLabel = p.status === 'approved' ? '✓ Diterima' : p.status === 'rejected' ? '✗ Ditolak' : '⏳ Review';
+            penerbitanHtml += `
+                <div class="loan-card">
+                    <div class="loan-card-header">
+                        <span class="loan-card-title">📝 ${escapeHtml(p.judul || '-')}</span>
+                        <span class="status-badge ${p.status === 'review' ? 'pending' : p.status}">${statusLabel}</span>
+                    </div>
+                    <div class="loan-card-meta">
+                        👤 ${escapeHtml(p.userName || p.nama || '-')} | No: ${p.nomor}<br>
+                        Tanggal: ${new Date(p.tanggal).toLocaleDateString('id-ID')}
+                    </div>
+                    ${p.status === 'review' ? `
+                        <div class="loan-card-actions">
+                            <button class="btn-primary" onclick="approvePenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">✓ Terima</button>
+                            <button class="btn-danger" onclick="rejectPenerbitan('${p.nomor}')" style="font-size:13px;padding:8px 14px;">✗ Tolak</button>
+                        </div>
+                    ` : ''}
+                </div>
+            `;
+        });
+    }
+
+    // === TAB 4: Statistik Survey ===
+    let surveyHtml = '';
+    if (surveyData.length === 0) {
+        surveyHtml = `<p class="muted" style="text-align:center;padding:24px;">Belum ada data survey.</p>`;
+    } else {
+        // Hitung rata-rata rating
+        const ratings = surveyData.map(s => parseInt(s.rating || s.kepuasan || 0)).filter(r => r > 0);
+        const avgRating = ratings.length > 0 ? (ratings.reduce((a, b) => a + b, 0) / ratings.length) : 0;
+
+        // Hitung distribusi rating (1-5)
+        const ratingDist = [0, 0, 0, 0, 0];
+        ratings.forEach(r => { if (r >= 1 && r <= 5) ratingDist[r - 1]++; });
+
+        surveyHtml += `
+            <div class="stat-overview">
+                <div class="stat-box">
+                    <div class="stat-box-value">${surveyData.length}</div>
+                    <div class="stat-box-label">Total Responden</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-value">${avgRating.toFixed(1)}</div>
+                    <div class="stat-box-label">Rata-rata Rating</div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-box-value">⭐ ${Math.round(avgRating)}/5</div>
+                    <div class="stat-box-label">Skor Kepuasan</div>
+                </div>
+            </div>
+            <h4 style="margin-bottom:12px;">📊 Distribusi Rating</h4>
+        `;
+        for (let i = 5; i >= 1; i--) {
+            const count = ratingDist[i - 1];
+            const percent = ratings.length > 0 ? Math.round(count / ratings.length * 100) : 0;
+            surveyHtml += `
+                <div class="rating-bar-row">
+                    <span class="rating-bar-label">${'⭐'.repeat(i)}</span>
+                    <div class="rating-bar-track"><div class="rating-bar-fill" style="width:${percent}%"></div></div>
+                    <span class="rating-bar-percent">${count} (${percent}%)</span>
+                </div>
+            `;
+        }
+
+        // Daftar saran/masukan
+        const suggestions = surveyData.filter(s => s.saran && s.saran.trim() !== '');
+        if (suggestions.length > 0) {
+            surveyHtml += `<h4 style="margin-top:24px;margin-bottom:12px;">💬 Saran & Masukan (${suggestions.length})</h4>`;
+            suggestions.slice().reverse().forEach(s => {
+                surveyHtml += `
+                    <div class="loan-card">
+                        <div class="loan-card-meta">
+                            "${escapeHtml(s.saran)}"<br>
+                            <small style="color:var(--muted);">— ${new Date(s.tanggal).toLocaleDateString('id-ID')}</small>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+    }
+
+    // Summary counts
+    const pendingBebas = bebasPinjam.filter(b => b.status === 'pending').length;
+    const pendingPenerbitan = penerbitan.filter(p => p.status === 'review').length;
+    const activeLoansCount = peminjaman.filter(p => p.status === 'active').length;
+
+    body.innerHTML = `
+        <div class="admin-tabs">
+            <button class="admin-tab-btn active" onclick="switchAdminTab('transaksi', this)">
+                📚 Transaksi (${activeLoansCount})
+            </button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('bebas', this)">
+                📄 Bebas Pinjam ${pendingBebas > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingBebas}</span>` : ''}
+            </button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('penerbitan', this)">
+                📝 Penerbitan ${pendingPenerbitan > 0 ? `<span style="background:var(--danger);color:#fff;padding:2px 6px;border-radius:50px;font-size:11px;margin-left:4px;">${pendingPenerbitan}</span>` : ''}
+            </button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('survey', this)">
+                📊 Survey (${surveyData.length})
+            </button>
+        </div>
+        <div id="adminTab-transaksi" class="admin-tab-content active">
+            ${transaksiHtml}
+        </div>
+        <div id="adminTab-bebas" class="admin-tab-content">
+            ${bebasHtml}
+        </div>
+        <div id="adminTab-penerbitan" class="admin-tab-content">
+            ${penerbitanHtml}
+        </div>
+        <div id="adminTab-survey" class="admin-tab-content">
+            ${surveyHtml}
+        </div>
+        <div style="margin-top:16px;">
+            <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
+        </div>
+    `;
+
+    modal.classList.add('show');
+    lastOpenedModalType = 'admin-dashboard';
+}
+
+function adminReturnBook(kode) {
+    returnBook(kode);
+    openAdminDashboard(); // Refresh admin dashboard
+}
+
+function approveBebasPinjam(nomor) {
+    const data = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+    const item = data.find(b => b.nomor === nomor);
+    if (!item) return;
+
+    // Cek pinjaman aktif user
+    const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
+    const activeLoans = peminjaman.filter(p => p.userEmail === item.userEmail && p.status === 'active');
+    if (activeLoans.length > 0) {
+        showToast(`❌ Tidak bisa menyetujui! ${item.userName} masih meminjam ${activeLoans.length} buku.`, 'error');
+        return;
+    }
+
+    item.status = 'approved';
+    item.tgl_disetujui = new Date().toISOString();
+    localStorage.setItem('uin_bebas_pinjam', JSON.stringify(data));
+    showToast('✓ Pengajuan bebas pinjam disetujui!');
+    openAdminDashboard();
+}
+
+function rejectBebasPinjam(nomor) {
+    const alasan = prompt(currentLang === 'id' ? 'Masukkan alasan penolakan:' : 'Enter rejection reason:');
+    if (alasan === null) return;
+
+    const data = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+    const item = data.find(b => b.nomor === nomor);
+    if (!item) return;
+
+    item.status = 'rejected';
+    item.alasan_tolak = alasan || 'Tidak memenuhi syarat';
+    localStorage.setItem('uin_bebas_pinjam', JSON.stringify(data));
+    showToast('Pengajuan bebas pinjam ditolak.');
+    openAdminDashboard();
+}
+
+function approvePenerbitan(nomor) {
+    const data = JSON.parse(localStorage.getItem('uin_penerbitan') || '[]');
+    const item = data.find(p => p.nomor === nomor);
+    if (!item) return;
+
+    item.status = 'approved';
+    localStorage.setItem('uin_penerbitan', JSON.stringify(data));
+    showToast('✓ Pengajuan penerbitan diterima!');
+    openAdminDashboard();
+}
+
+function rejectPenerbitan(nomor) {
+    const data = JSON.parse(localStorage.getItem('uin_penerbitan') || '[]');
+    const item = data.find(p => p.nomor === nomor);
+    if (!item) return;
+
+    item.status = 'rejected';
+    localStorage.setItem('uin_penerbitan', JSON.stringify(data));
+    showToast('Pengajuan penerbitan ditolak.');
+    openAdminDashboard();
 }
 
 applyTranslations(); 
