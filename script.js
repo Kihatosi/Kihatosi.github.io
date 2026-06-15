@@ -902,6 +902,7 @@ function showToast(message, type = 'success') {
                 html += `
                     <button class="btn-secondary" onclick="editItem('${type}', '${item.id}')" style="margin: 0;">${labels.edit_data}</button>
                     <button class="btn-danger" onclick="deleteItem('${type}', '${item.id}')">${labels.delete_data}</button>
+                    <button class="btn-secondary" onclick="openAdminDashboard()" style="margin: 0;">${currentLang === 'id' ? 'Kembali' : 'Back'}</button>
                 `;
             }
 
@@ -2083,7 +2084,7 @@ function showToast(message, type = 'success') {
                     <div class="form-group"><label>${labels.description}</label><textarea name="description">${escapeHtml(item.description || '')}</textarea></div>
                     <div style="margin-top: 20px;">
                         <button type="submit" class="btn-primary">${labels.save_changes}</button>
-                        <button type="button" class="btn-secondary" onclick="closeModal()">${labels.cancel}</button>
+                        <button type="button" class="btn-secondary" onclick="openAdminDashboard()">${labels.cancel}</button>
                     </div>
                 </form>`;
 
@@ -2102,7 +2103,7 @@ function showToast(message, type = 'success') {
                     if (data.copies) libraryData[type][index].copies = parseInt(data.copies);
                     saveData();
                     showToast(currentLang === 'id' ? 'Perubahan disimpan!' : 'Changes saved!');
-                    closeModal();
+                    openAdminDashboard();
                 }
             });
             modal.classList.add('show');
@@ -2113,7 +2114,7 @@ function showToast(message, type = 'success') {
                 libraryData[type] = libraryData[type].filter(i => i.id !== id);
                 saveData();
                 showToast(currentLang === 'id' ? 'Terhapus!' : 'Deleted!');
-                closeModal();
+                openAdminDashboard();
             }
         }
 
