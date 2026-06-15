@@ -730,11 +730,65 @@ function showToast(message, type = 'success') {
     }, 3000);
 }
 
+/* ============================================================
+   SECTION 7B: MOBILE Hamburger MENU TOGGLE
+   ============================================================ */
+function toggleMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        navLinks.classList.toggle('show');
+    }
+}
+
+function closeMobileMenu() {
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        navLinks.classList.remove('show');
+    }
+}
+
+// Auto close mobile menu on links or button clicks and setup scroll lock
+document.addEventListener('DOMContentLoaded', () => {
+    const navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+        navLinks.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('button') || e.target.closest('.user-dropdown-item')) {
+                closeMobileMenu();
+            }
+        });
+    }
+
+    // Modal Scroll-Lock MutationObserver
+    const modal = document.getElementById('modal');
+    if (modal) {
+        const observer = new MutationObserver((mutations) => {
+            mutations.forEach((mutation) => {
+                if (mutation.attributeName === 'class') {
+                    if (modal.classList.contains('show')) {
+                        document.body.style.overflow = 'hidden';
+                    } else {
+                        document.body.style.overflow = '';
+                    }
+                }
+            });
+        });
+        observer.observe(modal, { attributes: true });
+    }
+});
+
 
 /* ============================================================
    SECTION 8: SEARCH & TABS LOGIC
    ============================================================ */
         function switchTab(index) {
+            // Proteksi Tambahan: cegah bypass tab admin via console/manipulasi
+            if (index === 4 || index === 5) {
+                if (!currentUser || currentUser.role !== 'admin') {
+                    switchTab(0);
+                    return;
+                }
+            }
+
             const tabs = document.querySelectorAll('.tab-btn');
             const contents = document.querySelectorAll('.tab-content');
             
@@ -1133,6 +1187,73 @@ function showToast(message, type = 'success') {
                         </form>
                     </div>
                 `;
+                
+                // Attach real-time validation glow highlights
+                setTimeout(() => {
+                    const regForm = body.querySelector('#registerContent form');
+                    if (regForm) {
+                        const passwordInput = regForm.querySelector('input[name="password"]');
+                        const confirmInput = regForm.querySelector('input[name="confirm_password"]');
+                        const emailInput = regForm.querySelector('input[name="email"]');
+                        const nimInput = regForm.querySelector('input[name="nim"]');
+                        const roleSelect = regForm.querySelector('select[name="role_type"]');
+
+                        const validateRegFields = () => {
+                            // Password length check
+                            if (passwordInput.value.length > 0) {
+                                if (passwordInput.value.length < 6) {
+                                    passwordInput.style.borderColor = 'var(--danger)';
+                                } else {
+                                    passwordInput.style.borderColor = '#10b981';
+                                }
+                            } else {
+                                passwordInput.style.borderColor = '';
+                            }
+
+                            // Password confirmation check
+                            if (confirmInput.value.length > 0) {
+                                if (confirmInput.value !== passwordInput.value) {
+                                    confirmInput.style.borderColor = 'var(--danger)';
+                                } else {
+                                    confirmInput.style.borderColor = '#10b981';
+                                }
+                            } else {
+                                confirmInput.style.borderColor = '';
+                            }
+
+                            // Email domain check
+                            if (emailInput.value.length > 0) {
+                                if (!emailInput.value.toLowerCase().endsWith('uinjkt.ac.id')) {
+                                    emailInput.style.borderColor = 'var(--danger)';
+                                } else {
+                                    emailInput.style.borderColor = '#10b981';
+                                }
+                            } else {
+                                emailInput.style.borderColor = '';
+                            }
+
+                            // NIM/NIP digits check
+                            const val = nimInput.value.trim();
+                            const numRegex = /^\d+$/;
+                            if (val.length > 0) {
+                                const reqLen = roleSelect.value === 'dosen' ? 18 : 14;
+                                if (val.length !== reqLen || !numRegex.test(val)) {
+                                    nimInput.style.borderColor = 'var(--danger)';
+                                } else {
+                                    nimInput.style.borderColor = '#10b981';
+                                }
+                            } else {
+                                nimInput.style.borderColor = '';
+                            }
+                        };
+
+                        passwordInput.addEventListener('input', validateRegFields);
+                        confirmInput.addEventListener('input', validateRegFields);
+                        emailInput.addEventListener('input', validateRegFields);
+                        nimInput.addEventListener('input', validateRegFields);
+                        roleSelect.addEventListener('change', validateRegFields);
+                    }
+                }, 50);
             } else if (type === 'forgot-password') {
                 title.textContent = langDict.modal_forgot_password_title;
                 body.innerHTML = `
@@ -1380,16 +1501,21 @@ function showToast(message, type = 'success') {
                         </div>
                         <div class="form-group">
                             <label data-lang-key="form_book_title">${currentLang === 'id' ? 'Judul Buku *' : 'Book Title *'}</label>
-                            <input type="text" name="judul" value="${data || ''}" required>
+                            <input type="text" name="judul" value="${data || ''}" required readonly style="background:var(--accent-blue-light); cursor:not-allowed;">
                         </div>
                         <div class="form-row">
                             <div class="form-group">
                                 <label data-lang-key="form_borrow_date">${currentLang === 'id' ? 'Tanggal Pinjam *' : 'Borrow Date *'}</label>
-                                <input type="date" name="tgl_pinjam" required>
+                                <input type="date" name="tgl_pinjam" required value="${new Date().toISOString().split('T')[0]}">
                             </div>
                             <div class="form-group">
                                 <label data-lang-key="form_return_date">${currentLang === 'id' ? 'Tanggal Kembali *' : 'Return Date *'}</label>
-                                <input type="date" name="tgl_kembali" required>
+                                <input type="date" name="tgl_kembali" required readonly value="${(() => {
+                                    const dur = currentUser.role === 'dosen' ? 14 : 7;
+                                    const rDate = new Date();
+                                    rDate.setDate(rDate.getDate() + dur);
+                                    return rDate.toISOString().split('T')[0];
+                                })()}" style="background:var(--accent-blue-light); cursor:not-allowed;">
                             </div>
                         </div>
                         <div style="margin-top: 20px;">
@@ -1398,6 +1524,22 @@ function showToast(message, type = 'success') {
                         </div>
                     </form>
                 `;
+
+                // Reactive updates for borrow return date selection
+                setTimeout(() => {
+                    const pinjamInput = body.querySelector('input[name="tgl_pinjam"]');
+                    const kembaliInput = body.querySelector('input[name="tgl_kembali"]');
+                    if (pinjamInput && kembaliInput) {
+                        pinjamInput.addEventListener('change', () => {
+                            const pinjamDate = new Date(pinjamInput.value);
+                            if (!isNaN(pinjamDate.getTime())) {
+                                const returnDate = new Date(pinjamDate);
+                                returnDate.setDate(returnDate.getDate() + (currentUser.role === 'dosen' ? 14 : 7));
+                                kembaliInput.value = returnDate.toISOString().split('T')[0];
+                            }
+                        });
+                    }
+                }, 50);
             } else if (type === 'bebas-pinjam') {
                 if (!currentUser) {
                     showToast(langDict.alert_not_logged_in, 'error');
@@ -1595,6 +1737,7 @@ function showToast(message, type = 'success') {
 
         function closeModal() {
             document.getElementById('modal').classList.remove('show');
+            document.body.style.overflow = ''; // Release scroll lock
             lastOpenedModalType = null;
         }
 
@@ -1619,7 +1762,6 @@ function showToast(message, type = 'success') {
             
             if (user) {
                 saveCurrentUser(user);
-                // Menggunakan fungsi alert dari kamus bahasa
                 const successMsg = currentLang === 'id' ? `Selamat datang kembali, ${user.nama}!` : `Welcome back, ${user.nama}!`;
                 showToast(successMsg);
                 closeModal();
@@ -1642,6 +1784,33 @@ function showToast(message, type = 'success') {
             if (data.password !== data.confirm_password) {
                 showToast(alertPasswordMismatch, 'error');
                 return;
+            }
+            
+            // Pengetatan Validasi Email Domain UIN
+            if (!data.email.toLowerCase().endsWith('uinjkt.ac.id')) {
+                showToast(currentLang === 'id' 
+                    ? 'Pendaftaran wajib menggunakan email resmi UIN Jakarta (@uinjkt.ac.id / @apps.uinjkt.ac.id)!' 
+                    : 'Registration must use official UIN Jakarta email (@uinjkt.ac.id / @apps.uinjkt.ac.id)!', 'error');
+                return;
+            }
+
+            // Validasi Karakter NIM/NIP
+            const nimVal = data.nim.trim();
+            const numericRegex = /^\d+$/;
+            if (data.role_type === 'dosen') {
+                if (nimVal.length !== 18 || !numericRegex.test(nimVal)) {
+                    showToast(currentLang === 'id' 
+                        ? 'NIP Dosen harus berupa 18 digit angka!' 
+                        : 'Lecturer NIP must be exactly 18 digits of numbers!', 'error');
+                    return;
+                }
+            } else {
+                if (nimVal.length !== 14 || !numericRegex.test(nimVal)) {
+                    showToast(currentLang === 'id' 
+                        ? 'NIM Mahasiswa harus berupa 14 digit angka!' 
+                        : 'Student NIM must be exactly 14 digits of numbers!', 'error');
+                    return;
+                }
             }
             
             const users = loadUsers();
@@ -1864,6 +2033,18 @@ function showToast(message, type = 'success') {
             }
 
             const bebas = JSON.parse(localStorage.getItem('uin_bebas_pinjam') || '[]');
+            
+            // VALIDASI DUPLIKAT: Cek apakah user sudah memiliki pengajuan pending/approved
+            const existingBebas = bebas.filter(b => b.userEmail === currentUser.email && (b.status === 'pending' || b.status === 'approved'));
+            if (existingBebas.length > 0) {
+                const statusLabel = existingBebas[0].status === 'approved'
+                    ? (currentLang === 'id' ? 'DISETUJUI' : 'APPROVED')
+                    : (currentLang === 'id' ? 'MENUNGGU PERSETUJUAN' : 'PENDING APPROVAL');
+                showToast(currentLang === 'id'
+                    ? `Gagal! Anda sudah memiliki pengajuan aktif dengan status: ${statusLabel}.`
+                    : `Failed! You already have an active clearance request with status: ${statusLabel}.`, 'error');
+                return;
+            }
             bebas.push({
                 ...data,
                 nomor,
@@ -1965,6 +2146,10 @@ function showToast(message, type = 'success') {
             e.target.reset();
             showToast(currentLang === 'id' ? 'Jurnal berhasil ditambahkan!' : 'Journal successfully added!');
             renderDataLists();
+            const subTabBtn = document.querySelector('.sub-tab-btn[onclick*="daftar"]');
+            if (subTabBtn) {
+                switchSubTab('daftar', subTabBtn);
+            }
         }
 
         function handleAddBook(e) {
@@ -1987,6 +2172,10 @@ function showToast(message, type = 'success') {
             e.target.reset();
             showToast(currentLang === 'id' ? 'Buku berhasil ditambahkan!' : 'Book successfully added!');
             renderDataLists();
+            const subTabBtn = document.querySelector('.sub-tab-btn[onclick*="daftar"]');
+            if (subTabBtn) {
+                switchSubTab('daftar', subTabBtn);
+            }
         }
 
         function handleAddOpac(e) {
@@ -2009,6 +2198,10 @@ function showToast(message, type = 'success') {
             e.target.reset();
             showToast(currentLang === 'id' ? 'OPAC berhasil ditambahkan!' : 'OPAC successfully added!');
             renderDataLists();
+            const subTabBtn = document.querySelector('.sub-tab-btn[onclick*="daftar"]');
+            if (subTabBtn) {
+                switchSubTab('daftar', subTabBtn);
+            }
         }
 
 /* ============================================================
@@ -2076,16 +2269,18 @@ function showToast(message, type = 'success') {
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'data-item';
                 itemDiv.innerHTML = `
-                    <div class="data-item-header">
+                    <div class="data-item-header" style="align-items: center;">
                         <div style="flex: 1;">
                             <div class="data-item-title">${escapeHtml(user.nama)} ${isSelf ? '(Anda)' : ''}</div>
                             <div class="muted" style="font-size: 12px;">${user.email} • Peran: <strong>${user.role === 'admin' ? 'Pustakawan (Admin)' : user.role === 'dosen' ? 'Dosen' : 'Mahasiswa'}</strong></div>
                         </div>
                         ${!isSelf ? `
-                        <div class="data-item-actions">
-                            <button class="btn-small" onclick="toggleUserRole('${user.id}')">
-                                ${user.role === 'admin' ? 'Hapus Akses Admin' : 'Jadikan Admin'}
-                            </button>
+                        <div class="data-item-actions" style="margin: 0;">
+                            <select class="role-select" onchange="changeUserRole('${user.id}', this.value)" style="padding: 8px 12px; border-radius: var(--radius-sm); font-size: 13px; font-family: inherit; border: 1px solid var(--border-color); background: var(--card); color: var(--text-dark); cursor: pointer; font-weight: 600;">
+                                <option value="user" ${user.role === 'user' ? 'selected' : ''}>${currentLang === 'id' ? 'Mahasiswa' : 'Student'}</option>
+                                <option value="dosen" ${user.role === 'dosen' ? 'selected' : ''}>${currentLang === 'id' ? 'Dosen' : 'Lecturer'}</option>
+                                <option value="admin" ${user.role === 'admin' ? 'selected' : ''}>${currentLang === 'id' ? 'Pustakawan (Admin)' : 'Librarian (Admin)'}</option>
+                            </select>
                         </div>` : ''}
                     </div>
                 `;
@@ -2093,14 +2288,12 @@ function showToast(message, type = 'success') {
             });
         }
 
-        function toggleUserRole(userId) {
+        function changeUserRole(userId, newRole) {
             let users = loadUsers();
             const index = users.findIndex(u => u.id === userId);
             if (index !== -1) {
-                const newRole = users[index].role === 'admin' ? 'user' : 'admin';
                 users[index].role = newRole;
                 saveUsers(users);
-                // UPDATE: Ganti alert ke showToast
                 showToast(currentLang === 'id' ? 'Peran pengguna berhasil diperbarui!' : 'User role updated successfully!');
             }
         }
