@@ -2003,14 +2003,10 @@ footer::before {
    SECTION 15A: ACCESSIBILITY FONT ADJUSTMENTS & OVERRIDES
    ============================================================ */
 html.font-small { font-size: 14px !important; }
-html.font-medium { font-size: 16px !important; }
 html.font-large { font-size: 18px !important; }
 
 body.font-small {
     font-size: 14px !important;
-}
-body.font-medium {
-    font-size: 16px !important;
 }
 body.font-large {
     font-size: 18px !important;
