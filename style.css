@@ -1153,7 +1153,7 @@ footer::before {
 }
 
 .manage-card {
-    background: var(--card);
+    background: var(--bg);
     padding: 28px;
     border-radius: var(--radius-md);
     border: 1px solid var(--border-color);
@@ -1478,11 +1478,6 @@ footer::before {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
 }
-
-.modal .manage-card {
-    background: var(--bg);
-}
-
 /* ============================================================
    SECTION 12: USER DASHBOARD TABS (MODAL)
    ============================================================ */

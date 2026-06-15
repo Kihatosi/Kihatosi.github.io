@@ -44,6 +44,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 tab_book: 'Buku',
                 tab_opac: 'OPAC',
                 tab_manage: 'Kelola Data',
+                tab_members: 'Kelola Anggota',
                 search_journal_title: 'Pencarian Koleksi Jurnal',
                 search_journal_placeholder: 'Cari jurnal berdasarkan judul atau penulis...',
                 search_book_title: 'Pencarian Buku',
@@ -194,6 +195,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 tab_book: 'Book',
                 tab_opac: 'OPAC',
                 tab_manage: 'Manage Data',
+                tab_members: 'Manage Members',
                 search_journal_title: 'Journal Collection Search',
                 search_journal_placeholder: 'Search journal by title or author...',
                 search_book_title: 'Book Search',
@@ -558,6 +560,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
     const authButton = document.getElementById('authButton');
     const adminButton = document.getElementById('adminButton'); 
     const collectionTab = document.getElementById('collectionTab');
+    const adminDataTab = document.getElementById('adminDataTab');
+    const adminUsersTab = document.getElementById('adminUsersTab');
     
     if (!authButton) return;
     const langDict = translations[currentLang];
@@ -567,6 +571,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
         if (adminButton) {
             adminButton.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
+        }
+        
+        if (adminDataTab) {
+            adminDataTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
+        }
+        
+        if (adminUsersTab) {
+            adminUsersTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
         }
 
         // CEK APAKAH USER PUNYA FOTO
@@ -602,6 +614,8 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
     } else {
         if (adminButton) adminButton.style.display = 'none';
         if (collectionTab) collectionTab.style.display = 'none';
+        if (adminDataTab) adminDataTab.style.display = 'none';
+        if (adminUsersTab) adminUsersTab.style.display = 'none';
 
         authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
     }
@@ -629,7 +643,7 @@ function logout() {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
             const tabIdx = activeTab.getAttribute('data-tab');
-            if (tabIdx === "3" || tabIdx === "4") {
+            if (tabIdx === "3" || tabIdx === "4" || tabIdx === "5") {
                 switchTab(0);
             }
         }
@@ -681,17 +695,39 @@ function showToast(message, type = 'success') {
 /* ============================================================
    SECTION 8: SEARCH & TABS LOGIC
    ============================================================ */
+function toggleLandingPageSections(show) {
+    const hero = document.querySelector('.hero');
+    const layanan = document.getElementById('layanan');
+    const event = document.getElementById('event');
+    const faq = document.getElementById('faq');
+    if (hero) hero.style.display = show ? '' : 'none';
+    if (layanan) layanan.style.display = show ? '' : 'none';
+    if (event) event.style.display = show ? '' : 'none';
+    if (faq) faq.style.display = show ? '' : 'none';
+}
+
         function switchTab(index) {
             const tabs = document.querySelectorAll('.tab-btn');
             const contents = document.querySelectorAll('.tab-content');
             
             tabs.forEach((tab, i) => {
                 tab.classList.toggle('active', i === index);
-                contents[i].classList.toggle('active', i === index);
+            });
+            contents.forEach((content, i) => {
+                content.classList.toggle('active', i === index);
             });
             
             // Clear search results when switching tabs
             document.querySelectorAll('.search-results').forEach(res => res.classList.remove('show'));
+
+            // Toggle landing page sections for admin tabs (4 and 5)
+            if (index === 4 || index === 5) {
+                toggleLandingPageSections(false);
+                if (typeof renderDataLists === 'function') renderDataLists();
+                if (typeof renderUserList === 'function') renderUserList();
+            } else {
+                toggleLandingPageSections(true);
+            }
         }
 
         function updateTabCounts() {
@@ -902,7 +938,6 @@ function showToast(message, type = 'success') {
                 html += `
                     <button class="btn-secondary" onclick="editItem('${type}', '${item.id}')" style="margin: 0;">${labels.edit_data}</button>
                     <button class="btn-danger" onclick="deleteItem('${type}', '${item.id}')">${labels.delete_data}</button>
-                    <button class="btn-secondary" onclick="openAdminDashboard()" style="margin: 0;">${currentLang === 'id' ? 'Kembali' : 'Back'}</button>
                 `;
             }
 
@@ -2084,7 +2119,7 @@ function showToast(message, type = 'success') {
                     <div class="form-group"><label>${labels.description}</label><textarea name="description">${escapeHtml(item.description || '')}</textarea></div>
                     <div style="margin-top: 20px;">
                         <button type="submit" class="btn-primary">${labels.save_changes}</button>
-                        <button type="button" class="btn-secondary" onclick="openAdminDashboard()">${labels.cancel}</button>
+                        <button type="button" class="btn-secondary" onclick="closeModal()">${labels.cancel}</button>
                     </div>
                 </form>`;
 
@@ -2103,7 +2138,7 @@ function showToast(message, type = 'success') {
                     if (data.copies) libraryData[type][index].copies = parseInt(data.copies);
                     saveData();
                     showToast(currentLang === 'id' ? 'Perubahan disimpan!' : 'Changes saved!');
-                    openAdminDashboard();
+                    closeModal();
                 }
             });
             modal.classList.add('show');
@@ -2114,7 +2149,7 @@ function showToast(message, type = 'success') {
                 libraryData[type] = libraryData[type].filter(i => i.id !== id);
                 saveData();
                 showToast(currentLang === 'id' ? 'Terhapus!' : 'Deleted!');
-                openAdminDashboard();
+                closeModal();
             }
         }
 
@@ -2653,12 +2688,6 @@ function openAdminDashboard() {
             <button class="admin-tab-btn" onclick="switchAdminTab('survey', this)">
                 Survey (${surveyData.length})
             </button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('koleksi', this)">
-                Kelola Koleksi
-            </button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('anggota', this)">
-                Kelola Anggota
-            </button>
         </div>
         <div id="adminTab-transaksi" class="admin-tab-content active">
             ${transaksiHtml}
@@ -2672,137 +2701,6 @@ function openAdminDashboard() {
         <div id="adminTab-survey" class="admin-tab-content">
             ${surveyHtml}
         </div>
-        <div id="adminTab-koleksi" class="admin-tab-content">
-            <div class="manage-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
-                <!-- Add Journal Form -->
-                <div class="manage-card">
-                    <h4 data-lang-key="manage_add_journal">Tambah Jurnal</h4>
-                    <form onsubmit="handleAddJournal(event)">
-                        <div class="form-group">
-                            <label data-lang-key="form_title">Judul *</label>
-                            <input type="text" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_author">Penulis *</label>
-                            <input type="text" name="author" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label data-lang-key="form_year">Tahun</label>
-                                <input type="number" name="year">
-                            </div>
-                            <div class="form-group">
-                                <label>ISSN</label>
-                                <input type="text" name="issn">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_description">Deskripsi</label>
-                            <textarea name="description"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary" data-lang-key="button_save_journal">Simpan Jurnal</button>
-                    </form>
-                </div>
-
-                <!-- Add Book Form -->
-                <div class="manage-card">
-                    <h4 data-lang-key="manage_add_book">Tambah Buku</h4>
-                    <form onsubmit="handleAddBook(event)">
-                        <div class="form-group">
-                            <label data-lang-key="form_title">Judul *</label>
-                            <input type="text" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_author">Penulis *</label>
-                            <input type="text" name="author" required>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label data-lang-key="form_year">Tahun</label>
-                                <input type="number" name="year">
-                            </div>
-                            <div class="form-group">
-                                <label>ISBN</label>
-                                <input type="text" name="isbn">
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label data-lang-key="form_pages">Halaman</label>
-                                <input type="number" name="pages">
-                            </div>
-                            <div class="form-group">
-                                <label data-lang-key="form_available">Ketersediaan</label>
-                                <input type="number" name="available" min="0" value="1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_description">Deskripsi</label>
-                            <textarea name="description"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary" data-lang-key="button_save_book">Simpan Buku</button>
-                    </form>
-                </div>
-
-                <!-- Add OPAC Form -->
-                <div class="manage-card">
-                    <h4 data-lang-key="manage_add_opac">Tambah OPAC</h4>
-                    <form onsubmit="handleAddOpac(event)">
-                        <div class="form-group">
-                            <label data-lang-key="form_title">Judul *</label>
-                            <input type="text" name="title" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_author">Penulis *</label>
-                            <input type="text" name="author" required>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_call_number">Nomor Panggil</label>
-                            <input type="text" name="call_number">
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label data-lang-key="form_year">Tahun</label>
-                                <input type="number" name="year">
-                            </div>
-                            <div class="form-group">
-                                <label data-lang-key="form_copies">Eksemplar</label>
-                                <input type="number" name="copies" min="0" value="1">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_status">Status</label>
-                            <select name="status">
-                                <option value="Tersedia">Tersedia</option>
-                                <option value="Dipinjam">Dipinjam</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label data-lang-key="form_description">Deskripsi</label>
-                            <textarea name="description"></textarea>
-                        </div>
-                        <button type="submit" class="btn-primary" data-lang-key="button_save_opac">Simpan OPAC</button>
-                    </form>
-                </div>
-
-                <!-- Current Data -->
-                <div class="manage-card">
-                    <h4 data-lang-key="manage_current_data">Data Saat Ini</h4>
-                    <div id="dataLists" class="data-list"></div>
-                    <div class="button-group" style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px;">
-                        <button class="btn-secondary" onclick="exportData()" data-lang-key="button_export" style="margin: 0; padding: 10px 16px; font-size: 13px;">Ekspor JSON</button>
-                        <button class="btn-secondary" onclick="loadDemoData(); openAdminDashboard();" data-lang-key="button_load_demo" style="margin: 0; padding: 10px 16px; font-size: 13px;">Muat Demo</button>
-                        <button class="btn-danger" onclick="clearAllData(); openAdminDashboard();" data-lang-key="button_clear_all" style="margin: 0; padding: 10px 16px; font-size: 13px;">Hapus Semua</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="adminTab-anggota" class="admin-tab-content">
-            <div class="manage-card" style="max-width: 100%;">
-                <h4 style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
-                <div id="userListContainer" class="data-list"></div>
-            </div>
-        </div>
         <div style="margin-top:16px;">
             <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
         </div>
@@ -2810,12 +2708,6 @@ function openAdminDashboard() {
 
     modal.classList.add('show');
     lastOpenedModalType = 'admin-dashboard';
-
-    // Render list data koleksi & anggota secara dinamis setelah DOM siap
-    setTimeout(() => {
-        if (typeof renderDataLists === 'function') renderDataLists();
-        if (typeof renderUserList === 'function') renderUserList();
-    }, 50);
 }
 
 function adminReturnBook(kode) {
