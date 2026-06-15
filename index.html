@@ -29,6 +29,10 @@
                         <div class="lang-item" data-lang="en" onclick="setLanguage('en', this)">🇬🇧 English</div>
                     </div>
                 </div>
+                <!-- Dark Mode Toggle -->
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle dark/light theme">
+                    <span class="icon-moon">🌙</span>
+                </button>
             </div>
         </div>
     </div>
@@ -51,6 +55,10 @@
                 <li><a onclick="scrollToSection('kontak')" data-lang-key="nav_contact">Kontak</a></li>
                 <li id="authButton">
                     <button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">Login</button>
+                </li>
+                <!-- Admin (Pustakawan) button appears after login when role is admin -->
+                <li id="adminButton" style="display:none;">
+                    <button class="btn-login" onclick="openModal('admin')" data-lang-key="nav_admin">Pustakawan</button>
                 </li>
             </ul>
         </nav>
@@ -120,7 +128,7 @@
 
             <!-- Admin Tab -->
             <div class="tab-content" data-content="5">
-                <h3 class="tab-title" data-lang-key="manage_title">Kelola Data Perpustakaan</h3>
+                <h3 class="tab-title" data-lang-key="manage_title">Kelola Data Pustakawan</h3>
                 <p class="muted" data-lang-key="manage_subtitle">Tambah, edit, atau hapus data jurnal, buku, dan OPAC.</p>
 
                 <div class="manage-grid">
@@ -317,6 +325,31 @@
                         <h3 data-lang-key="news_3_title">Workshop E-Resources</h3>
                         <p data-lang-key="news_3_desc">Optimalisasi penggunaan database jurnal internasional.</p>
                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <h2 data-lang-key="faq_title">Pertanyaan Umum (FAQ)</h2>
+        <div class="faq-accordion">
+            <div class="faq-item" tabindex="0" role="button" aria-expanded="false">
+                <h4 class="faq-question" data-lang-key="faq_q1">Bagaimana cara meminjam buku?</h4>
+                <div class="faq-answer" hidden>
+                    <p data-lang-key="faq_a1">Login, cari buku, klik "Pinjam Buku Ini", isi formulir, dan konfirmasi. Maksimum 3 buku untuk mahasiswa, 5 buku untuk dosen.</p>
+                </div>
+            </div>
+            <div class="faq-item" tabindex="0" role="button" aria-expanded="false">
+                <h4 class="faq-question" data-lang-key="faq_q2">Berapa lama waktu pinjam?</h4>
+                <div class="faq-answer" hidden>
+                    <p data-lang-key="faq_a2">Mahasiswa: 7 hari, Dosen: 14 hari. Dapat diperpanjang dengan mengajukan permohonan.</p>
+                </div>
+            </div>
+            <div class="faq-item" tabindex="0" role="button" aria-expanded="false">
+                <h4 class="faq-question" data-lang-key="faq_q3">Bagaimana cara mengajukan Surat Bebas Pinjam?</h4>
+                <div class="faq-answer" hidden>
+                    <p data-lang-key="faq_a3">Masuk ke profil, pilih tab "Pengajuan Saya", pilih "Surat Bebas Pinjam" dan ikuti instruksi. Diterima setelah tidak ada pinjaman aktif.</p>
                 </div>
             </div>
         </div>

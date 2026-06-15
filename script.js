@@ -386,13 +386,27 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (dropdown) dropdown.classList.remove('show');
         }
 
-        document.addEventListener('click', (e) => {
-            const langSwitcher = document.querySelector('.language-switcher');
-            if (langSwitcher && !langSwitcher.contains(e.target)) {
-                closeLangDropdown();
-            }
-        });
-        // --- AKHIR FUNGSI ALIH BAHASA ---
+        // Theme toggle functionality
+        function toggleTheme() {
+            const html = document.documentElement;
+            const current = html.getAttribute('data-theme') || 'light';
+            const newTheme = current === 'dark' ? 'light' : 'dark';
+            html.setAttribute('data-theme', newTheme);
+            // Also toggle body class for legacy CSS
+            document.body.classList.toggle('dark-theme', newTheme === 'dark');
+            localStorage.setItem('theme', newTheme);
+        }
+
+        // Initialize theme on load
+        (function initTheme() {
+            const saved = localStorage.getItem('theme');
+            const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+            const theme = saved || (prefersDark ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-theme', theme);
+            document.body.classList.toggle('dark-theme', theme === 'dark');
+        })();
+
+
 
 /* ============================================================
    SECTION 4: DEMO DATA & INITIAL STATE
@@ -2666,3 +2680,32 @@ function rejectPenerbitan(nomor) {
 applyTranslations(); 
 renderDataLists();
 updateAuthButton();
+
+// Event listener click outside dropdown
+document.addEventListener('click', (e) => {
+    const langSwitcher = document.querySelector('.language-switcher');
+    if (langSwitcher && !langSwitcher.contains(e.target)) {
+        closeLangDropdown();
+    }
+});
+
+// FAQ accordion functionality
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.faq-item').forEach(function(item) {
+        item.addEventListener('click', function() {
+            const expanded = item.getAttribute('aria-expanded') === 'true';
+            item.setAttribute('aria-expanded', !expanded);
+            const answer = item.querySelector('.faq-answer');
+            if (answer) answer.hidden = expanded;
+        });
+    });
+});
+// Fallback manual execution for FAQ if DOMContentLoaded already fired
+document.querySelectorAll('.faq-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+        const expanded = item.getAttribute('aria-expanded') === 'true';
+        item.setAttribute('aria-expanded', !expanded);
+        const answer = item.querySelector('.faq-answer');
+        if (answer) answer.hidden = expanded;
+    });
+});
