@@ -12,6 +12,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         // --- KAMUS BAHASA (LANGUAGE DICTIONARY) ---
         const translations = {
             id: {
+                // Accessibility & Toggles
+                access_small_title: 'Perkecil ukuran teks',
+                access_medium_title: 'Ukuran teks normal',
+                access_large_title: 'Perbesar ukuran teks',
+                theme_toggle_aria: 'Ubah tema gelap/terang',
+                menu_toggle_aria: 'Ubah menu navigasi',
+                modal_close_aria: 'Tutup modal',
+
                 nav_collections: 'Koleksi',
                 modal_collections_title: 'Seluruh Koleksi Perpustakaan',
                 collection_all: 'Semua',
@@ -167,6 +175,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 alert_role_updated: 'Peran pengguna berhasil diperbarui!'
             },
             en: {
+                // Accessibility & Toggles
+                access_small_title: 'Decrease text size',
+                access_medium_title: 'Normal text size',
+                access_large_title: 'Increase text size',
+                theme_toggle_aria: 'Toggle dark/light theme',
+                menu_toggle_aria: 'Toggle navigation menu',
+                modal_close_aria: 'Close modal',
+
                 nav_collections: 'Collections',
                 modal_collections_title: 'All Library Collections',
                 collection_all: 'All',
@@ -341,6 +357,18 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 const key = element.getAttribute('data-lang-key-placeholder');
                 if (langDict[key] && typeof langDict[key] === 'string') {
                     element.placeholder = langDict[key];
+                }
+            });
+            document.querySelectorAll('[data-lang-key-title]').forEach(element => {
+                const key = element.getAttribute('data-lang-key-title');
+                if (langDict[key] && typeof langDict[key] === 'string') {
+                    element.title = langDict[key];
+                }
+            });
+            document.querySelectorAll('[data-lang-key-aria]').forEach(element => {
+                const key = element.getAttribute('data-lang-key-aria');
+                if (langDict[key] && typeof langDict[key] === 'string') {
+                    element.setAttribute('aria-label', langDict[key]);
                 }
             });
 
@@ -2672,7 +2700,7 @@ function switchUserTab(tabId, btn) {
     btn.classList.add('active');
 }
 
-function returnBook(kode) {
+function returnBook(kode, skipReopen = false) {
     const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
     const loan = peminjaman.find(p => p.kode === kode);
     if (!loan || loan.status === 'returned') return;
@@ -2697,7 +2725,9 @@ function returnBook(kode) {
     localStorage.setItem('uin_peminjaman', JSON.stringify(peminjaman));
 
     showToast(currentLang === 'id' ? 'Buku berhasil dikembalikan!' : 'Book returned successfully!');
-    openModal('user-profile'); // Refresh dashboard
+    if (!skipReopen) {
+        openModal('user-profile'); // Refresh dashboard
+    }
 }
 
 /* ============================================================
@@ -2980,7 +3010,7 @@ function openAdminDashboard() {
 }
 
 function adminReturnBook(kode) {
-    returnBook(kode);
+    returnBook(kode, true);
     openAdminDashboard(); // Refresh admin dashboard
 }
 
@@ -3074,11 +3104,42 @@ function initFAQ() {
         });
     });
 }
+
+// Scrollspy Active Nav Highlighting
+function initScrollspy() {
+    const scrollSections = ['layanan', 'event', 'faq', 'kontak'];
+    window.addEventListener('scroll', () => {
+        let currentSection = '';
+        const scrollPos = window.scrollY + 150; // offset for nav bar height
+
+        scrollSections.forEach(id => {
+            const el = document.getElementById(id);
+            if (el) {
+                const top = el.offsetTop;
+                const height = el.offsetHeight;
+                if (scrollPos >= top && scrollPos < top + height) {
+                    currentSection = id;
+                }
+            }
+        });
+
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+            const onclickAttr = link.getAttribute('onclick') || '';
+            if (currentSection && onclickAttr.includes(`scrollToSection('${currentSection}')`)) {
+                link.classList.add('active');
+            }
+        });
+    });
+}
+
 // Run on DOMContentLoaded or immediately if already loaded
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', function() {
         initFAQ();
+        initScrollspy();
     });
 } else {
     initFAQ();
+    initScrollspy();
 }
