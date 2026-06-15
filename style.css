@@ -248,6 +248,19 @@ nav {
     transform: scale(1.01);
 }
 
+.logo-title {
+    font-weight: 700;
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.2;
+}
+
+.logo-subtitle {
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+}
+
 .logo-mark {
     width: 50px;
     height: auto;
@@ -2003,49 +2016,125 @@ body.font-large {
     font-size: 18px !important;
 }
 
-/* Accessibility Overrides for Small Font (px elements) */
-body.font-small .nav-links a { font-size: 13px !important; }
-body.font-small .btn-primary,
-body.font-small .btn-secondary,
-body.font-small .btn-login,
-body.font-small .tab-btn { font-size: 13px !important; }
-body.font-small .btn-small { font-size: 11px !important; }
-body.font-small .form-group input,
-body.font-small .form-group select,
-body.font-small .form-group textarea,
-body.font-small .search-form input { font-size: 13px !important; }
-body.font-small .form-group label,
-body.font-small label { font-size: 12px !important; }
+/* Accessibility Overrides for Small Font (Absolute px to avoid compounding) */
+/* Group 1: General text, links, buttons, inputs, labels, list items, table cells */
 body.font-small p,
 body.font-small span,
+body.font-small a,
 body.font-small li,
 body.font-small td,
 body.font-small th,
-body.font-small .muted { font-size: 12px !important; }
-body.font-small .logo-title { font-size: 14px !important; }
-body.font-small .logo-subtitle { font-size: 11px !important; }
+body.font-small label,
+body.font-small input,
+body.font-small select,
+body.font-small textarea,
+body.font-small button,
+body.font-small .btn-primary,
+body.font-small .btn-secondary,
+body.font-small .btn-login,
+body.font-small .tab-btn,
+body.font-small .auth-tab,
+body.font-small .sub-tab-btn,
+body.font-small .surat-body,
+body.font-small .faq-answer p {
+    font-size: 13px !important;
+}
 
-/* Accessibility Overrides for Large Font (px elements) */
-body.font-large .nav-links a { font-size: 17px !important; }
-body.font-large .btn-primary,
-body.font-large .btn-secondary,
-body.font-large .btn-login,
-body.font-large .tab-btn { font-size: 17px !important; }
-body.font-large .btn-small { font-size: 15px !important; }
-body.font-large .form-group input,
-body.font-large .form-group select,
-body.font-large .form-group textarea,
-body.font-large .search-form input { font-size: 17px !important; }
-body.font-large .form-group label,
-body.font-large label { font-size: 16px !important; }
+/* Group 2: Small text, metadata, badges, muted labels */
+body.font-small .muted,
+body.font-small .news-card-meta,
+body.font-small .loan-card-meta,
+body.font-small .status-badge,
+body.font-small .logo-subtitle,
+body.font-small .btn-small,
+body.font-small .surat-ttd,
+body.font-small .surat-kop p {
+    font-size: 11px !important;
+}
+
+/* Group 3: Subheadings, card titles, form headers */
+body.font-small h3,
+body.font-small h4,
+body.font-small h5,
+body.font-small h6,
+body.font-small .logo-title,
+body.font-small .tab-title,
+body.font-small .service-card h3,
+body.font-small .news-card h3,
+body.font-small .faq-question,
+body.font-small .data-item-title,
+body.font-small .loan-card-title,
+body.font-small .manage-card h4,
+body.font-small .surat-kop h3 {
+    font-size: 15px !important;
+}
+
+/* Group 4: Main section titles, large headings */
+body.font-small h1,
+body.font-small h2,
+body.font-small .surat-kop h2 {
+    font-size: 22px !important;
+}
+
+/* Accessibility Overrides for Large Font (Absolute px to avoid compounding) */
+/* Group 1: General text, links, buttons, inputs, labels, list items, table cells */
 body.font-large p,
 body.font-large span,
+body.font-large a,
 body.font-large li,
 body.font-large td,
 body.font-large th,
-body.font-large .muted { font-size: 16px !important; }
-body.font-large .logo-title { font-size: 18px !important; }
-body.font-large .logo-subtitle { font-size: 14px !important; }
+body.font-large label,
+body.font-large input,
+body.font-large select,
+body.font-large textarea,
+body.font-large button,
+body.font-large .btn-primary,
+body.font-large .btn-secondary,
+body.font-large .btn-login,
+body.font-large .tab-btn,
+body.font-large .auth-tab,
+body.font-large .sub-tab-btn,
+body.font-large .surat-body,
+body.font-large .faq-answer p {
+    font-size: 18px !important;
+}
+
+/* Group 2: Small text, metadata, badges, muted labels */
+body.font-large .muted,
+body.font-large .news-card-meta,
+body.font-large .loan-card-meta,
+body.font-large .status-badge,
+body.font-large .logo-subtitle,
+body.font-large .btn-small,
+body.font-large .surat-ttd,
+body.font-large .surat-kop p {
+    font-size: 14px !important;
+}
+
+/* Group 3: Subheadings, card titles, form headers */
+body.font-large h3,
+body.font-large h4,
+body.font-large h5,
+body.font-large h6,
+body.font-large .logo-title,
+body.font-large .tab-title,
+body.font-large .service-card h3,
+body.font-large .news-card h3,
+body.font-large .faq-question,
+body.font-large .data-item-title,
+body.font-large .loan-card-title,
+body.font-large .manage-card h4,
+body.font-large .surat-kop h3 {
+    font-size: 20px !important;
+}
+
+/* Group 4: Main section titles, large headings */
+body.font-large h1,
+body.font-large h2,
+body.font-large .surat-kop h2 {
+    font-size: 32px !important;
+}
 
 .access-btn {
     color: #cbd5e1 !important;
