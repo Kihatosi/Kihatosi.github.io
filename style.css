@@ -349,7 +349,7 @@ nav {
     padding: 14px 20px;
     cursor: pointer;
     transition: all 0.2s ease;
-    border-bottom: 1px solid #f3f4f6;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .user-dropdown-item:last-child {
@@ -971,7 +971,7 @@ footer::before {
     align-items: center;
     margin-bottom: 32px;
     padding-bottom: 20px;
-    border-bottom: 2px solid #f3f4f6;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .modal-header h2 {
@@ -981,7 +981,7 @@ footer::before {
 }
 
 .close-btn {
-    background: #f3f4f6;
+    background: var(--accent-blue-light);
     border: none;
     font-size: 24px;
     cursor: pointer;
@@ -996,7 +996,7 @@ footer::before {
 }
 
 .close-btn:hover {
-    background: #fee2e2;
+    background: var(--danger-bg);
     color: var(--danger);
     transform: rotate(90deg);
 }
@@ -1073,7 +1073,7 @@ footer::before {
     padding: 14px 32px;
     background: transparent;
     color: var(--text-dark);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-md);
     font-size: 15px;
     font-weight: 700;
@@ -1153,10 +1153,10 @@ footer::before {
 }
 
 .manage-card {
-    background: #ffffff;
+    background: var(--card);
     padding: 28px;
     border-radius: var(--radius-md);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     transition: all 0.2s ease;
     box-shadow: var(--shadow-sm);
 }
@@ -1177,7 +1177,7 @@ footer::before {
     max-height: 340px;
     overflow-y: auto;
     scrollbar-width: thin;
-    scrollbar-color: var(--secondary-blue) #f3f4f6;
+    scrollbar-color: var(--secondary-blue) var(--bg);
 }
 
 .data-list::-webkit-scrollbar {
@@ -1185,7 +1185,7 @@ footer::before {
 }
 
 .data-list::-webkit-scrollbar-track {
-    background: #f3f4f6;
+    background: var(--bg);
     border-radius: 10px;
 }
 
@@ -1197,7 +1197,7 @@ footer::before {
 .data-item {
     padding: 16px;
     background: var(--card);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     border-radius: var(--radius-sm);
     margin-bottom: 12px;
     transition: all 0.2s ease;
@@ -1234,8 +1234,9 @@ footer::before {
     padding: 6px 14px;
     font-size: 12px;
     border-radius: var(--radius-sm);
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
     background: var(--card);
+    color: var(--text-dark);
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 600;
@@ -1253,7 +1254,7 @@ footer::before {
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     margin-bottom: 32px;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
 }
 
 .profile-header {
@@ -1262,7 +1263,7 @@ footer::before {
     gap: 24px;
     margin-bottom: 32px;
     padding-bottom: 24px;
-    border-bottom: 2px solid #f3f4f6;
+    border-bottom: 2px solid var(--border-color);
 }
 
 .profile-avatar-large {
@@ -1318,7 +1319,7 @@ footer::before {
     box-shadow: var(--shadow-sm);
     text-align: center;
     transition: all 0.3s ease;
-    border: 1px solid #f3f4f6;
+    border: 1px solid var(--border-color);
 }
 
 .staff-card:hover {
@@ -1376,7 +1377,7 @@ footer::before {
 .auth-tab {
     flex: 1;
     padding: 14px 20px;
-    background: #f3f4f6;
+    background: var(--accent-blue-light);
     border: none;
     border-radius: var(--radius-sm);
     cursor: pointer;
@@ -1387,7 +1388,7 @@ footer::before {
 }
 
 .auth-tab:hover {
-    background: #e5e7eb;
+    background: var(--border-color);
     color: var(--secondary-blue);
 }
 
@@ -1485,7 +1486,7 @@ footer::before {
     display: flex;
     gap: 8px;
     margin-bottom: 24px;
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 0;
 }
 
@@ -1610,7 +1611,7 @@ footer::before {
     display: flex;
     gap: 6px;
     margin-bottom: 24px;
-    border-bottom: 2px solid #e5e7eb;
+    border-bottom: 2px solid var(--border-color);
     padding-bottom: 0;
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
@@ -1664,7 +1665,7 @@ footer::before {
     border-radius: var(--radius-md);
     padding: 20px;
     text-align: center;
-    border: 1px solid #e5e7eb;
+    border: 1px solid var(--border-color);
 }
 
 .stat-box-value {
@@ -1698,7 +1699,7 @@ footer::before {
 .rating-bar-track {
     flex: 1;
     height: 12px;
-    background: #e5e7eb;
+    background: var(--border-color);
     border-radius: 6px;
     overflow: hidden;
 }
@@ -1983,7 +1984,7 @@ footer::before {
     .info-label {
         margin-top: 16px;
         padding-top: 12px;
-        border-top: 1px solid #e5e7eb;
+        border-top: 1px solid var(--border-color);
     }
 
     .info-label:first-child {
