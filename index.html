@@ -83,7 +83,6 @@
                 <button class="tab-btn" data-tab="2" data-lang-key="tab_opac">OPAC</button>
                 <button class="tab-btn" id="collectionTab" data-tab="3" data-lang-key="nav_collections" style="display: none;">Koleksi</button>
                 <button class="tab-btn" id="adminDataTab" data-tab="4" data-lang-key="tab_manage" style="display: none;">Kelola Data</button>
-                <button class="tab-btn" id="adminUsersTab" data-tab="5" data-lang-key="tab_members" style="display: none;">Kelola Anggota</button>
             </div>
 
             <!-- Journal Tab -->
@@ -255,16 +254,6 @@
                             <button class="btn-danger" onclick="clearAllData(); renderDataLists();" data-lang-key="button_clear_all" style="margin: 0; padding: 10px 16px; font-size: 13px;">Hapus Semua</button>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <!-- Admin Members Tab -->
-            <div class="tab-content" id="adminUsersTabContent" data-content="6">
-                <h3 class="tab-title" data-lang-key="manage_users_title">Manajemen Pengguna</h3>
-                <p class="muted" data-lang-key="manage_users_subtitle" style="margin-bottom: 24px;">Kelola akses, pendaftaran, dan peran untuk pengguna perpustakaan.</p>
-                <div class="manage-card" style="max-width: 100%;">
-                    <h4 style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
-                    <div id="userListContainer" class="data-list"></div>
                 </div>
             </div>
         </div>

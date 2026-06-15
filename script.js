@@ -561,7 +561,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
     const adminButton = document.getElementById('adminButton'); 
     const collectionTab = document.getElementById('collectionTab');
     const adminDataTab = document.getElementById('adminDataTab');
-    const adminUsersTab = document.getElementById('adminUsersTab');
     
     if (!authButton) return;
     const langDict = translations[currentLang];
@@ -575,10 +574,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         
         if (adminDataTab) {
             adminDataTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
-        }
-        
-        if (adminUsersTab) {
-            adminUsersTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
         }
 
         // CEK APAKAH USER PUNYA FOTO
@@ -615,7 +610,6 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         if (adminButton) adminButton.style.display = 'none';
         if (collectionTab) collectionTab.style.display = 'none';
         if (adminDataTab) adminDataTab.style.display = 'none';
-        if (adminUsersTab) adminUsersTab.style.display = 'none';
 
         authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
     }
@@ -643,7 +637,7 @@ function logout() {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
             const tabIdx = activeTab.getAttribute('data-tab');
-            if (tabIdx === "3" || tabIdx === "4" || tabIdx === "5") {
+            if (tabIdx === "3" || tabIdx === "4") {
                 switchTab(0);
             }
         }
@@ -695,17 +689,6 @@ function showToast(message, type = 'success') {
 /* ============================================================
    SECTION 8: SEARCH & TABS LOGIC
    ============================================================ */
-function toggleLandingPageSections(show) {
-    const hero = document.querySelector('.hero');
-    const layanan = document.getElementById('layanan');
-    const event = document.getElementById('event');
-    const faq = document.getElementById('faq');
-    if (hero) hero.style.display = show ? '' : 'none';
-    if (layanan) layanan.style.display = show ? '' : 'none';
-    if (event) event.style.display = show ? '' : 'none';
-    if (faq) faq.style.display = show ? '' : 'none';
-}
-
         function switchTab(index) {
             const tabs = document.querySelectorAll('.tab-btn');
             const contents = document.querySelectorAll('.tab-content');
@@ -720,13 +703,9 @@ function toggleLandingPageSections(show) {
             // Clear search results when switching tabs
             document.querySelectorAll('.search-results').forEach(res => res.classList.remove('show'));
 
-            // Toggle landing page sections for admin tabs (4 and 5)
-            if (index === 4 || index === 5) {
-                toggleLandingPageSections(false);
-                if (typeof renderDataLists === 'function') renderDataLists();
-                if (typeof renderUserList === 'function') renderUserList();
-            } else {
-                toggleLandingPageSections(true);
+            // Render list if admin kelola tab is active
+            if (index === 4 && typeof renderDataLists === 'function') {
+                renderDataLists();
             }
         }
 
@@ -2688,6 +2667,9 @@ function openAdminDashboard() {
             <button class="admin-tab-btn" onclick="switchAdminTab('survey', this)">
                 Survey (${surveyData.length})
             </button>
+            <button class="admin-tab-btn" onclick="switchAdminTab('anggota', this)">
+                Kelola Anggota
+            </button>
         </div>
         <div id="adminTab-transaksi" class="admin-tab-content active">
             ${transaksiHtml}
@@ -2701,6 +2683,12 @@ function openAdminDashboard() {
         <div id="adminTab-survey" class="admin-tab-content">
             ${surveyHtml}
         </div>
+        <div id="adminTab-anggota" class="admin-tab-content">
+            <div class="manage-card" style="max-width: 100%;">
+                <h4 style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
+                <div id="userListContainer" class="data-list"></div>
+            </div>
+        </div>
         <div style="margin-top:16px;">
             <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
         </div>
@@ -2708,6 +2696,11 @@ function openAdminDashboard() {
 
     modal.classList.add('show');
     lastOpenedModalType = 'admin-dashboard';
+
+    // Render list anggota secara dinamis setelah DOM siap
+    setTimeout(() => {
+        if (typeof renderUserList === 'function') renderUserList();
+    }, 50);
 }
 
 function adminReturnBook(kode) {
