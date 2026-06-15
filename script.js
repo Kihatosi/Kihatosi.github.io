@@ -32,6 +32,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_event: 'Event',
                 nav_contact: 'Kontak',
                 nav_login: 'Login',
+                nav_admin: 'Pustakawan',
                 
 
                 // Hero
@@ -182,6 +183,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_event: 'Events',
                 nav_contact: 'Contact',
                 nav_login: 'Login',
+                nav_admin: 'Librarian',
 
                 // Hero
                 hero_title: 'Welcome to UIN Syarif Hidayatullah Jakarta Library',
