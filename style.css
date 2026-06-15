@@ -1987,6 +1987,27 @@ footer::before {
 }
 
 /* ============================================================
+   SECTION 15A: ACCESSIBILITY FONT ADJUSTMENTS
+   ============================================================ */
+body.font-small {
+    font-size: 14px !important;
+}
+body.font-medium {
+    font-size: 16px !important;
+}
+body.font-large {
+    font-size: 18px !important;
+}
+
+.access-btn {
+    color: #cbd5e1 !important;
+    transition: all 0.2s ease;
+}
+.access-btn:hover, .access-btn.active {
+    color: #ffffff !important;
+}
+
+/* ============================================================
    SECTION 16: RESPONSIVE DESIGN
    ============================================================ */
 @media (max-width: 968px) {

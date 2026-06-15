@@ -30,6 +30,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_profile: 'Profile',
                 nav_eresources: 'E-Resources',
                 nav_event: 'Event',
+                nav_faq: 'FAQ',
                 nav_contact: 'Kontak',
                 nav_login: 'Login',
                 nav_admin: 'Pustakawan',
@@ -182,6 +183,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 nav_profile: 'Profile',
                 nav_eresources: 'E-Resources',
                 nav_event: 'Events',
+                nav_faq: 'FAQ',
                 nav_contact: 'Contact',
                 nav_login: 'Login',
                 nav_admin: 'Librarian',
@@ -408,6 +410,39 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             const theme = saved || (prefersDark ? 'dark' : 'light');
             document.documentElement.setAttribute('data-theme', theme);
             document.body.classList.toggle('dark-theme', theme === 'dark');
+        })();
+
+        // Accessibility font-size adjustment functionality
+        function changeFontSize(size, btn) {
+            const body = document.body;
+            body.classList.remove('font-small', 'font-medium', 'font-large');
+            body.classList.add('font-' + size);
+            
+            document.querySelectorAll('.access-btn').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            if (btn) {
+                btn.classList.add('active');
+            } else {
+                const accessBtn = document.querySelector(`.access-btn[data-size="${size}"]`);
+                if (accessBtn) {
+                    accessBtn.classList.add('active');
+                }
+            }
+            localStorage.setItem('uin_font_size', size);
+        }
+
+        // Initialize font size on load
+        (function initFontSize() {
+            const savedSize = localStorage.getItem('uin_font_size') || 'medium';
+            if (document.body) {
+                changeFontSize(savedSize);
+            } else {
+                document.addEventListener('DOMContentLoaded', () => {
+                    changeFontSize(savedSize);
+                });
+            }
         })();
 
 
@@ -1031,20 +1066,24 @@ function showToast(message, type = 'success') {
                             <div class="form-group">
                                 <label>${labels.email}</label>
                                 <input type="email" name="email" required placeholder="${currentLang === 'id' ? 'Masukkan email' : 'Enter email'}">
+                                <small class="form-help" style="display: block; margin-top: 4px; font-size: 12px; color: var(--muted);">${currentLang === 'id' ? 'Gunakan email kampus (contoh: mhs@uinjkt.ac.id)' : 'Use campus email (e.g., mhs@uinjkt.ac.id)'}</small>
                             </div>
                             <div class="form-group">
                                 <label>${currentLang === 'id' ? 'Peran *' : 'Role *'}</label>
                                 <select name="role_type" required onchange="
                                     var nimLabel = this.form.querySelector('.nim-label');
                                     var nimInput = this.form.querySelector('[name=nim]');
+                                    var nimHelp = this.form.querySelector('.nim-help');
                                     var prodiGroup = this.form.querySelector('.prodi-group');
                                     if (this.value === 'dosen') {
                                         nimLabel.textContent = '${currentLang === 'id' ? 'NIP *' : 'Staff ID *'}';
                                         nimInput.placeholder = '${currentLang === 'id' ? 'Masukkan NIP' : 'Enter Staff ID'}';
+                                        nimHelp.textContent = '${currentLang === 'id' ? 'Masukkan 18 digit NIP Dosen' : 'Enter 18-digit Staff ID'}';
                                         prodiGroup.style.display = 'none';
                                     } else {
                                         nimLabel.textContent = '${currentLang === 'id' ? 'NIM *' : 'Student ID *'}';
                                         nimInput.placeholder = '${currentLang === 'id' ? 'Masukkan NIM' : 'Enter Student ID'}';
+                                        nimHelp.textContent = '${currentLang === 'id' ? 'Masukkan 14 digit NIM Mahasiswa' : 'Enter 14-digit Student ID'}';
                                         prodiGroup.style.display = 'block';
                                     }
                                 ">
@@ -1055,6 +1094,7 @@ function showToast(message, type = 'success') {
                             <div class="form-group">
                                 <label class="nim-label">${currentLang === 'id' ? 'NIM *' : 'Student ID *'}</label>
                                 <input type="text" name="nim" required placeholder="${currentLang === 'id' ? 'Masukkan NIM' : 'Enter Student ID'}">
+                                <small class="form-help nim-help" style="display: block; margin-top: 4px; font-size: 12px; color: var(--muted);">${currentLang === 'id' ? 'Masukkan 14 digit NIM Mahasiswa' : 'Enter 14-digit Student ID'}</small>
                             </div>
                             <div class="form-group prodi-group">
                                 <label>${currentLang === 'id' ? 'Program Studi' : 'Study Program'}</label>
