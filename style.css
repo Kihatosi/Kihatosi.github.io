@@ -11,13 +11,13 @@
     /* Warna utama yang lebih lembut dan modern */
     --primary-blue: #2563eb;
     --secondary-blue: #3b82f6;
-    --accent-orange: #fb923c;
-    --accent-purple: #a78bfa;
+    --accent-orange: #3b82f6;
+    --accent-purple: #1e40af;
     --bg: #ffffff;
     --card: #ffffff;
     --text-dark: #1f2937;
     --muted: #6b7280;
-    --success: #10b981;
+    --success: #2563eb;
     --danger: #ef4444;
     
     /* Shadow yang lebih halus */
@@ -40,7 +40,7 @@
 
 body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: #ffffff;
+    background: var(--bg);
     color: var(--text-dark);
     line-height: 1.6;
     -webkit-font-smoothing: antialiased;
@@ -651,7 +651,7 @@ nav {
     width: 80px;
     height: 80px;
     margin: 0 auto 28px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, #10b981 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -659,14 +659,14 @@ nav {
     font-size: 40px;
     color: #fff;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
     position: relative;
     z-index: 1;
 }
 
 .service-card:hover .service-icon {
     transform: scale(1.1);
-    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 16px rgba(30, 64, 175, 0.35);
 }
 
 .service-card h3 {
@@ -747,7 +747,7 @@ nav {
 .news-icon {
     width: 100%;
     height: 220px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, #10b981 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1079,8 +1079,8 @@ footer::before {
 }
 
 .alert-success {
-    background: #d1fae5;
-    color: #065f46;
+    background: #dbeafe;
+    color: #1e40af;
     border-color: var(--success);
 }
 
@@ -1229,7 +1229,7 @@ footer::before {
     color: #fff;
     font-size: 36px;
     font-weight: 800;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
     position: relative;
     overflow: hidden;
 }
@@ -1292,7 +1292,7 @@ footer::before {
     color: #fff;
     font-size: 36px;
     font-weight: 800;
-    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    box-shadow: 0 4px 12px rgba(30, 64, 175, 0.25);
     border: 4px solid #fff;
     position: relative;
     overflow: hidden;
@@ -1301,7 +1301,7 @@ footer::before {
 
 .staff-card:hover .staff-avatar {
     transform: scale(1.05);
-    box-shadow: 0 8px 16px rgba(59, 130, 246, 0.4);
+    box-shadow: 0 8px 16px rgba(30, 64, 175, 0.35);
 }
 
 .staff-card h4 {
@@ -1409,12 +1409,12 @@ footer::before {
 }
 
 .toast.success {
-    background: linear-gradient(135deg, #059669, #047857);
+    background: linear-gradient(135deg, #1e40af, #1e3a8a);
     box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
 }
 
 .toast.success::before {
-    background: #10b981;
+    background: #2563eb;
 }
 
 .toast.error {
@@ -1537,8 +1537,8 @@ footer::before {
 }
 
 .status-badge.approved {
-    background: #d1fae5;
-    color: #065f46;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 .status-badge.rejected {
@@ -1552,8 +1552,8 @@ footer::before {
 }
 
 .status-badge.returned {
-    background: #d1fae5;
-    color: #065f46;
+    background: #dbeafe;
+    color: #1e40af;
 }
 
 /* ============================================================
@@ -1659,7 +1659,7 @@ footer::before {
 .rating-bar-fill {
     height: 100%;
     border-radius: 6px;
-    background: linear-gradient(135deg, var(--primary-blue) 0%, #10b981 100%);
+    background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
     transition: width 0.6s ease;
 }
 
@@ -1844,7 +1844,7 @@ footer::before {
 }
 .faq-item[aria-expanded="true"] {
     border-color: var(--secondary-blue);
-    background: #f8fafc;
+    background: #f0f5ff;
 }
 .faq-item[aria-expanded="true"] .faq-question {
     color: var(--primary-blue);
@@ -2035,4 +2035,64 @@ footer::before {
     footer {
         padding: 60px 16px 24px;
     }
+}
+
+/* ============================================================
+   SECTION: DARK MODE OVERRIDES
+   ============================================================ */
+[data-theme=dark] .service-card {
+    background: var(--card);
+    border-color: #333;
+}
+[data-theme=dark] .service-card:hover {
+    border-color: var(--secondary-blue);
+}
+[data-theme=dark] .search-section {
+    background: var(--card);
+}
+[data-theme=dark] .faq-item {
+    background: var(--card);
+    border-color: #333;
+}
+[data-theme=dark] .faq-item[aria-expanded="true"] {
+    background: #252525;
+}
+[data-theme=dark] footer {
+    background: #0f172a;
+}
+[data-theme=dark] .modal-content {
+    background: var(--card);
+    border: 1px solid #333;
+}
+[data-theme=dark] .data-item {
+    background: #252525;
+    border-color: #333;
+}
+[data-theme=dark] .tab-btn {
+    color: var(--muted);
+}
+[data-theme=dark] .tab-btn.active {
+    background: var(--secondary-blue);
+    color: #fff;
+}
+[data-theme=dark] .alert-info {
+    background: #1e293b;
+    color: #93c5fd;
+    border-color: #1e40af;
+}
+[data-theme=dark] .alert-success {
+    background: #1e293b;
+    color: #93c5fd;
+    border-color: #1e40af;
+}
+[data-theme=dark] .news-card {
+    background: var(--card);
+    border-color: #333;
+}
+[data-theme=dark] input,
+[data-theme=dark] select,
+[data-theme=dark] textarea {
+    background: #252525;
+    color: var(--text-dark);
+    border-color: #444;
 }
