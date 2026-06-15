@@ -111,6 +111,15 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 news_3_title: 'Workshop Literasi Digital',
                 news_3_desc: 'Pelatihan literasi digital untuk meningkatkan kemampuan riset mahasiswa...',
                 
+                // FAQ
+                faq_title: 'Pertanyaan Umum (FAQ)',
+                faq_q1: 'Bagaimana cara meminjam buku?',
+                faq_a1: 'Login, cari buku, klik "Pinjam Buku Ini", isi formulir, dan konfirmasi. Maksimum 3 buku untuk mahasiswa, 5 buku untuk dosen.',
+                faq_q2: 'Berapa lama waktu pinjam?',
+                faq_a2: 'Mahasiswa: 7 hari, Dosen: 14 hari. Dapat diperpanjang dengan mengajukan permohonan.',
+                faq_q3: 'Bagaimana cara mengajukan Surat Bebas Pinjam?',
+                faq_a3: 'Masuk ke profil, pilih tab "Pengajuan Saya", pilih "Surat Bebas Pinjam" dan ikuti instruksi. Diterima setelah tidak ada pinjaman aktif.',
+
                 // Footer
                 footer_library: 'Perpustakaan',
                 footer_address: 'Jl. Ir Haji Juanda Ciputat<br>No. 95, Cempaka Putih<br>Kec. Ciputat Timur, Banten 15412',
@@ -120,7 +129,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 footer_schedule_weekend: 'Sabtu-Minggu: Tutup',
                 footer_quick_links: 'Link Cepat',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_uin_book: 'UIN Book',
+                footer_quick_book: 'UIN Book Store',
                 footer_social_media: 'Media Sosial',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
@@ -273,6 +282,15 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 news_3_title: 'Digital Literacy Workshop',
                 news_3_desc: 'Digital literacy training to enhance student research skills...',
 
+                // FAQ
+                faq_title: 'Frequently Asked Questions (FAQ)',
+                faq_q1: 'How do I borrow a book?',
+                faq_a1: 'Log in, search for the book, click "Borrow This Book", fill out the form, and confirm. Maximum 3 books for students, 5 books for lecturers.',
+                faq_q2: 'How long is the borrowing period?',
+                faq_a2: 'Students: 7 days, Lecturers: 14 days. Can be extended by submitting a request.',
+                faq_q3: 'How do I request a Loan Clearance Letter?',
+                faq_a3: 'Go to your profile, select the "My Requests" tab, choose "Loan Clearance Letter" and follow the instructions. Approved once there are no active loans.',
+
                 // Footer
                 footer_library: 'Library',
                 footer_address: 'Jl. Ir Haji Juanda Ciputat<br>No. 95, Cempaka Putih<br>East Ciputat District, Banten 15412',
@@ -282,7 +300,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 footer_schedule_weekend: 'Saturday-Sunday: Closed',
                 footer_quick_links: 'Quick Links',
                 footer_quick_eresources: 'E-Resources',
-                footer_quick_uin_book: 'UIN Book',
+                footer_quick_book: 'UIN Book Store',
                 footer_social_media: 'Social Media',
                 footer_copyright: '© 2025 UIN Syarif Hidayatullah Jakarta. All Rights Reserved.',
 
