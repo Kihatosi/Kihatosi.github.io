@@ -541,7 +541,12 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             const saved = localStorage.getItem(CURRENT_USER_KEY);
             if (saved) {
                 try {
-                    return JSON.parse(saved);
+                    const user = JSON.parse(saved);
+                    if (user && user.prodi === 'Teknik Informasi') {
+                        user.prodi = 'Teknik Informatika';
+                        localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(user));
+                    }
+                    return user;
                 } catch (e) {
                     return null;
                 }
@@ -566,6 +571,17 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
             if (saved) {
                 try {
                     users = JSON.parse(saved);
+                    // Normalize existing users prodi
+                    let updated = false;
+                    users.forEach(u => {
+                        if (u.prodi === 'Teknik Informasi') {
+                            u.prodi = 'Teknik Informatika';
+                            updated = true;
+                        }
+                    });
+                    if (updated) {
+                        localStorage.setItem(USERS_KEY, JSON.stringify(users));
+                    }
                 } catch (e) {
                     users = [];
                 }
@@ -595,7 +611,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                     nama: 'Pengguna Demo',
                     email: demoUserEmail,
                     nim: '12409011050128',
-                    prodi: 'Teknik Informasi',
+                    prodi: 'Teknik Informatika',
                     telp: '081122334455',
                     password: 'password', 
                     role: 'user',
@@ -1200,7 +1216,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                     <option>${currentLang === 'id' ? 'Pendidikan Agama Islam' : 'Islamic Religious Education'}</option>
                                     <option>${currentLang === 'id' ? 'Ilmu Komunikasi' : 'Communication Science'}</option>
                                     <option>${currentLang === 'id' ? 'Psikologi' : 'Psychology'}</option>
-                                    <option>${currentLang === 'id' ? 'Teknik Informasi' : 'Computer Science'}</option>
+                                    <option>${currentLang === 'id' ? 'Teknik Informatika' : 'Computer Science'}</option>
                                 </select>
                             </div>
                             <div class="form-group">
