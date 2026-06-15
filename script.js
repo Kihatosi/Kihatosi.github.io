@@ -1557,7 +1557,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="form-row">
                             <div class="form-group">
                                 <label data-lang-key="form_borrow_date">${currentLang === 'id' ? 'Tanggal Pinjam *' : 'Borrow Date *'}</label>
-                                <input type="date" name="tgl_pinjam" required value="${new Date().toISOString().split('T')[0]}">
+                                <input type="date" name="tgl_pinjam" required value="${new Date().toISOString().split('T')[0]}" min="${new Date().toISOString().split('T')[0]}">
                             </div>
                             <div class="form-group">
                                 <label data-lang-key="form_return_date">${currentLang === 'id' ? 'Tanggal Kembali *' : 'Return Date *'}</label>
@@ -1993,6 +1993,12 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = Object.fromEntries(formData);
             const kode = 'PJM-' + Date.now();
 
+            const todayStr = new Date().toISOString().split('T')[0];
+            if (data.tgl_pinjam && data.tgl_pinjam < todayStr) {
+                showToast(currentLang === 'id' ? 'Tanggal pinjam tidak boleh di masa lalu!' : 'Borrow date cannot be in the past!', 'error');
+                return;
+            }
+
             // Batas peminjaman berdasarkan peran: Mahasiswa=3, Dosen=5
             const peminjaman = JSON.parse(localStorage.getItem('uin_peminjaman') || '[]');
             const activeLoanCount = peminjaman.filter(p => p.userEmail === currentUser.email && p.status !== 'returned').length;
@@ -2185,6 +2191,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             
+            if (data.year && (parseInt(data.year) < 1000 || parseInt(data.year) > 2027)) {
+                showToast(currentLang === 'id' ? 'Tahun terbit tidak valid (1000-2027)!' : 'Invalid publication year (1000-2027)!', 'error');
+                return;
+            }
+
             libraryData.journal.push({
                 id: generateId(),
                 title: data.title,
@@ -2209,6 +2220,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             
+            if (data.year && (parseInt(data.year) < 1000 || parseInt(data.year) > 2027)) {
+                showToast(currentLang === 'id' ? 'Tahun terbit tidak valid (1000-2027)!' : 'Invalid publication year (1000-2027)!', 'error');
+                return;
+            }
+
             libraryData.book.push({
                 id: generateId(),
                 title: data.title,
@@ -2235,6 +2251,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = new FormData(e.target);
             const data = Object.fromEntries(formData);
             
+            if (data.year && (parseInt(data.year) < 1000 || parseInt(data.year) > 2027)) {
+                showToast(currentLang === 'id' ? 'Tahun terbit tidak valid (1000-2027)!' : 'Invalid publication year (1000-2027)!', 'error');
+                return;
+            }
+
             libraryData.opac.push({
                 id: generateId(),
                 title: data.title,
@@ -2388,7 +2409,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="form-group"><label>${labels.title}</label><input type="text" name="title" value="${escapeHtml(item.title)}" required></div>
                     <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
                     <div class="form-row">
-                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}" min="1000" max="2027"></div>
                         <div class="form-group"><label>${labels.issn}</label><input type="text" name="issn" value="${escapeHtml(item.issn || '')}"></div>
                     </div>
                 `;
@@ -2397,12 +2418,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="form-group"><label>${labels.title}</label><input type="text" name="title" value="${escapeHtml(item.title)}" required></div>
                     <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
                     <div class="form-row">
-                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}" min="1000" max="2027"></div>
                         <div class="form-group"><label>${labels.isbn}</label><input type="text" name="isbn" value="${escapeHtml(item.isbn || '')}"></div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group"><label>${labels.pages}</label><input type="number" name="pages" value="${item.pages || ''}"></div>
-                        <div class="form-group"><label>${labels.available}</label><input type="number" name="available" value="${item.available || 0}"></div>
+                        <div class="form-group"><label>${labels.pages}</label><input type="number" name="pages" value="${item.pages || ''}" min="1"></div>
+                        <div class="form-group"><label>${labels.available}</label><input type="number" name="available" value="${item.available || 0}" min="0"></div>
                     </div>
                 `;
             } else if (type === 'opac') {
@@ -2411,8 +2432,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="form-group"><label>${labels.author}</label><input type="text" name="author" value="${escapeHtml(item.author)}" required></div>
                     <div class="form-group"><label>${labels.call_number}</label><input type="text" name="call_number" value="${escapeHtml(item.call_number || '')}"></div>
                     <div class="form-row">
-                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}"></div>
-                        <div class="form-group"><label>${labels.copies}</label><input type="number" name="copies" value="${item.copies || 0}"></div>
+                        <div class="form-group"><label>${labels.year}</label><input type="number" name="year" value="${item.year || ''}" min="1000" max="2027"></div>
+                        <div class="form-group"><label>${labels.copies}</label><input type="number" name="copies" value="${item.copies || 0}" min="0"></div>
                     </div>
                     <div class="form-group">
                         <label>${labels.status}</label>
@@ -2440,6 +2461,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const data = Object.fromEntries(formData);
                 const index = libraryData[type].findIndex(i => i.id === id);
                 if (index !== -1) {
+                    if (data.year && (parseInt(data.year) < 1000 || parseInt(data.year) > 2027)) {
+                        showToast(currentLang === 'id' ? 'Tahun terbit tidak valid (1000-2027)!' : 'Invalid publication year (1000-2027)!', 'error');
+                        return;
+                    }
+                    if (data.available && parseInt(data.available) < 0) {
+                        showToast(currentLang === 'id' ? 'Ketersediaan tidak boleh kurang dari 0!' : 'Availability cannot be less than 0!', 'error');
+                        return;
+                    }
+                    if (data.copies && parseInt(data.copies) < 0) {
+                        showToast(currentLang === 'id' ? 'Eksemplar tidak boleh kurang dari 0!' : 'Copies cannot be less than 0!', 'error');
+                        return;
+                    }
+                    if (data.pages && parseInt(data.pages) < 1) {
+                        showToast(currentLang === 'id' ? 'Jumlah halaman minimal 1!' : 'Pages must be at least 1!', 'error');
+                        return;
+                    }
+
                     libraryData[type][index] = { ...libraryData[type][index], ...data };
                     if (data.year) libraryData[type][index].year = parseInt(data.year);
                     if (data.pages) libraryData[type][index].pages = parseInt(data.pages);
