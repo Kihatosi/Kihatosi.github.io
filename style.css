@@ -941,7 +941,7 @@ footer::before {
 }
 
 .modal-content {
-    background: rgba(255, 255, 255, 0.98);
+    background: var(--card);
     backdrop-filter: blur(20px);
     padding: 48px;
     border-radius: var(--radius-xl);
@@ -951,7 +951,7 @@ footer::before {
     overflow-y: auto;
     box-shadow: var(--shadow-xl);
     animation: scaleIn 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--border-color);
 }
 
 @keyframes scaleIn {
@@ -1477,6 +1477,10 @@ footer::before {
 .toast:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal .manage-card {
+    background: var(--bg);
 }
 
 /* ============================================================
