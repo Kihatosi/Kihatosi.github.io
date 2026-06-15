@@ -2633,49 +2633,61 @@ function hapusPeminjaman(index) {
                 'news-1': {
                     title: translations[currentLang].news_1_title,
                     content: currentLang === 'id' ? `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_riset_event.png" alt="Literasi Riset" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">20 Agustus 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan menyelenggarakan program pelatihan **Systematic Literature Review (SLR)** untuk mahasiswa baru pascasarjana angkatan 2025. Pelatihan ini bertujuan untuk membekali mahasiswa dengan kemampuan melakukan tinjauan literatur sistematis yang sangat penting dalam penelitian akademik.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">Materi yang diberikan meliputi strategi pencarian literatur, evaluasi kualitas sumber, dan teknik sintesis informasi. Para mahasiswa juga diajarkan cara menggunakan berbagai database akademik and tools manajemen referensi.</p>
-                        <p style="line-height: 1.8;">Kegiatan ini mendapat sambutan positif dari peserta karena sangat relevan dengan kebutuhan penelitian mereka di tingkat pascasarjana.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">UPT Perpustakaan menyelenggarakan program pelatihan <strong>Systematic Literature Review (SLR)</strong> untuk mahasiswa baru pascasarjana angkatan 2025. Pelatihan ini bertujuan untuk membekali mahasiswa dengan kemampuan melakukan tinjauan literatur sistematis yang sangat penting dalam penelitian akademik.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">Materi yang diberikan meliputi strategi pencarian literatur, evaluasi kualitas sumber, dan teknik sintesis informasi. Para mahasiswa juga diajarkan cara menggunakan berbagai database akademik dan tools manajemen referensi.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">Kegiatan ini mendapat sambutan positif dari peserta karena sangat relevan dengan kebutuhan penelitian mereka di tingkat pascasarjana.</p>
                     ` : `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_riset_event.png" alt="Research Literacy" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 20, 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit organized a **Systematic Literature Review (SLR)** training program for new postgraduate students of the 2025 cohort. This training aims to equip students with the ability to conduct systematic literature reviews, which is crucial in academic research.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">The material provided includes literature search strategies, source quality evaluation, and information synthesis techniques. Students were also taught how to use various academic databases and reference management tools.</p>
-                        <p style="line-height: 1.8;">The activity received positive feedback from participants as it is highly relevant to their research needs at the postgraduate level.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">The Library Unit organized a <strong>Systematic Literature Review (SLR)</strong> training program for new postgraduate students of the 2025 cohort. This training aims to equip students with the ability to conduct systematic literature reviews, which is crucial in academic research.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">The material provided includes literature search strategies, source quality evaluation, and information synthesis techniques. Students were also taught how to use various academic databases and reference management tools.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">The activity received positive feedback from participants as it is highly relevant to their research needs at the postgraduate level.</p>
                     `
                 },
                 'news-2': {
                     title: translations[currentLang].news_2_title,
                     content: currentLang === 'id' ? `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_pkkmb_event.png" alt="PKKMB UIN" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan turut memeriahkan acara **Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB)** tahun 2025.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">Dalam kegiatan ini, perpustakaan memperkenalkan berbagai layanan dan fasilitas yang tersedia untuk mendukung kegiatan akademik mahasiswa baru, termasuk cara mengakses e-resources, peminjaman buku, dan layanan referensi.</p>
-                        <p style="line-height: 1.8;">Mahasiswa juga diberikan panduan cara mengakses koleksi digital perpustakaan dan tips efektif dalam mencari sumber referensi untuk tugas kuliah dan penelitian.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">UPT Perpustakaan turut memeriahkan acara <strong>Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB)</strong> tahun 2025.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">Dalam kegiatan ini, perpustakaan memperkenalkan berbagai layanan dan fasilitas yang tersedia untuk mendukung kegiatan akademik mahasiswa baru, termasuk cara mengakses e-resources, peminjaman buku, dan layanan referensi.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">Mahasiswa juga diberikan panduan cara mengakses koleksi digital perpustakaan dan tips efektif dalam mencari sumber referensi untuk tugas kuliah dan penelitian.</p>
                     ` : `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_pkkmb_event.png" alt="PKKMB UIN" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
                         <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit participated in the **Introduction to Campus Life for New Students (PKKMB)** event in 2025.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">In this activity, the library introduced various services and facilities available to support the academic activities of new students, including how to access e-resources, book borrowing, and reference services.</p>
-                        <p style="line-height: 1.8;">Students were also given a guide on how to access the library's digital collection and effective tips for finding reference sources for college assignments and research.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">The Library Unit participated in the <strong>Introduction to Campus Life for New Students (PKKMB)</strong> event in 2025.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">In this activity, the library introduced various services and facilities available to support the academic activities of new students, including how to access e-resources, book borrowing, and reference services.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">Students were also given a guide on how to access the library's digital collection and effective tips for finding reference sources for college assignments and research.</p>
                     `
                 },
                 'news-3': {
                     title: translations[currentLang].news_3_title,
                     content: currentLang === 'id' ? `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">Workshop **literasi digital** diselenggarakan untuk meningkatkan kemampuan riset dan penggunaan sumber digital bagi civitas akademika UIN Syarif Hidayatullah Jakarta.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">Peserta dilatih untuk mengevaluasi kredibilitas sumber online, menggunakan database akademik dengan efektif, mengelola referensi digital, dan menghindari plagiarisme dalam karya ilmiah.</p>
-                        <p style="line-height: 1.8;">Workshop ini mendapat respon positif dari peserta dan akan dilanjutkan secara berkala setiap semester untuk memastikan seluruh civitas akademika memiliki kompetensi literasi digital yang memadai.</p>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_workshop_event.png" alt="Workshop E-Resources" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">15 Agustus 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">Workshop <strong>literasi digital</strong> diselenggarakan untuk meningkatkan kemampuan riset dan penggunaan sumber digital bagi civitas akademika UIN Syarif Hidayatullah Jakarta.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">Peserta dilatih untuk mengevaluasi kredibilitas sumber online, menggunakan database akademik dengan efektif, mengelola referensi digital, dan menghindari plagiarisme dalam karya ilmiah.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">Workshop ini mendapat respon positif dari peserta dan akan dilanjutkan secara berkala setiap semester untuk memastikan seluruh civitas akademika memiliki kompetensi literasi digital yang memadai.</p>
                     ` : `
-                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">A **digital literacy** workshop was held to enhance the research and digital resource usage skills of the academic community of UIN Syarif Hidayatullah Jakarta.</p>
-                        <p style="line-height: 1.8; margin-bottom: 15px;">Participants were trained to evaluate the credibility of online sources, effectively use academic databases, manage digital references, and avoid plagiarism in scholarly works.</p>
-                        <p style="line-height: 1.8;">The workshop received positive response from participants and will be continued periodically every semester to ensure all academic community members have adequate digital literacy competence.</p>
+                        <div style="width: 100%; height: 280px; margin-bottom: 20px; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-color);">
+                            <img src="news_workshop_event.png" alt="Digital Literacy Workshop" style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 15, 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">A <strong>digital literacy</strong> workshop was held to enhance the research and digital resource usage skills of the academic community of UIN Syarif Hidayatullah Jakarta.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px; color: var(--text-dark);">Participants were trained to evaluate the credibility of online sources, effectively use academic databases, manage digital references, and avoid plagiarism in scholarly works.</p>
+                        <p style="line-height: 1.8; color: var(--text-dark);">The workshop received positive response from participants and will be continued periodically every semester to ensure all academic community members have adequate digital literacy competence.</p>
                     `
                 }
             };
