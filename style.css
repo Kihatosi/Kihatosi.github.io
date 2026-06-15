@@ -1987,8 +1987,12 @@ footer::before {
 }
 
 /* ============================================================
-   SECTION 15A: ACCESSIBILITY FONT ADJUSTMENTS
+   SECTION 15A: ACCESSIBILITY FONT ADJUSTMENTS & OVERRIDES
    ============================================================ */
+html.font-small { font-size: 14px !important; }
+html.font-medium { font-size: 16px !important; }
+html.font-large { font-size: 18px !important; }
+
 body.font-small {
     font-size: 14px !important;
 }
@@ -1998,6 +2002,50 @@ body.font-medium {
 body.font-large {
     font-size: 18px !important;
 }
+
+/* Accessibility Overrides for Small Font (px elements) */
+body.font-small .nav-links a { font-size: 13px !important; }
+body.font-small .btn-primary,
+body.font-small .btn-secondary,
+body.font-small .btn-login,
+body.font-small .tab-btn { font-size: 13px !important; }
+body.font-small .btn-small { font-size: 11px !important; }
+body.font-small .form-group input,
+body.font-small .form-group select,
+body.font-small .form-group textarea,
+body.font-small .search-form input { font-size: 13px !important; }
+body.font-small .form-group label,
+body.font-small label { font-size: 12px !important; }
+body.font-small p,
+body.font-small span,
+body.font-small li,
+body.font-small td,
+body.font-small th,
+body.font-small .muted { font-size: 12px !important; }
+body.font-small .logo-title { font-size: 14px !important; }
+body.font-small .logo-subtitle { font-size: 11px !important; }
+
+/* Accessibility Overrides for Large Font (px elements) */
+body.font-large .nav-links a { font-size: 17px !important; }
+body.font-large .btn-primary,
+body.font-large .btn-secondary,
+body.font-large .btn-login,
+body.font-large .tab-btn { font-size: 17px !important; }
+body.font-large .btn-small { font-size: 15px !important; }
+body.font-large .form-group input,
+body.font-large .form-group select,
+body.font-large .form-group textarea,
+body.font-large .search-form input { font-size: 17px !important; }
+body.font-large .form-group label,
+body.font-large label { font-size: 16px !important; }
+body.font-large p,
+body.font-large span,
+body.font-large li,
+body.font-large td,
+body.font-large th,
+body.font-large .muted { font-size: 16px !important; }
+body.font-large .logo-title { font-size: 18px !important; }
+body.font-large .logo-subtitle { font-size: 14px !important; }
 
 .access-btn {
     color: #cbd5e1 !important;

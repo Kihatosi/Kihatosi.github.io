@@ -414,9 +414,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
         // Accessibility font-size adjustment functionality
         function changeFontSize(size, btn) {
+            const html = document.documentElement;
             const body = document.body;
-            body.classList.remove('font-small', 'font-medium', 'font-large');
-            body.classList.add('font-' + size);
+            
+            html.classList.remove('font-small', 'font-medium', 'font-large');
+            if (body) body.classList.remove('font-small', 'font-medium', 'font-large');
+            
+            html.classList.add('font-' + size);
+            if (body) body.classList.add('font-' + size);
             
             document.querySelectorAll('.access-btn').forEach(el => {
                 el.classList.remove('active');
