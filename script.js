@@ -57,12 +57,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 // Manage Data (Tab 3)
                 manage_title: 'Kelola Data Perpustakaan',
                 manage_subtitle: 'Tambah, edit, atau hapus data jurnal, buku, dan OPAC. Data disimpan di browser Anda.',
+                manage_tab_list: 'Daftar Koleksi',
                 manage_add_journal: 'Tambah Jurnal',
                 manage_add_book: 'Tambah Buku',
                 manage_add_opac: 'Tambah OPAC',
                 manage_current_data: 'Data Saat Ini',
                 manage_users_title: 'Manajemen Pengguna',
                 manage_users_subtitle: 'Kelola akses Admin untuk pengguna lain.',
+                manage_users_list: 'Daftar Anggota / Pengguna',
                 form_title: 'Judul *',
                 form_author: 'Penulis *',
                 form_year: 'Tahun',
@@ -209,12 +211,14 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
                 // Manage Data (Tab 3)
                 manage_title: 'Library Data Management',
                 manage_subtitle: 'Add, edit, or delete journal, book, and OPAC data. Data is stored in your browser.',
+                manage_tab_list: 'Collection List',
                 manage_add_journal: 'Add Journal',
                 manage_add_book: 'Add Book',
                 manage_add_opac: 'Add OPAC',
                 manage_current_data: 'Current Data',
                 manage_users_title: 'User Management',
                 manage_users_subtitle: 'Manage Admin access for other users.',
+                manage_users_list: 'Member / User List',
                 form_title: 'Title *',
                 form_author: 'Author *',
                 form_year: 'Year',
@@ -359,12 +363,18 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
 
             // Re-render current modal content if open (for dynamic content)
             const modal = document.getElementById('modal');
-            if (modal.classList.contains('show')) {
-                // Get the type of the currently open modal (this requires a global var or similar to store last opened modal type)
-                // Since there is no such variable, we rely on the modal content being re-generated when opened.
-                // For a robust solution, you would need to store the `type` of the modal globally.
-                // Let's re-open the last known modal type (if available from previous call)
-                // For now, we will just rely on the next call to openModal() to refresh the content.
+            if (modal.classList.contains('show') && lastOpenedModalType) {
+                if (lastOpenedModalType === 'showDetail') {
+                    showDetail(lastOpenedModalData.type, lastOpenedModalData.id);
+                } else if (lastOpenedModalType === 'editItem') {
+                    editItem(lastOpenedModalData.type, lastOpenedModalData.id);
+                } else if (lastOpenedModalType === 'news') {
+                    openNewsModal(lastOpenedModalData);
+                } else if (lastOpenedModalType === 'admin-dashboard') {
+                    openAdminDashboard();
+                } else {
+                    openModal(lastOpenedModalType, lastOpenedModalData);
+                }
             }
         }
 
@@ -472,6 +482,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         let libraryData = loadData();
         let currentUser = loadCurrentUser();
         let lastOpenedModalType = null; // Tambahkan variabel global untuk melacak jenis modal
+        let lastOpenedModalData = null; // Tambahkan variabel global untuk melacak data modal terakhir
 
         function generateId() {
             return 'id_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
@@ -936,6 +947,8 @@ document.addEventListener('DOMContentLoaded', () => {
    SECTION 9: MODAL SYSTEM & ITEM DETAILS
    ============================================================ */
         function showDetail(type, id) {
+            lastOpenedModalType = 'showDetail';
+            lastOpenedModalData = { type, id };
             const item = libraryData[type].find(i => i.id === id);
             if (!item) return;
 
@@ -1065,6 +1078,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function openModal(type, data = null) {
             lastOpenedModalType = type; // Update last opened modal type
+            lastOpenedModalData = data; // Update last opened modal data
             const modal = document.getElementById('modal');
             const title = document.getElementById('modalTitle');
             const body = document.getElementById('modalBody');
@@ -1732,6 +1746,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('modal').classList.remove('show');
             document.body.style.overflow = ''; // Release scroll lock
             lastOpenedModalType = null;
+            lastOpenedModalData = null;
         }
 
         document.getElementById('closeModalBtn').addEventListener('click', closeModal);
@@ -2292,6 +2307,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function editItem(type, id) {
+            lastOpenedModalType = 'editItem';
+            lastOpenedModalData = { type, id };
             const item = libraryData[type].find(i => i.id === id);
             if (!item) return;
 
@@ -2525,70 +2542,74 @@ function hapusPeminjaman(index) {
             });
         });
 
+        function openNewsModal(news) {
+            const title = document.getElementById('modalTitle');
+            const body = document.getElementById('modalBody');
+            const modal = document.getElementById('modal');
+
+            const newsData = {
+                'news-1': {
+                    title: translations[currentLang].news_1_title,
+                    content: currentLang === 'id' ? `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">20 Agustus 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan menyelenggarakan program pelatihan **Systematic Literature Review (SLR)** untuk mahasiswa baru pascasarjana angkatan 2025. Pelatihan ini bertujuan untuk membekali mahasiswa dengan kemampuan melakukan tinjauan literatur sistematis yang sangat penting dalam penelitian akademik.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">Materi yang diberikan meliputi strategi pencarian literatur, evaluasi kualitas sumber, dan teknik sintesis informasi. Para mahasiswa juga diajarkan cara menggunakan berbagai database akademik and tools manajemen referensi.</p>
+                        <p style="line-height: 1.8;">Kegiatan ini mendapat sambutan positif dari peserta karena sangat relevan dengan kebutuhan penelitian mereka di tingkat pascasarjana.</p>
+                    ` : `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 20, 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit organized a **Systematic Literature Review (SLR)** training program for new postgraduate students of the 2025 cohort. This training aims to equip students with the ability to conduct systematic literature reviews, which is crucial in academic research.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">The material provided includes literature search strategies, source quality evaluation, and information synthesis techniques. Students were also taught how to use various academic databases and reference management tools.</p>
+                        <p style="line-height: 1.8;">The activity received positive feedback from participants as it is highly relevant to their research needs at the postgraduate level.</p>
+                    `
+                },
+                'news-2': {
+                    title: translations[currentLang].news_2_title,
+                    content: currentLang === 'id' ? `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan turut memeriahkan acara **Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB)** tahun 2025.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">Dalam kegiatan ini, perpustakaan memperkenalkan berbagai layanan dan fasilitas yang tersedia untuk mendukung kegiatan akademik mahasiswa baru, termasuk cara mengakses e-resources, peminjaman buku, dan layanan referensi.</p>
+                        <p style="line-height: 1.8;">Mahasiswa juga diberikan panduan cara mengakses koleksi digital perpustakaan dan tips efektif dalam mencari sumber referensi untuk tugas kuliah dan penelitian.</p>
+                    ` : `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit participated in the **Introduction to Campus Life for New Students (PKKMB)** event in 2025.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">In this activity, the library introduced various services and facilities available to support the academic activities of new students, including how to access e-resources, book borrowing, and reference services.</p>
+                        <p style="line-height: 1.8;">Students were also given a guide on how to access the library's digital collection and effective tips for finding reference sources for college assignments and research.</p>
+                    `
+                },
+                'news-3': {
+                    title: translations[currentLang].news_3_title,
+                    content: currentLang === 'id' ? `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">Workshop **literasi digital** diselenggarakan untuk meningkatkan kemampuan riset dan penggunaan sumber digital bagi civitas akademika UIN Syarif Hidayatullah Jakarta.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">Peserta dilatih untuk mengevaluasi kredibilitas sumber online, menggunakan database akademik dengan efektif, mengelola referensi digital, dan menghindari plagiarisme dalam karya ilmiah.</p>
+                        <p style="line-height: 1.8;">Workshop ini mendapat respon positif dari peserta dan akan dilanjutkan secara berkala setiap semester untuk memastikan seluruh civitas akademika memiliki kompetensi literasi digital yang memadai.</p>
+                    ` : `
+                        <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
+                        <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">A **digital literacy** workshop was held to enhance the research and digital resource usage skills of the academic community of UIN Syarif Hidayatullah Jakarta.</p>
+                        <p style="line-height: 1.8; margin-bottom: 15px;">Participants were trained to evaluate the credibility of online sources, effectively use academic databases, manage digital references, and avoid plagiarism in scholarly works.</p>
+                        <p style="line-height: 1.8;">The workshop received positive response from participants and will be continued periodically every semester to ensure all academic community members have adequate digital literacy competence.</p>
+                    `
+                }
+            };
+
+            if (newsData[news]) {
+                title.textContent = newsData[news].title;
+                body.innerHTML = newsData[news].content;
+                modal.classList.add('show');
+                lastOpenedModalType = 'news';
+                lastOpenedModalData = news;
+            }
+        }
+
         document.querySelectorAll('.news-card').forEach(card => {
             card.addEventListener('click', () => {
-                const news = card.dataset.news;
-                const title = document.getElementById('modalTitle');
-                const body = document.getElementById('modalBody');
-                const modal = document.getElementById('modal');
-
-                const newsData = {
-                    'news-1': {
-                        title: translations[currentLang].news_1_title,
-                        content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">20 Agustus 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan menyelenggarakan program pelatihan **Systematic Literature Review (SLR)** untuk mahasiswa baru pascasarjana angkatan 2025. Pelatihan ini bertujuan untuk membekali mahasiswa dengan kemampuan melakukan tinjauan literatur sistematis yang sangat penting dalam penelitian akademik.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">Materi yang diberikan meliputi strategi pencarian literatur, evaluasi kualitas sumber, dan teknik sintesis informasi. Para mahasiswa juga diajarkan cara menggunakan berbagai database akademik dan tools manajemen referensi.</p>
-                            <p style="line-height: 1.8;">Kegiatan ini mendapat sambutan positif dari peserta karena sangat relevan dengan kebutuhan penelitian mereka di tingkat pascasarjana.</p>
-                        ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 20, 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit organized a **Systematic Literature Review (SLR)** training program for new postgraduate students of the 2025 cohort. This training aims to equip students with the ability to conduct systematic literature reviews, which is crucial in academic research.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">The material provided includes literature search strategies, source quality evaluation, and information synthesis techniques. Students were also taught how to use various academic databases and reference management tools.</p>
-                            <p style="line-height: 1.8;">The activity received positive feedback from participants as it is highly relevant to their research needs at the postgraduate level.</p>
-                        `
-                    },
-                    'news-2': {
-                        title: translations[currentLang].news_2_title,
-                        content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">UPT Perpustakaan turut memeriahkan acara **Pengenalan Kehidupan Kampus bagi Mahasiswa Baru (PKKMB)** tahun 2025.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">Dalam kegiatan ini, perpustakaan memperkenalkan berbagai layanan dan fasilitas yang tersedia untuk mendukung kegiatan akademik mahasiswa baru, termasuk cara mengakses e-resources, peminjaman buku, dan layanan referensi.</p>
-                            <p style="line-height: 1.8;">Mahasiswa juga diberikan panduan cara mengakses koleksi digital perpustakaan dan tips efektif dalam mencari sumber referensi untuk tugas kuliah dan penelitian.</p>
-                        ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">The Library Unit participated in the **Introduction to Campus Life for New Students (PKKMB)** event in 2025.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">In this activity, the library introduced various services and facilities available to support the academic activities of new students, including how to access e-resources, book borrowing, and reference services.</p>
-                            <p style="line-height: 1.8;">Students were also given a guide on how to access the library's digital collection and effective tips for finding reference sources for college assignments and research.</p>
-                        `
-                    },
-                    'news-3': {
-                        title: translations[currentLang].news_3_title,
-                        content: currentLang === 'id' ? `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">19 Agustus 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">Workshop **literasi digital** diselenggarakan untuk meningkatkan kemampuan riset dan penggunaan sumber digital bagi civitas akademika UIN Syarif Hidayatullah Jakarta.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">Peserta dilatih untuk mengevaluasi kredibilitas sumber online, menggunakan database akademik dengan efektif, mengelola referensi digital, dan menghindari plagiarisme dalam karya ilmiah.</p>
-                            <p style="line-height: 1.8;">Workshop ini mendapat respon positif dari peserta dan akan dilanjutkan secara berkala setiap semester untuk memastikan seluruh civitas akademika memiliki kompetensi literasi digital yang memadai.</p>
-                        ` : `
-                            <div class="news-icon" style="width: 100%; height: 250px; margin-bottom: 20px;"></div>
-                            <p style="color: var(--secondary-blue); font-weight: 600; margin-bottom: 15px;">August 19, 2025</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">A **digital literacy** workshop was held to enhance the research and digital resource usage skills of the academic community of UIN Syarif Hidayatullah Jakarta.</p>
-                            <p style="line-height: 1.8; margin-bottom: 15px;">Participants were trained to evaluate the credibility of online sources, effectively use academic databases, manage digital references, and avoid plagiarism in scholarly works.</p>
-                            <p style="line-height: 1.8;">The workshop received positive response from participants and will be continued periodically every semester to ensure all academic community members have adequate digital literacy competence.</p>
-                        `
-                    }
-                };
-
-                if (newsData[news]) {
-                    title.textContent = newsData[news].title;
-                    body.innerHTML = newsData[news].content;
-                    modal.classList.add('show');
-                    lastOpenedModalType = 'news';
-                }
+                openNewsModal(card.dataset.news);
             });
         });
 /* ============================================================

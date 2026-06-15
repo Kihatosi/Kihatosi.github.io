@@ -165,10 +165,10 @@
                 
                 <!-- Sub-tabs bar for Kelola Data -->
                 <div class="sub-tabs" style="margin-bottom: 24px;">
-                    <button class="sub-tab-btn active" onclick="switchSubTab('daftar', this)">Daftar Koleksi</button>
-                    <button class="sub-tab-btn" onclick="switchSubTab('add-journal', this)">+ Tambah Jurnal</button>
-                    <button class="sub-tab-btn" onclick="switchSubTab('add-book', this)">+ Tambah Buku</button>
-                    <button class="sub-tab-btn" onclick="switchSubTab('add-opac', this)">+ Tambah OPAC</button>
+                    <button class="sub-tab-btn active" onclick="switchSubTab('daftar', this)" data-lang-key="manage_tab_list">Daftar Koleksi</button>
+                    <button class="sub-tab-btn" onclick="switchSubTab('add-journal', this)" data-lang-key="manage_add_journal">Tambah Jurnal</button>
+                    <button class="sub-tab-btn" onclick="switchSubTab('add-book', this)" data-lang-key="manage_add_book">Tambah Buku</button>
+                    <button class="sub-tab-btn" onclick="switchSubTab('add-opac', this)" data-lang-key="manage_add_opac">Tambah OPAC</button>
                 </div>
 
                 <!-- Sub Tab: Daftar Koleksi -->
@@ -290,8 +290,8 @@
                             <div class="form-group">
                                 <label data-lang-key="form_status">Status</label>
                                 <select name="status">
-                                    <option value="Tersedia">Tersedia</option>
-                                    <option value="Dipinjam">Dipinjam</option>
+                                    <option value="Tersedia" data-lang-key="status_available">Tersedia</option>
+                                    <option value="Dipinjam" data-lang-key="status_borrowed">Dipinjam</option>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -309,7 +309,7 @@
                 <h3 class="tab-title" data-lang-key="manage_users_title">Manajemen Pengguna</h3>
                 <p class="muted" data-lang-key="manage_users_subtitle" style="margin-bottom: 24px;">Kelola akses, pendaftaran, dan peran untuk pengguna perpustakaan.</p>
                 <div class="manage-card" style="max-width: 100%;">
-                    <h4 style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
+                    <h4 data-lang-key="manage_users_list" style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
                     <div id="userListContainer" class="data-list"></div>
                 </div>
             </div>
