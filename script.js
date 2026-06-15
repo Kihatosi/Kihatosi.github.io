@@ -561,6 +561,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
     const adminButton = document.getElementById('adminButton'); 
     const collectionTab = document.getElementById('collectionTab');
     const adminDataTab = document.getElementById('adminDataTab');
+    const adminUsersTab = document.getElementById('adminUsersTab');
     
     if (!authButton) return;
     const langDict = translations[currentLang];
@@ -574,6 +575,9 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         
         if (adminDataTab) {
             adminDataTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
+        }
+        if (adminUsersTab) {
+            adminUsersTab.style.display = (currentUser.role === 'admin') ? 'block' : 'none';
         }
 
         // CEK APAKAH USER PUNYA FOTO
@@ -610,6 +614,7 @@ const CURRENT_LANG_KEY = 'uin_current_lang'; // Kunci baru untuk bahasa
         if (adminButton) adminButton.style.display = 'none';
         if (collectionTab) collectionTab.style.display = 'none';
         if (adminDataTab) adminDataTab.style.display = 'none';
+        if (adminUsersTab) adminUsersTab.style.display = 'none';
 
         authButton.innerHTML = `<button class="btn-login" onclick="openModal('login')" data-lang-key="nav_login">${langDict.nav_login}</button>`;
     }
@@ -637,7 +642,7 @@ function logout() {
         const activeTab = document.querySelector('.tab-btn.active');
         if (activeTab) {
             const tabIdx = activeTab.getAttribute('data-tab');
-            if (tabIdx === "3" || tabIdx === "4") {
+            if (tabIdx === "3" || tabIdx === "4" || tabIdx === "5") {
                 switchTab(0);
             }
         }
@@ -707,6 +712,27 @@ function showToast(message, type = 'success') {
             if (index === 4 && typeof renderDataLists === 'function') {
                 renderDataLists();
             }
+            if (index === 5 && typeof renderUserList === 'function') {
+                renderUserList();
+            }
+        }
+
+        function switchSubTab(subTabId, btnElement) {
+            const parentTab = btnElement.closest('.tab-content');
+            if (!parentTab) return;
+            
+            parentTab.querySelectorAll('.sub-tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            parentTab.querySelectorAll('.sub-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            const activeContent = document.getElementById('subTab-' + subTabId);
+            if (activeContent) {
+                activeContent.classList.add('active');
+            }
+            btnElement.classList.add('active');
         }
 
         function updateTabCounts() {
@@ -726,6 +752,8 @@ function showToast(message, type = 'success') {
             
             // GESER: Tab Kelola Data sekarang di Index 4
             if (tabs[4]) tabs[4].textContent = `${langDict.tab_manage}`; 
+            // BARU: Tab Kelola Anggota di Index 5
+            if (tabs[5]) tabs[5].textContent = `${langDict.tab_members}`; 
         }
 
         // --- UPDATE LISTENER TAB DENGAN PROTEKSI LOGIN & ADMIN ---
@@ -754,10 +782,20 @@ function showToast(message, type = 'success') {
                         showToast(langDict.alert_admin_only, 'error');
                         return;
                     }
-                    if (typeof renderUserList === 'function') renderUserList();
-                
+                    if (typeof renderDataLists === 'function') renderDataLists();
+                }
 
-                    renderPeminjamanAdmin(); 
+                // BARU: Proteksi Tab Index 5 (Kelola Anggota) - Harus Admin
+                if (index === 5) {
+                    if (!currentUser) {
+                        showToast(langDict.alert_not_logged_in, 'error');
+                        openModal('login');
+                        return;
+                    }
+                    if (currentUser.role !== 'admin') {
+                        showToast(langDict.alert_admin_only, 'error');
+                        return;
+                    }
                     if (typeof renderUserList === 'function') renderUserList();
                 }
                 switchTab(index);
@@ -2667,9 +2705,6 @@ function openAdminDashboard() {
             <button class="admin-tab-btn" onclick="switchAdminTab('survey', this)">
                 Survey (${surveyData.length})
             </button>
-            <button class="admin-tab-btn" onclick="switchAdminTab('anggota', this)">
-                Kelola Anggota
-            </button>
         </div>
         <div id="adminTab-transaksi" class="admin-tab-content active">
             ${transaksiHtml}
@@ -2683,12 +2718,6 @@ function openAdminDashboard() {
         <div id="adminTab-survey" class="admin-tab-content">
             ${surveyHtml}
         </div>
-        <div id="adminTab-anggota" class="admin-tab-content">
-            <div class="manage-card" style="max-width: 100%;">
-                <h4 style="margin-bottom: 15px;">Daftar Anggota / Pengguna</h4>
-                <div id="userListContainer" class="data-list"></div>
-            </div>
-        </div>
         <div style="margin-top:16px;">
             <button class="btn-primary" onclick="closeModal()">${currentLang === 'id' ? 'Tutup' : 'Close'}</button>
         </div>
@@ -2696,11 +2725,6 @@ function openAdminDashboard() {
 
     modal.classList.add('show');
     lastOpenedModalType = 'admin-dashboard';
-
-    // Render list anggota secara dinamis setelah DOM siap
-    setTimeout(() => {
-        if (typeof renderUserList === 'function') renderUserList();
-    }, 50);
 }
 
 function adminReturnBook(kode) {
