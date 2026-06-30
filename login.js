@@ -115,10 +115,6 @@ function toggleTheme() {
 
 function applyTheme() {
     document.documentElement.setAttribute('data-theme', currentTheme);
-    const btn = document.getElementById('themeBtnText');
-    if (btn) {
-        btn.textContent = currentTheme === 'light' ? '🌙' : '☀️';
-    }
 }
 
 // Language Management
