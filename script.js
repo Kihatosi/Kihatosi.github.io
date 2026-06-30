@@ -1538,6 +1538,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     return;
                 }
                 title.textContent = langDict.modal_peminjaman_title;
+
+                // TAMBAHAN: Generate suggestions datalist from books & opac
+                const allTitles = [
+                    ...libraryData.book.map(b => b.title),
+                    ...libraryData.opac.map(o => o.title)
+                ];
+                const datalistHtml = `
+                    <datalist id="libraryBookTitles">
+                        ${allTitles.map(t => `<option value="${escapeHtml(t)}">`).join('')}
+                    </datalist>
+                `;
+
                 body.innerHTML = `
                     <div class="alert alert-info">
                         <strong>${currentLang === 'id' ? 'Ketentuan Peminjaman:' : 'Borrowing Policy:'}</strong>
@@ -1570,7 +1582,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         </div>
                         <div class="form-group">
                             <label data-lang-key="form_book_title">${currentLang === 'id' ? 'Judul Buku *' : 'Book Title *'}</label>
-                            <input type="text" name="judul" value="${data || ''}" required readonly style="background:var(--accent-blue-light); cursor:not-allowed;">
+                            <input type="text" name="judul" value="${data || ''}" list="libraryBookTitles" required ${data ? 'readonly style="background:var(--accent-blue-light); cursor:not-allowed;"' : 'placeholder="' + (currentLang === 'id' ? 'Ketik & pilih judul dari katalog...' : 'Type & select title from catalog...') + '"'}>
+                            ${datalistHtml}
                         </div>
                         <div class="form-row">
                             <div class="form-group">
@@ -2050,9 +2063,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            if (bookFound) {
-                saveData(); // Simpan perubahan stok ke localStorage
+            if (!bookFound) {
+                showToast(currentLang === 'id' 
+                    ? 'Buku tidak ditemukan di katalog atau stok saat ini tidak tersedia!' 
+                    : 'Book not found in catalog or stock is currently unavailable!', 'error');
+                return;
             }
+
+            saveData(); // Simpan perubahan stok ke localStorage
 
             // Simpan data peminjaman dengan info lengkap
             // Durasi pinjam: Mahasiswa=7 hari, Dosen=14 hari
