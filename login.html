@@ -305,6 +305,12 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
+        @media (min-width: 851px) {
+            .form-header-brand {
+                display: none !important;
+            }
+        }
+
         /* Responsive Layout */
         @media (max-width: 850px) {
             .login-sidebar {
@@ -364,7 +370,7 @@
         <!-- Main Form Kanan (Login / Register) -->
         <div class="login-main">
             <div class="login-header-actions">
-                <div class="sidebar-brand" style="color: var(--text-dark);">
+                <div class="sidebar-brand form-header-brand" style="color: var(--text-dark);">
                     <img src="logo uin transparant.png" alt="Logo UIN" style="height: 48px; width: auto; object-fit: contain;">
                     <div>
                         <div class="sidebar-brand-name">UIN Jakarta</div>
