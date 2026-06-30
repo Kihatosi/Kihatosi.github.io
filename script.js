@@ -1139,6 +1139,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         function openModal(type, data = null) {
+            if (type === 'login') {
+                window.location.href = 'login.html';
+                return;
+            }
             lastOpenedModalType = type; // Update last opened modal type
             lastOpenedModalData = data; // Update last opened modal data
             const modal = document.getElementById('modal');

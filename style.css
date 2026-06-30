@@ -2157,29 +2157,7 @@ body.font-large .surat-kop h2 {
    SECTION 15B: PREMIUM VISUAL ENHANCEMENTS & UTILITIES
    ============================================================ */
 
-/* Hero Shape Divider Wave */
-.hero-wave {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    overflow: hidden;
-    line-height: 0;
-    transform: rotate(180deg);
-    z-index: 4;
-}
 
-.hero-wave svg {
-    position: relative;
-    display: block;
-    width: calc(100% + 1.3px);
-    height: 40px;
-}
-
-.hero-wave .shape-fill {
-    fill: var(--bg);
-    transition: fill 0.3s ease;
-}
 
 /* Capsule Font Resizer widget styling */
 .accessibility-controls-capsule {

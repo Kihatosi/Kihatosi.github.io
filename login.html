@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Masuk ke Akun Perpustakaan Utama UIN Syarif Hidayatullah Jakarta.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title data-lang-key="title_login">Masuk - Perpustakaan UIN Jakarta</title>
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(226, 232, 240, 0.8);
+        }
+        
+        [data-theme=dark] {
+            --glass-bg: rgba(21, 31, 50, 0.85);
+            --glass-border: rgba(38, 55, 84, 0.8);
+        }
+
+        body.login-page-body {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('./Perpus\ Wallpaper.png') no-repeat center center fixed;
+            background-size: cover;
+            position: relative;
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        body.login-page-body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(135deg, rgba(15, 23, 42, 0.85) 0%, rgba(30, 41, 59, 0.7) 100%);
+            z-index: 1;
+        }
+
+        .login-wrapper {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 600px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            display: flex;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .login-sidebar {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(30, 64, 175, 0.95) 0%, rgba(15, 23, 42, 0.9) 100%);
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            color: #ffffff;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-sidebar::after {
+            content: '';
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(96, 165, 250, 0.15) 0%, transparent 70%);
+            bottom: -50px;
+            right: -50px;
+            border-radius: 50%;
+        }
+
+        .sidebar-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sidebar-brand-logo {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 20px;
+            color: #60a5fa;
+        }
+
+        .sidebar-brand-name {
+            font-weight: 700;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .sidebar-brand-sub {
+            font-size: 11px;
+            opacity: 0.7;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .sidebar-content h2 {
+            font-size: clamp(24px, 3vw, 32px);
+            font-weight: 800;
+            line-height: 1.3;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #ffffff 0%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sidebar-content p {
+            font-size: 14px;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        .sidebar-quote {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid #60a5fa;
+            padding: 16px 20px;
+            border-radius: 0 12px 12px 0;
+            margin-top: 24px;
+        }
+
+        .sidebar-quote p {
+            font-style: italic;
+            font-size: 13px;
+            line-height: 1.5;
+            opacity: 0.9;
+        }
+
+        .sidebar-footer {
+            font-size: 12px;
+            opacity: 0.6;
+        }
+
+        .login-main {
+            width: 100%;
+            max-width: 550px;
+            padding: 48px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-sizing: border-box;
+            background: var(--card);
+        }
+
+        .login-header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .login-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .auth-card-tabs {
+            display: flex;
+            background: var(--bg);
+            border-radius: 12px;
+            padding: 4px;
+            gap: 4px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .auth-card-tab {
+            flex: 1;
+            padding: 10px 16px;
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--muted);
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .auth-card-tab.active {
+            background: var(--card);
+            color: var(--secondary-blue);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-section {
+            display: none;
+        }
+
+        .form-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-dark);
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg);
+            color: var(--text-dark);
+            font-family: inherit;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s ease;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--primary-blue);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.15);
+        }
+
+        .form-help {
+            display: block;
+            margin-top: 5px;
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn-full {
+            width: 100%;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .btn-primary-blue {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.2);
+        }
+
+        .btn-primary-blue:hover {
+            opacity: 0.95;
+            transform: translateY(-1px);
+        }
+
+        .btn-cancel-link {
+            background: transparent;
+            color: var(--muted);
+            border: 1px solid var(--border-color);
+        }
+
+        .btn-cancel-link:hover {
+            background: var(--bg);
+            color: var(--text-dark);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 850px) {
+            .login-sidebar {
+                display: none;
+            }
+            .login-wrapper {
+                max-width: 500px;
+                min-height: auto;
+            }
+            .login-main {
+                max-width: 100%;
+                padding: 36px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body.login-page-body {
+                padding: 10px;
+            }
+            .login-main {
+                padding: 24px 16px;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body class="login-page-body">
+
+    <div class="login-wrapper">
+        <!-- Sidebar Kiri (Desktop Only) -->
+        <div class="login-sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand-logo">📚</div>
+                <div>
+                    <div class="sidebar-brand-name">UIN JAKARTA</div>
+                    <div class="sidebar-brand-sub" data-lang-key="sidebar_brand_sub">Perpustakaan Utama</div>
+                </div>
+            </div>
+            
+            <div class="sidebar-content">
+                <h2 data-lang-key="sidebar_title">Temukan Dunia Lewat Lembaran Ilmu</h2>
+                <p data-lang-key="sidebar_desc">Selamat datang di sistem manajemen perpustakaan terpadu UIN Syarif Hidayatullah Jakarta. Akses koleksi e-Journal, buku fisik, dan OPAC kami dengan mudah di mana saja dan kapan saja.</p>
+                
+                <div class="sidebar-quote">
+                    <p data-lang-key="sidebar_quote">"Membaca adalah alat paling mendasar untuk membangun peradaban dan memperluas cakrawala berpikir."</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-footer">
+                &copy; 2026 UIN Syarif Hidayatullah Jakarta. All rights reserved.
+            </div>
+        </div>
+
+        <!-- Main Form Kanan (Login / Register) -->
+        <div class="login-main">
+            <div class="login-header-actions">
+                <div class="sidebar-brand" style="color: var(--text-dark);">
+                    <div class="sidebar-brand-logo" style="background: var(--bg); border-color: var(--border-color);">📚</div>
+                    <div>
+                        <div class="sidebar-brand-name">UIN Jakarta</div>
+                        <div class="sidebar-brand-sub" data-lang-key="sidebar_brand_sub">Perpustakaan Utama</div>
+                    </div>
+                </div>
+                
+                <div class="login-controls">
+                    <!-- Language Dropdown -->
+                    <div class="language-switcher" style="position: relative;">
+                        <button class="lang-button" onclick="toggleLangDropdown()" style="padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 600; font-family: inherit; cursor: pointer; border: 1px solid var(--border-color); background: var(--bg); color: var(--text-dark);">
+                            🌐 <span id="currentLangText">ID</span> ▼
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown" style="display: none; position: absolute; right: 0; top: 110%; background: var(--card); border: 1px solid var(--border-color); border-radius: 8px; box-shadow: var(--shadow-md); z-index: 100; min-width: 110px; overflow: hidden;">
+                            <div class="lang-item" onclick="changeLang('id')" style="padding: 8px 12px; font-size: 13px; cursor: pointer; color: var(--text-dark);" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">Indonesia</div>
+                            <div class="lang-item" onclick="changeLang('en')" style="padding: 8px 12px; font-size: 13px; cursor: pointer; color: var(--text-dark);" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">English</div>
+                        </div>
+                    </div>
+
+                    <!-- Theme Toggle -->
+                    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme" style="width: 32px; height: 32px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg); color: var(--text-dark); cursor: pointer; display: flex; align-items: center; justify-content: center;">
+                        <span id="themeBtnText">🌙</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Tab Switcher -->
+            <div class="auth-card-tabs">
+                <button class="auth-card-tab active" id="tabBtnLogin" onclick="switchAuthTab('login')" data-lang-key="auth_tab_login">Masuk</button>
+                <button class="auth-card-tab" id="tabBtnRegister" onclick="switchAuthTab('register')" data-lang-key="auth_tab_register">Daftar</button>
+            </div>
+
+            <!-- FORM LOGIN -->
+            <div class="form-section active" id="loginSection">
+                <form onsubmit="handleLogin(event)">
+                    <div class="form-group">
+                        <label data-lang-key="auth_label_email">Alamat Email *</label>
+                        <input type="email" name="email" required placeholder="mhs@uinjkt.ac.id" id="loginEmail">
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="auth_label_password">Kata Sandi *</label>
+                        <input type="password" name="password" required placeholder="••••••" id="loginPassword">
+                    </div>
+                    <div class="form-group" style="text-align: right; margin-top: -10px; margin-bottom: 24px;">
+                        <a href="#" onclick="switchAuthTab('forgot'); return false;" style="font-size: 13px; color: var(--secondary-blue); text-decoration: none; font-weight: 600;" data-lang-key="auth_forgot_password">Lupa Kata Sandi?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn-full btn-primary-blue" data-lang-key="auth_login_button">Masuk ke Akun</button>
+                    <button type="button" class="btn-full btn-cancel-link" onclick="cancelAuth()" data-lang-key="auth_cancel_button">Batal</button>
+                </form>
+            </div>
+
+            <!-- FORM REGISTER -->
+            <div class="form-section" id="registerSection">
+                <form onsubmit="handleRegister(event)">
+                    <div class="form-group">
+                        <label data-lang-key="form_name">Nama Lengkap *</label>
+                        <input type="text" name="nama" required placeholder="Nama lengkap Anda" id="regNama">
+                    </div>
+                    <div class="form-group">
+                        <label data-lang-key="auth_label_email">Alamat Email *</label>
+                        <input type="email" name="email" required placeholder="contoh@uinjkt.ac.id" id="regEmail">
+                        <small class="form-help" data-lang-key="register_email_help">Gunakan email kampus (contoh: mhs@uinjkt.ac.id atau dosen@uinjkt.ac.id)</small>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-lang-key="form_role">Peran *</label>
+                            <select name="role_type" id="regRole" required onchange="handleRoleChange(this.value)">
+                                <option value="user" data-lang-key="role_student">Mahasiswa</option>
+                                <option value="dosen" data-lang-key="role_lecturer">Dosen</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label id="regNimLabel" data-lang-key="form_nim">NIM *</label>
+                            <input type="text" name="nim" required placeholder="14 digit NIM" id="regNim">
+                            <small class="form-help" id="regNimHelp" data-lang-key="register_nim_help">Masukkan 14 digit NIM Mahasiswa</small>
+                        </div>
+                    </div>
+
+                    <div class="form-group prodi-group" id="regProdiGroup">
+                        <label data-lang-key="form_prodi">Program Studi *</label>
+                        <select name="prodi" id="regProdi">
+                            <option value="" data-lang-key="form_select_prodi">-- Pilih Program Studi --</option>
+                            <option>Ilmu Al-Quran dan Tafsir</option>
+                            <option>Hukum Keluarga Islam</option>
+                            <option>Ekonomi Syariah</option>
+                            <option>Pendidikan Agama Islam</option>
+                            <option>Ilmu Komunikasi</option>
+                            <option>Psikologi</option>
+                            <option>Teknik Informatika</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label data-lang-key="form_phone">No. Telepon *</label>
+                        <input type="tel" name="telp" required placeholder="0812xxxxxx" id="regTelp">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label data-lang-key="auth_label_password">Kata Sandi *</label>
+                            <input type="password" name="password" required placeholder="Min. 6 karakter" minlength="6" id="regPass">
+                        </div>
+                        <div class="form-group">
+                            <label data-lang-key="form_confirm_password">Konfirmasi Sandi *</label>
+                            <input type="password" name="confirm_password" required placeholder="Ulangi sandi" id="regConfirmPass">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-full btn-primary-blue" id="btnRegisterSubmit" data-lang-key="auth_tab_register">Daftar</button>
+                    <button type="button" class="btn-full btn-cancel-link" onclick="cancelAuth()" data-lang-key="auth_cancel_button">Batal</button>
+                </form>
+            </div>
+
+            <!-- FORM LUPA PASSWORD -->
+            <div class="form-section" id="forgotSection">
+                <form onsubmit="handleForgotPassword(event)">
+                    <h3 style="margin-top:0; font-weight:700; color:var(--text-dark);" data-lang-key="forgot_title">Pulihkan Kata Sandi</h3>
+                    <p style="font-size:13px; color:var(--muted); line-height:1.5; margin-bottom:20px;" data-lang-key="forgot_desc">Masukkan email kampus Anda. Jika terdaftar, sistem akan menampilkan kata sandi Anda untuk pemulihan cepat.</p>
+                    
+                    <div class="form-group">
+                        <label data-lang-key="auth_label_email">Alamat Email *</label>
+                        <input type="email" name="email" required placeholder="contoh@uinjkt.ac.id" id="forgotEmail">
+                    </div>
+                    
+                    <button type="submit" class="btn-full btn-primary-blue" data-lang-key="forgot_button">Cari Kata Sandi</button>
+                    <button type="button" class="btn-full btn-cancel-link" onclick="switchAuthTab('login')" data-lang-key="auth_back_to_login">Kembali ke Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification Wrapper -->
+    <div id="toastContainer" style="position: fixed; top: 20px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px;"></div>
+
+    <script src="login.js"></script>
+</body>
+</html>
