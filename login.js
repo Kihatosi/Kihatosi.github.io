@@ -5,8 +5,9 @@
 // Storage keys matching script.js
 const USERS_KEY = 'uin_users';
 const CURRENT_USER_KEY = 'uin_current_user';
-const LANG_KEY = 'uin_lang';
-const THEME_KEY = 'uin_theme';
+const LANG_KEY = 'uin_current_lang';
+const THEME_KEY = 'theme';
+const FONT_SIZE_KEY = 'uin_font_size';
 
 let currentLang = localStorage.getItem(LANG_KEY) || 'id';
 let currentTheme = localStorage.getItem(THEME_KEY) || 'light';
@@ -99,12 +100,26 @@ const translations = {
     }
 };
 
-// Initialize theme and language on load
+// Initialize theme, language, and font size on load
 document.addEventListener('DOMContentLoaded', () => {
     applyTheme();
     applyLanguage();
+    applyFontSize();
     initDemoAccounts(); // Ensure demo accounts match script.js
 });
+
+// Apply Font Size Accessibility settings matching script.js
+function applyFontSize() {
+    const size = localStorage.getItem(FONT_SIZE_KEY) || 'medium';
+    const html = document.documentElement;
+    const body = document.body;
+    
+    html.classList.remove('font-small', 'font-medium', 'font-large');
+    if (body) body.classList.remove('font-small', 'font-medium', 'font-large');
+    
+    html.classList.add('font-' + size);
+    if (body) body.classList.add('font-' + size);
+}
 
 // Theme Management
 function toggleTheme() {
@@ -231,42 +246,29 @@ function escapeHtml(str) {
         .replace(/'/g, '&#039;');
 }
 
-// Helper: Toast Notifications
+// Helper: Toast Notifications matching script.js and style.css classes
 function showToast(message, type = 'success') {
-    const container = document.getElementById('toastContainer');
+    let container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     
-    // Style toast matching style.css dynamically
-    toast.style.background = type === 'success' ? '#10b981' : '#ef4444';
-    toast.style.color = '#fff';
-    toast.style.padding = '14px 20px';
-    toast.style.borderRadius = '10px';
-    toast.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
-    toast.style.display = 'flex';
-    toast.style.alignItems = 'center';
-    toast.style.gap = '10px';
-    toast.style.fontSize = '14px';
-    toast.style.fontWeight = '600';
-    toast.style.minWidth = '280px';
-    toast.style.opacity = '0';
-    toast.style.transform = 'translateY(-20px)';
-    toast.style.transition = 'all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-
-    const icon = type === 'success' ? '✓' : '✗';
-    toast.innerHTML = `<span>${icon}</span><div>${message}</div>`;
+    // Render clean message, support HTML tags (e.g. forgot password recovery)
+    if (message.includes('<strong>')) {
+        toast.innerHTML = message;
+    } else {
+        toast.textContent = message;
+    }
+    
     container.appendChild(toast);
-
-    // Trigger animation
-    setTimeout(() => {
-        toast.style.opacity = '1';
-        toast.style.transform = 'translateY(0)';
-    }, 50);
-
-    // Remove toast
+    
     setTimeout(() => {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-20px)';
         setTimeout(() => toast.remove(), 300);
     }, 3500);
 }
